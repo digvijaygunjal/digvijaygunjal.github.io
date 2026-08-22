@@ -7,6 +7,10 @@ title: null
   <p class="lede">{{ site.description }}</p>
 </section>
 
+{%- comment -%}
+  No heading here on purpose: the h1 above already reads "Recipes", and the
+  masthead makes three.
+{%- endcomment -%}
 <ul class="recipe-list">
   {% assign items = site.recipes | sort: "date" | reverse %}
   {% for r in items %}
@@ -28,3 +32,73 @@ title: null
   </li>
   {% endfor %}
 </ul>
+
+<section class="callout">
+  <h2>Import into your recipe app</h2>
+  <p>
+    Copy a recipe's link and paste it into the import field of
+    <strong>Instant Connect</strong> / <strong>Fresco</strong>, <strong>Paprika</strong>,
+    <strong>Mela</strong>, <strong>Crouton</strong> or <strong>AnyList</strong>. The
+    ingredients, timings and every step arrive already filled in — no retyping, and
+    nothing to copy by hand.
+  </p>
+  <p>
+    This works because each page carries its recipe a second time in
+    <a href="https://schema.org/Recipe">schema.org/Recipe</a> form, as machine-readable
+    data embedded in the page itself. That is the same format Google reads to show a
+    recipe card in search results, so most apps understand it without a plugin.
+  </p>
+  <p class="callout-note">
+    On a Pro Max you can send an imported recipe to the cooker from Instant Connect and
+    let it drive the programme, rather than setting each stage by hand.
+  </p>
+</section>
+
+<section class="how">
+  <h2>How these recipes are written</h2>
+  <dl class="format">
+    <dt>Calibrated for one cooker</dt>
+    <dd>
+      Timings assume a 6&nbsp;qt Instant Pot Pro Max (1200&nbsp;W), which preheats
+      faster and runs hotter on Sauté than a Duo. Where that matters, the recipe says
+      so and gives you the adjustment.
+    </dd>
+
+    <dt>Every step names its setting</dt>
+    <dd>
+      Each instruction is tagged with the function, level and duration —
+      <span class="setting-sample">Sauté · Medium · 8 min</span> — so you are never
+      guessing which button to press or how long to hold it there.
+    </dd>
+
+    <dt>Steps that stand alone</dt>
+    <dd>
+      A step continuing an existing Sauté session repeats that context instead of
+      assuming you remember it. Recipe apps read each step in isolation, so this is
+      what keeps the appliance settings intact after an import.
+    </dd>
+
+    <dt>Weights, not cups</dt>
+    <dd>
+      Ingredients are given in grams and millilitres. In a sealed pot the ratio of
+      rice to water decides the result, and a cup of rice is not a reliable amount.
+    </dd>
+
+    <dt>The failure modes, up front</dt>
+    <dd>
+      Where a step commonly goes wrong — a Burn warning from an unscraped base, spices
+      catching on High — the recipe says what happens and why, at the point where it
+      matters.
+    </dd>
+  </dl>
+</section>
+
+<section class="colophon">
+  <h2>About</h2>
+  <p>
+    Recipes I cook and keep notes on, written down properly so they survive being
+    reheated months later. Built with Jekyll, hosted on GitHub Pages, and
+    <a href="https://github.com/digvijaygunjal/digvijaygunjal.github.io">open source</a> —
+    corrections and additions are welcome.
+  </p>
+</section>
