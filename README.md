@@ -1,1 +1,60 @@
 # digvijaygunjal.github.io
+
+Recipe site built with Jekyll and served by GitHub Pages. Recipes are tuned
+for the Instant Pot Pro Max. Every recipe page ships server-rendered
+`schema.org/Recipe` JSON-LD, so recipe importers (Instant Connect / Fresco,
+Paprika, Mela, etc.) can read a recipe straight from its URL.
+
+## Layout
+
+```
+_config.yml              site settings, collection + permalinks
+_layouts/default.html    shell: head, nav, footer
+_layouts/recipe.html     generates JSON-LD *and* the visible page from front matter
+_recipes/*.md            one file per recipe — data only, no markup
+assets/css/main.css      styles
+index.html               recipe index
+```
+
+## Adding a recipe
+
+Copy `_recipes/masala-rice.md`, rename it, edit the front matter. The filename
+becomes the URL: `_recipes/dal-tadka.md` → `/recipes/dal-tadka/`.
+
+You never write HTML. The layout builds both outputs (visible page and
+JSON-LD) from the same fields, so they can't drift apart.
+
+### Step fields
+
+| field | purpose |
+|---|---|
+| `name` | short step title |
+| `appliance` | `Sauté`, `Pressure Cook`, `Natural Release`, or omit for a manual step |
+| `setting` | `High` / `Medium` / `Low` |
+| `duration` | `30 sec`, `8 min` |
+| `continues` | `true` if the appliance session is already running |
+| `text` | the instruction |
+
+**Why `continues` matters.** Importers read each step in isolation. A step
+that just says "add the onion" gets no appliance attached and renders as a
+plain manual step, losing the Sauté indicator. With `continues: true`, the
+layout emits `Sauté on Medium, 8 min. With the pot still on Sauté, add the
+onion…`
+
+So write `text` for a continuing step in lowercase, starting mid-sentence.
+
+## Testing before you push
+
+Paste a built page into the [Schema Markup Validator](https://validator.schema.org/)
+or Google's Rich Results Test. Both catch malformed JSON-LD, which is the
+usual reason an import silently fails.
+
+## Local preview
+
+```
+bundle install
+bundle exec jekyll serve
+```
+
+Needs Ruby. You can skip it and just push — GitHub Pages builds Jekyll
+natively on every commit, no Actions workflow needed.

@@ -1,0 +1,99 @@
+---
+layout: default
+---
+{%- comment -%}
+  Builds a flat ingredient list and appliance-prefixed step text once,
+  then reuses both for the JSON-LD and the visible page.
+  Every step that runs during an appliance session restates that session,
+  because recipe importers read each step in isolation.
+{%- endcomment -%}
+
+{%- assign flat_ingredients = "" | split: "" -%}
+{%- for group in page.ingredients -%}
+  {%- assign flat_ingredients = flat_ingredients | concat: group.items -%}
+{%- endfor -%}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Recipe",
+  "name": {{ page.title | jsonify }},
+  "description": {{ page.description | jsonify }},
+  "author": { "@type": "Person", "name": {{ site.author | jsonify }} },
+  "datePublished": {{ page.date | date: "%Y-%m-%d" | jsonify }},
+  "url": {{ page.url | absolute_url | jsonify }},
+  {% if page.image %}"image": {{ page.image | absolute_url | jsonify }},{% endif %}
+  "recipeCategory": {{ page.category | jsonify }},
+  "recipeCuisine": {{ page.cuisine | jsonify }},
+  "keywords": {{ page.keywords | join: ", " | jsonify }},
+  "recipeYield": {{ page.yield | jsonify }},
+  "prepTime": {{ page.prep_time | jsonify }},
+  "cookTime": {{ page.cook_time | jsonify }},
+  "totalTime": {{ page.total_time | jsonify }},
+  "cookingMethod": {{ page.cooking_method | jsonify }},
+  {% if page.diet %}"suitableForDiet": {{ page.diet | prepend: "https://schema.org/" | jsonify }},{% endif %}
+  "tool": [
+    {%- for t in page.tools %}
+    { "@type": "HowToTool", "name": {{ t | jsonify }} }{% unless forloop.last %},{% endunless %}
+    {%- endfor %}
+  ],
+  "recipeIngredient": {{ flat_ingredients | jsonify }},
+  "recipeInstructions": [
+    {%- for step in page.steps %}
+    {%- capture step_text -%}
+      {%- if step.appliance and step.continues != true -%}
+        {{ step.appliance }}{% if step.setting %} on {{ step.setting }}{% endif %}{% if step.duration %}, {{ step.duration }}{% endif %}. {% endif -%}
+      {%- if step.continues == true -%}
+        {{ step.appliance }}{% if step.setting %} on {{ step.setting }}{% endif %}{% if step.duration %}, {{ step.duration }}{% endif %}. With the pot still on {{ step.appliance }}, {% endif -%}
+      {{- step.text -}}
+    {%- endcapture -%}
+    {
+      "@type": "HowToStep",
+      "name": {{ step.name | jsonify }},
+      "text": {{ step_text | strip_newlines | strip | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+    {%- endfor %}
+  ]
+}
+</script>
+
+<article class="recipe">
+  <p class="eyebrow">{{ page.eyebrow | default: page.cuisine }}</p>
+  <h1>{{ page.title }}</h1>
+  <p class="lede">{{ page.description }}</p>
+
+  <div class="meta">
+    <span>Prep<b>{{ page.prep_time_display }}</b></span>
+    <span>Cook<b>{{ page.cook_time_display }}</b></span>
+    <span>Serves<b>{{ page.yield }}</b></span>
+    <span>Cuisine<b>{{ page.cuisine }}</b></span>
+  </div>
+
+  <h2>Ingredients</h2>
+  {% for group in page.ingredients %}
+    {% if group.name %}<h3>{{ group.name }}</h3>{% endif %}
+    <ul>
+      {% for item in group.items %}<li>{{ item }}</li>{% endfor %}
+    </ul>
+  {% endfor %}
+
+  <h2>Instructions</h2>
+  <ol class="steps">
+    {% for step in page.steps %}
+    <li>
+      {% if step.appliance %}
+      <span class="setting">
+        {{ step.appliance }}{% if step.setting %} · {{ step.setting }}{% endif %}{% if step.duration %} · {{ step.duration }}{% endif %}
+      </span>
+      {% endif %}
+      <strong>{{ step.name }}</strong>
+      {%- if step.continues == true %}With the pot still on {{ step.appliance }}, {% endif -%}
+      {{ step.text }}
+    </li>
+    {% endfor %}
+  </ol>
+
+  {% if page.notes %}<p class="note">{{ page.notes }}</p>{% endif %}
+
+  {{ content }}
+</article>
