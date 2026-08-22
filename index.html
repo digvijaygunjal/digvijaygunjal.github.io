@@ -33,24 +33,32 @@ title: null
   {% endfor %}
 </ul>
 
-<section class="callout">
-  <h2>Import into your recipe app</h2>
+<section class="callout" id="import">
+  <h2>Cook these in the Instant Pot app</h2>
   <p>
-    Copy a recipe's link and paste it into the import field of
-    <strong>Instant Connect</strong> / <strong>Fresco</strong>, <strong>Paprika</strong>,
-    <strong>Mela</strong>, <strong>Crouton</strong> or <strong>AnyList</strong>. The
-    ingredients, timings and every step arrive already filled in — no retyping, and
-    nothing to copy by hand.
+    Every recipe here can be pulled into
+    <a href="https://www.instantpot.com/">{{ site.appliance.app }}</a> — the app that
+    pairs with the {{ site.appliance.short }} — using its <strong>Recipe Import</strong>
+    feature, which takes recipes from any website. Once imported, the app walks you
+    through the recipe step by step.
   </p>
+  <ol class="import-steps">
+    <li>Open the recipe you want and copy its link — each page has a <strong>Copy recipe link</strong> button near the top.</li>
+    <li>In {{ site.appliance.app }}, find <strong>Recipe Import</strong> and paste the link.</li>
+    <li>Check the imported ingredients and timings against the page before you start cooking.</li>
+  </ol>
   <p>
-    This works because each page carries its recipe a second time in
-    <a href="https://schema.org/Recipe">schema.org/Recipe</a> form, as machine-readable
-    data embedded in the page itself. That is the same format Google reads to show a
-    recipe card in search results, so most apps understand it without a plugin.
+    The same link works in <strong>Paprika</strong>, <strong>Mela</strong>,
+    <strong>Crouton</strong> and <strong>AnyList</strong>, because each page carries its
+    recipe a second time in <a href="https://schema.org/Recipe">schema.org/Recipe</a>
+    form — machine-readable data embedded in the page, the same format Google reads to
+    build a recipe card in search results.
   </p>
   <p class="callout-note">
-    On a Pro Max you can send an imported recipe to the cooker from Instant Connect and
-    let it drive the programme, rather than setting each stage by hand.
+    Worth knowing: importers reconstruct a recipe from the page and can get a detail
+    wrong, so glance over the ingredients and times after importing. The step wording
+    here is written to survive that trip — each step restates its Sauté or Pressure
+    Cook setting rather than assuming the previous step is still on screen.
   </p>
 </section>
 
@@ -59,9 +67,12 @@ title: null
   <dl class="format">
     <dt>Calibrated for one cooker</dt>
     <dd>
-      Timings assume a 6&nbsp;qt Instant Pot Pro Max (1200&nbsp;W), which preheats
-      faster and runs hotter on Sauté than a Duo. Where that matters, the recipe says
-      so and gives you the adjustment.
+      Timings assume an
+      <a href="{{ site.appliance.url }}">{{ site.appliance.name }}</a>
+      ({{ site.appliance.watts }}<span class="amazon-link">, also on
+      <a href="{{ site.appliance.amazon }}">Amazon</a></span>), which preheats faster
+      and runs hotter on Sauté than a Duo. They still work on other pressure cookers —
+      where the difference matters, the recipe says so and gives you the adjustment.
     </dd>
 
     <dt>Every step names its setting</dt>

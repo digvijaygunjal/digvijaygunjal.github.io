@@ -5,6 +5,15 @@ description: Pressure-cooker and one-pot recipes calibrated for the Instant Pot 
 author: Digvijay Gunjal
 lang: en
 
+# The cooker every recipe here is timed against.
+appliance:
+  name: Instant Pot Pro Max 6 qt WiFi
+  short: Pro Max
+  watts: 1200 W
+  url: https://instantpot.com/products/instant-pot-pro-max-6qt-multi-cooker
+  amazon: https://amzn.eu/d/06RcVqIw
+  app: Instant Brands Connect
+
 # Rendered in the footer of every page. Named social_links rather than social,
 # which jekyll-seo-tag reserves for a differently shaped hash.
 social_links:

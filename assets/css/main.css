@@ -164,7 +164,41 @@ img{max-width:100%;height:auto}
   white-space:nowrap;
 }
 
+.import-steps{
+  margin:0 0 .8rem;padding-left:1.15rem;font-size:.95rem;
+  list-style:decimal;
+}
+.import-steps li{margin:.35rem 0}
+
+.amazon-link{color:var(--muted)}
+
 .colophon p{font-size:.95rem;color:var(--muted);margin:0}
+
+/* Copy-link strip on a recipe page */
+.import-strip{
+  display:flex;flex-wrap:wrap;align-items:center;gap:.6rem .9rem;
+  margin:0 0 2rem;padding:.85rem 1rem;
+  background:var(--tag);border-radius:4px;
+  font-family:ui-sans-serif,system-ui,sans-serif;font-size:.8rem;
+}
+.import-strip-label{color:var(--muted);font-weight:600}
+.import-strip-url{
+  color:var(--accent);word-break:break-all;
+}
+.import-strip-how{margin-left:auto;color:var(--muted);white-space:nowrap}
+.copy-link{
+  font:inherit;font-weight:600;cursor:pointer;
+  color:var(--paper);background:var(--accent);
+  border:1px solid var(--accent);border-radius:3px;
+  padding:.4rem .8rem;
+}
+.copy-link:hover{opacity:.9}
+.copy-link.is-copied{
+  background:transparent;color:var(--accent);
+}
+@media (max-width:30rem){
+  .import-strip-how{margin-left:0}
+}
 
 a{color:var(--accent)}
 a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}

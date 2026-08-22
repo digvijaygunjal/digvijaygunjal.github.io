@@ -46,5 +46,40 @@
     </ul>
     <p>{{ site.title }} · {{ site.author }}</p>
   </footer>
+
+  <script>
+    // Progressive enhancement: swap the plain URL for a copy button where the
+    // clipboard API is actually available (it needs a secure context).
+    (function () {
+      var strip = document.querySelector('.import-strip');
+      if (!strip || !navigator.clipboard) return;
+
+      var url = strip.getAttribute('data-recipe-url');
+      var link = strip.querySelector('.import-strip-url');
+      if (!url || !link) return;
+
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'copy-link';
+      btn.textContent = 'Copy recipe link';
+
+      btn.addEventListener('click', function () {
+        navigator.clipboard.writeText(url).then(function () {
+          btn.textContent = 'Copied';
+          btn.classList.add('is-copied');
+          setTimeout(function () {
+            btn.textContent = 'Copy recipe link';
+            btn.classList.remove('is-copied');
+          }, 2000);
+        }).catch(function () {
+          // Clipboard refused (permissions, older browser) — put the URL back
+          // so it can still be selected by hand.
+          btn.replaceWith(link);
+        });
+      });
+
+      link.replaceWith(btn);
+    })();
+  </script>
 </body>
 </html>

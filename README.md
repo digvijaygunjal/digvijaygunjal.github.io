@@ -81,6 +81,38 @@ onion…`
 
 So write `text` for a continuing step in lowercase, starting mid-sentence.
 
+## The import contract
+
+Importability is the point of this site, so treat the following as fixed. If you
+change the layout, keep all of it true.
+
+Every recipe page emits one `schema.org/Recipe` block as JSON-LD, containing:
+
+| | fields |
+|---|---|
+| Required | `name`, `image` |
+| Recommended | `author`, `datePublished`, `description`, `prepTime`, `cookTime`, `totalTime`, `recipeYield`, `recipeIngredient`, `recipeInstructions`, `recipeCategory`, `recipeCuisine`, `keywords`, `cookingMethod` |
+| Extra | `suitableForDiet`, `tool`, per-step `url` and `image` |
+
+Rules that are easy to break by accident:
+
+1. **Images are absolute URLs.** An importer fetches the JSON-LD away from the
+   page, so a relative path resolves against nothing and is dropped silently.
+2. **Every step is a `HowToStep` with both `name` and `text`.** A bare string
+   array imports as one undifferentiated blob.
+3. **Steps restate their appliance session** (`continues: true`). Importers read
+   steps in isolation; without this, an imported step loses its Sauté setting.
+4. **`prepTime + cookTime == totalTime`.** Some importers reject a recipe whose
+   durations disagree, others silently take the wrong one.
+5. **Each step's `url` anchor resolves** to a matching `id` on the rendered
+   `<li>`.
+6. **Ingredients are flat strings** — quantity, unit and item on one line, since
+   that is what parsers split on.
+
+Fresco's import (used by the Instant Pot app) is AI-assisted and can read pages
+that lack structured data at all, but clean JSON-LD turns a guess into a
+straight read — which is what keeps the appliance settings intact.
+
 ## Testing before you push
 
 Paste a built page into the [Schema Markup Validator](https://validator.schema.org/)
