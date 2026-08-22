@@ -7,6 +7,8 @@ cuisine: Indian
 category: Main course
 cooking_method: Pressure cooking
 diet: VegetarianDiet
+image: /assets/images/recipes/masala-rice.jpg
+image_alt: Masala rice on a steel thali, studded with green peas, diced potato and whole bay leaves.
 yield: 4 servings
 prep_time: PT15M
 cook_time: PT45M
@@ -74,6 +76,7 @@ steps:
     setting: Medium
     duration: 1 min
     continues: true
+    # image: /assets/images/recipes/step-tadka.jpg
     text: >-
       reduce the level to Medium and add 1 tsp cumin seeds, 1 tsp mustard seeds,
       2 pinches asafoetida, 4 whole cloves, 1 star anise, 1 bay leaf and 8 whole
