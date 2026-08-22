@@ -24,7 +24,7 @@ keywords:
   - vegetarian
   - basmati rice
 tools:
-  - Instant Pot Pro Max 6 qt
+  - Instant Pot Pro Max 6 qt WiFi
   - Wooden spoon
 
 ingredients:
@@ -175,7 +175,7 @@ steps:
       and serve hot.
 
 notes: >-
-  Timings are calibrated for a 6 qt Instant Pot Pro Max (1200 W), which
+  Timings are calibrated for a 6 qt Instant Pot Pro Max WiFi (1200 W), which
   preheats faster and runs hotter on Sauté than a Duo. If your rice was soaked
   for 20 to 30 minutes rather than just rinsed, drop the pressure cook time to
   4 minutes. Turn Keep Warm off during the natural release so the base layer

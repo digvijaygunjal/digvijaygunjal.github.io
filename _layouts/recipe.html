@@ -68,6 +68,7 @@ layout: default
     {
       "@type": "HowToStep",
       "name": {{ step.name | jsonify }},
+      "url": {{ page.url | absolute_url | append: "#step-" | append: forloop.index | jsonify }},
       {% if step.image %}"image": {{ step.image | absolute_url | jsonify }},{% endif %}
       "text": {{ step_text | strip_newlines | strip | jsonify }}
     }{% unless forloop.last %},{% endunless %}
@@ -81,9 +82,14 @@ layout: default
   <h1>{{ page.title }}</h1>
   <p class="lede">{{ page.description }}</p>
 
-  {% if recipe_images.size > 0 %}
+  {%- comment -%}
+    Note the two different resolutions of the same path: the JSON-LD above needs
+    absolute URLs because an importer reads it away from this page, while the
+    tag below stays relative so the page works on any host it is served from.
+  {%- endcomment -%}
+  {% if image_input.size > 0 %}
   <figure class="hero">
-    <img src="{{ recipe_images[0] }}" alt="{{ page.image_alt | default: page.title }}"
+    <img src="{{ image_input[0] | relative_url }}" alt="{{ page.image_alt | default: page.title }}"
          width="1600" height="1200" loading="eager" decoding="async">
     {% if page.image_caption %}<figcaption>{{ page.image_caption }}</figcaption>{% endif %}
   </figure>
@@ -94,6 +100,16 @@ layout: default
     <span>Cook<b>{{ page.cook_time_display }}</b></span>
     <span>Serves<b>{{ page.yield }}</b></span>
     <span>Cuisine<b>{{ page.cuisine }}</b></span>
+  </div>
+
+  {%- comment -%}
+    The button is added by script; without JS the link itself stays visible and
+    selectable, so the URL is never hidden behind a control that does nothing.
+  {%- endcomment -%}
+  <div class="import-strip" data-recipe-url="{{ page.url | absolute_url }}">
+    <span class="import-strip-label">Cook it with guided cooking</span>
+    <a class="import-strip-url" href="{{ page.url | absolute_url }}">{{ page.url | absolute_url | remove: "https://" }}</a>
+    <a class="import-strip-how" href="{{ '/#import' | relative_url }}">How to import</a>
   </div>
 
   <h2>Ingredients</h2>
@@ -107,7 +123,7 @@ layout: default
   <h2>Instructions</h2>
   <ol class="steps">
     {% for step in page.steps %}
-    <li>
+    <li id="step-{{ forloop.index }}">
       {% if step.appliance %}
       <span class="setting">
         {{ step.appliance }}{% if step.setting %} · {{ step.setting }}{% endif %}{% if step.duration %} · {{ step.duration }}{% endif %}

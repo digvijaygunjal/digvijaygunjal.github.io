@@ -7,6 +7,10 @@ title: null
   <p class="lede">{{ site.description }}</p>
 </section>
 
+{%- comment -%}
+  No heading here on purpose: the h1 above already reads "Recipes", and the
+  masthead makes three.
+{%- endcomment -%}
 <ul class="recipe-list">
   {% assign items = site.recipes | sort: "date" | reverse %}
   {% for r in items %}
@@ -28,3 +32,84 @@ title: null
   </li>
   {% endfor %}
 </ul>
+
+<section class="callout" id="import">
+  <h2>Cook these in the Instant Pot app</h2>
+  <p>
+    Every recipe here can be pulled into
+    <a href="https://www.instantpot.com/">{{ site.appliance.app }}</a> — the app that
+    pairs with the {{ site.appliance.short }} — using its <strong>Recipe Import</strong>
+    feature, which takes recipes from any website. Once imported, the app walks you
+    through the recipe step by step.
+  </p>
+  <ol class="import-steps">
+    <li>Open the recipe you want and copy its link — each page has a <strong>Copy recipe link</strong> button near the top.</li>
+    <li>In {{ site.appliance.app }}, find <strong>Recipe Import</strong> and paste the link.</li>
+    <li>Check the imported ingredients and timings against the page before you start cooking.</li>
+  </ol>
+  <p>
+    The same link works in <strong>Paprika</strong>, <strong>Mela</strong>,
+    <strong>Crouton</strong> and <strong>AnyList</strong>, because each page carries its
+    recipe a second time in <a href="https://schema.org/Recipe">schema.org/Recipe</a>
+    form — machine-readable data embedded in the page, the same format Google reads to
+    build a recipe card in search results.
+  </p>
+  <p class="callout-note">
+    Worth knowing: importers reconstruct a recipe from the page and can get a detail
+    wrong, so glance over the ingredients and times after importing. The step wording
+    here is written to survive that trip — each step restates its Sauté or Pressure
+    Cook setting rather than assuming the previous step is still on screen.
+  </p>
+</section>
+
+<section class="how">
+  <h2>How these recipes are written</h2>
+  <dl class="format">
+    <dt>Calibrated for one cooker</dt>
+    <dd>
+      Timings assume an
+      <a href="{{ site.appliance.url }}">{{ site.appliance.name }}</a>
+      ({{ site.appliance.watts }}<span class="amazon-link">, also on
+      <a href="{{ site.appliance.amazon }}">Amazon</a></span>), which preheats faster
+      and runs hotter on Sauté than a Duo. They still work on other pressure cookers —
+      where the difference matters, the recipe says so and gives you the adjustment.
+    </dd>
+
+    <dt>Every step names its setting</dt>
+    <dd>
+      Each instruction is tagged with the function, level and duration —
+      <span class="setting-sample">Sauté · Medium · 8 min</span> — so you are never
+      guessing which button to press or how long to hold it there.
+    </dd>
+
+    <dt>Steps that stand alone</dt>
+    <dd>
+      A step continuing an existing Sauté session repeats that context instead of
+      assuming you remember it. Recipe apps read each step in isolation, so this is
+      what keeps the appliance settings intact after an import.
+    </dd>
+
+    <dt>Weights, not cups</dt>
+    <dd>
+      Ingredients are given in grams and millilitres. In a sealed pot the ratio of
+      rice to water decides the result, and a cup of rice is not a reliable amount.
+    </dd>
+
+    <dt>The failure modes, up front</dt>
+    <dd>
+      Where a step commonly goes wrong — a Burn warning from an unscraped base, spices
+      catching on High — the recipe says what happens and why, at the point where it
+      matters.
+    </dd>
+  </dl>
+</section>
+
+<section class="colophon">
+  <h2>About</h2>
+  <p>
+    Recipes I cook and keep notes on, written down properly so they survive being
+    reheated months later. Built with Jekyll, hosted on GitHub Pages, and
+    <a href="https://github.com/digvijaygunjal/digvijaygunjal.github.io">open source</a> —
+    corrections and additions are welcome.
+  </p>
+</section>
