@@ -7,6 +7,10 @@ cuisine: Indian
 category: Main course
 cooking_method: Pressure cooking
 diet: VegetarianDiet
+# Drop a photo in assets/images/recipes/ then uncomment these two lines.
+# Fresco reads this straight out of the JSON-LD.
+# image: /assets/images/recipes/masala-rice.jpg
+# image_alt: A bowl of masala rice with peas, peanuts and fresh coriander.
 yield: 4 servings
 prep_time: PT15M
 cook_time: PT45M
@@ -74,6 +78,7 @@ steps:
     setting: Medium
     duration: 1 min
     continues: true
+    # image: /assets/images/recipes/step-tadka.jpg
     text: >-
       reduce the level to Medium and add 1 tsp cumin seeds, 1 tsp mustard seeds,
       2 pinches asafoetida, 4 whole cloves, 1 star anise, 1 bay leaf and 8 whole

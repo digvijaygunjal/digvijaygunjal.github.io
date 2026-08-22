@@ -71,10 +71,36 @@ ol.steps li strong{display:block;margin-bottom:.2rem}
   padding-left:.9rem;margin-top:2.5rem;
 }
 
+img{max-width:100%;height:auto}
+
+.hero{margin:0 0 2rem}
+.hero img{
+  display:block;width:100%;aspect-ratio:4/3;object-fit:cover;
+  border-radius:3px;background:var(--tag);
+}
+.hero figcaption{
+  font-family:ui-sans-serif,system-ui,sans-serif;font-size:.78rem;
+  color:var(--muted);margin-top:.5rem;
+}
+.step-image{
+  display:block;width:100%;margin-top:.75rem;border-radius:3px;
+  aspect-ratio:4/3;object-fit:cover;background:var(--tag);
+}
+
 .recipe-list{list-style:none;padding:0;margin:2rem 0 0}
 .recipe-list li{margin:0;border-top:1px solid var(--rule)}
 .recipe-list a{
-  display:block;padding:1.15rem 0;text-decoration:none;color:inherit;
+  display:flex;gap:1rem;align-items:flex-start;
+  padding:1.15rem 0;text-decoration:none;color:inherit;
+}
+.card-thumb{
+  flex:0 0 6.5rem;width:6.5rem;aspect-ratio:1/1;object-fit:cover;
+  border-radius:3px;background:var(--tag);
+}
+.card-body{flex:1 1 auto;min-width:0}
+@media (max-width:30rem){
+  .recipe-list a{flex-direction:column}
+  .card-thumb{flex:none;width:100%;aspect-ratio:16/9}
 }
 .recipe-list a:hover .card-title{color:var(--accent)}
 .card-eyebrow{

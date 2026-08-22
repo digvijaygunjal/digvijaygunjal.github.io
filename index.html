@@ -11,11 +11,19 @@ title: null
   {% assign items = site.recipes | sort: "date" | reverse %}
   {% for r in items %}
   <li>
+    {%- assign thumb = r.image -%}
+    {%- if r.image.first -%}{%- assign thumb = r.image[0] -%}{%- endif -%}
     <a href="{{ r.url | relative_url }}">
-      <span class="card-eyebrow">{{ r.cuisine }}{% if r.category %} · {{ r.category }}{% endif %}</span>
-      <span class="card-title">{{ r.title }}</span>
-      <span class="card-desc">{{ r.description | strip_html | truncate: 120 }}</span>
-      <span class="card-meta">{{ r.total_time | replace: "PT", "" | replace: "H", " h " | replace: "M", " min" }} · {{ r.yield }}</span>
+      {% if thumb %}
+      <img class="card-thumb" src="{{ thumb | relative_url }}"
+           alt="{{ r.image_alt | default: r.title }}" loading="lazy" decoding="async">
+      {% endif %}
+      <span class="card-body">
+        <span class="card-eyebrow">{{ r.cuisine }}{% if r.category %} · {{ r.category }}{% endif %}</span>
+        <span class="card-title">{{ r.title }}</span>
+        <span class="card-desc">{{ r.description | strip_html | truncate: 120 }}</span>
+        <span class="card-meta">{{ r.total_time | replace: "PT", "" | replace: "H", " h " | replace: "M", " min" }} · {{ r.yield }}</span>
+      </span>
     </a>
   </li>
   {% endfor %}

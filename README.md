@@ -13,6 +13,7 @@ _layouts/default.html    shell: head, nav, footer
 _layouts/recipe.html     generates JSON-LD *and* the visible page from front matter
 _recipes/*.md            one file per recipe — data only, no markup
 assets/css/main.css      styles
+assets/images/recipes/   recipe photos
 index.html               recipe index
 ```
 
@@ -23,6 +24,43 @@ becomes the URL: `_recipes/dal-tadka.md` → `/recipes/dal-tadka/`.
 
 You never write HTML. The layout builds both outputs (visible page and
 JSON-LD) from the same fields, so they can't drift apart.
+
+### Images
+
+Put the file in `assets/images/recipes/`, then reference it from front matter:
+
+```yaml
+image: /assets/images/recipes/masala-rice.jpg
+image_alt: A bowl of masala rice with peas, peanuts and fresh coriander.
+```
+
+The layout converts that to an **absolute** URL in the JSON-LD
+(`https://digvijaygunjal.github.io/assets/...`). That matters: an importer
+fetches the structured data on its own, away from the page it came from, so a
+relative path has nothing to resolve against and the image is silently dropped.
+
+Several images — importers use the first, the page shows the first as the hero:
+
+```yaml
+image:
+  - /assets/images/recipes/masala-rice.jpg
+  - /assets/images/recipes/masala-rice-plated.jpg
+```
+
+A single step can carry its own photo, which also lands in that step's JSON-LD:
+
+```yaml
+  - name: Bloom the whole spices
+    image: /assets/images/recipes/step-tadka.jpg
+```
+
+Practical notes:
+- Landscape, roughly 4:3 or 16:9, at least ~1200 px wide. The hero is cropped
+  to 4:3 and index thumbnails to 1:1, so keep the food off the extreme edges.
+- Use JPEG and keep files under ~500 KB; every image is committed to the repo.
+- Always write `image_alt`. It is what a screen reader announces.
+- The path starts with `/` — a site-root path, not a path relative to the
+  markdown file.
 
 ### Step fields
 
