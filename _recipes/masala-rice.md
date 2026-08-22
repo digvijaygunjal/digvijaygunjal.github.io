@@ -7,10 +7,8 @@ cuisine: Indian
 category: Main course
 cooking_method: Pressure cooking
 diet: VegetarianDiet
-# Drop a photo in assets/images/recipes/ then uncomment these two lines.
-# Fresco reads this straight out of the JSON-LD.
-# image: /assets/images/recipes/masala-rice.jpg
-# image_alt: A bowl of masala rice with peas, peanuts and fresh coriander.
+image: /assets/images/recipes/masala-rice.jpg
+image_alt: Masala rice on a steel thali, studded with green peas, diced potato and whole bay leaves.
 yield: 4 servings
 prep_time: PT15M
 cook_time: PT45M
