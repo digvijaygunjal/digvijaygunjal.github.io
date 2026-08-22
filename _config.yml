@@ -1,0 +1,37 @@
+# Site: https://digvijaygunjal.github.io
+# User-site repo, so baseurl stays empty.
+title: Recipes
+description: One-pot and pressure cooker recipes, written for guided cooking.
+author: Digvijay
+lang: en
+
+url: "https://digvijaygunjal.github.io"
+baseurl: ""
+
+# We ship our own layouts and CSS; disable the GitHub Pages default theme.
+theme: null
+
+collections:
+  recipes:
+    output: true
+    permalink: /recipes/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: recipes
+    values:
+      layout: recipe
+
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+sass:
+  style: compressed
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
