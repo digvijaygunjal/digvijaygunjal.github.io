@@ -1,0 +1,115 @@
+# Blog Configuration for Jekyll + GitHub Pages
+# Copy this to your site's _config.yml and customize
+
+# Site Settings
+title: Your Blog Title
+description: A brief description of your blog for SEO and RSS feeds
+author: Your Name
+email: your-email@example.com
+
+# URL Configuration
+# For user site (username.github.io): leave baseurl empty
+# For project site: set baseurl to "/repo-name"
+url: "https://username.github.io"
+baseurl: ""
+
+# Build Settings
+markdown: kramdown
+theme: minima
+# Or use remote_theme for more options:
+# remote_theme: mmistakes/minimal-mistakes
+
+# Plugins
+plugins:
+  - jekyll-feed          # Generate RSS feed
+  - jekyll-seo-tag       # SEO optimization
+  - jekyll-sitemap       # XML sitemap
+  - jekyll-paginate      # Pagination for posts
+
+# Pagination
+paginate: 10
+paginate_path: "/page:num/"
+
+# Post Settings
+permalink: /blog/:year/:month/:day/:title/
+# Other permalink options:
+# permalink: /:categories/:title/
+# permalink: /posts/:title/
+
+# Default Front Matter
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      comments: true
+      share: true
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+
+# Collections (optional - for additional content types)
+# collections:
+#   tutorials:
+#     output: true
+#     permalink: /tutorials/:name/
+
+# Social Links (customize based on your theme)
+github_username: yourusername
+twitter_username: yourusername
+linkedin_username: yourname
+# facebook_username: yourname
+# instagram_username: yourname
+
+# RSS Feed
+feed:
+  path: feed.xml
+
+# SEO Settings
+twitter:
+  username: yourusername
+  card: summary
+
+social:
+  name: Your Name
+  links:
+    - https://twitter.com/yourusername
+    - https://github.com/yourusername
+    - https://linkedin.com/in/yourname
+
+# Google Analytics (optional)
+# google_analytics: UA-NNNNNNNN-N
+
+# Disqus Comments (optional)
+# disqus:
+#   shortname: your-disqus-shortname
+
+# Exclude from build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - README.md
+  - LICENSE
+  - .gitignore
+
+# Include files
+include:
+  - _pages
+
+# Timezone
+timezone: America/New_York
+# Find your timezone: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+
+# Show future posts
+future: false
+
+# Show drafts
+show_drafts: false
