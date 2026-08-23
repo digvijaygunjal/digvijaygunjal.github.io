@@ -1,0 +1,142 @@
+# Portfolio Configuration for Jekyll + GitHub Pages
+# Copy this to your site's _config.yml and customize
+
+# Site Settings
+title: Your Name - Portfolio
+description: A showcase of my creative work and projects
+author: Your Name
+email: your-email@example.com
+
+# URL Configuration
+# For user site (username.github.io): leave baseurl empty
+# For project site: set baseurl to "/repo-name"
+url: "https://username.github.io"
+baseurl: ""
+
+# Build Settings
+markdown: kramdown
+theme: minima
+# Or use remote_theme for portfolio-focused themes:
+# remote_theme: mmistakes/minimal-mistakes
+# remote_theme: artemsheludko/flexible-jekyll
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Collections - Portfolio Projects
+collections:
+  portfolio:
+    output: true
+    permalink: /portfolio/:name/
+    sort_by: date
+  case-studies:
+    output: true
+    permalink: /case-studies/:name/
+
+# Default Front Matter
+defaults:
+  - scope:
+      path: ""
+      type: "portfolio"
+    values:
+      layout: "project"
+  - scope:
+      path: ""
+      type: "case-studies"
+    values:
+      layout: "case-study"
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+
+# Post Settings (if including a blog section)
+permalink: /blog/:year/:month/:title/
+
+# Social Links
+github_username: yourusername
+linkedin_username: yourname
+twitter_username: yourusername
+behance_username: yourname
+dribbble_username: yourname
+# instagram_username: yourname
+
+# Portfolio Settings
+show_portfolio_on_homepage: true
+portfolio_grid_columns: 3
+
+# About
+bio: |
+  A brief bio about yourself. What do you do? What's your expertise?
+  What drives your creative work? Keep it concise but compelling.
+
+# Skills (optional - for display on about page)
+skills:
+  - name: Web Design
+    level: 90
+  - name: UI/UX Design
+    level: 85
+  - name: Front-end Development
+    level: 80
+  - name: Graphic Design
+    level: 75
+
+# Services (optional)
+services:
+  - title: Web Design
+    description: Beautiful, responsive websites that engage users
+    icon: 🎨
+  - title: UI/UX Design
+    description: User-centered interfaces that solve problems
+    icon: 📱
+  - title: Branding
+    description: Visual identities that tell your story
+    icon: ✨
+
+# Contact
+contact_email: your-email@example.com
+contact_phone: "+1 (555) 123-4567"
+location: "New York, NY"
+
+# SEO Settings
+social:
+  name: Your Name
+  links:
+    - https://linkedin.com/in/yourname
+    - https://github.com/yourusername
+    - https://twitter.com/yourusername
+
+# Google Analytics (optional)
+# google_analytics: UA-NNNNNNNN-N
+
+# Exclude from build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - README.md
+  - LICENSE
+  - .gitignore
+
+# Include files
+include:
+  - _pages
+
+# Timezone
+timezone: America/New_York
+
+# Show future posts
+future: false

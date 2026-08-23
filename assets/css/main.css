@@ -202,3 +202,12 @@ img{max-width:100%;height:auto}
 
 a{color:var(--accent)}
 a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+.maintainer{
+  display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .75rem;
+  margin-bottom:.6rem;
+}
+.maintainer-name{
+  min-width:4.5rem;font-weight:600;color:var(--ink);
+}
+.maintainer .social{margin:0}
