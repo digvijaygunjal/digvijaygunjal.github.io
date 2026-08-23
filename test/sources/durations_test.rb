@@ -5,7 +5,7 @@ require_relative "../test_helper"
 # Times are the field an importer trusts most and a reader checks least. A
 # duration that does not parse is dropped in silence by a consumer; one that
 # parses but does not add up is worse, because it is believed.
-class DurationsTest < RecipeTest
+class DurationsTest < RecipeSourceTest
   TIME_KEYS = %w[prep_time cook_time total_time].freeze
 
   TIME_KEYS.each do |key|

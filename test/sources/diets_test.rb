@@ -5,7 +5,7 @@ require_relative "../test_helper"
 # A diet claim is emitted as `suitableForDiet`. A value outside schema.org's
 # RestrictedDiet enumeration is not rejected by anything downstream — it is
 # ignored, so the page makes a promise the structured data never carries.
-class DietsTest < RecipeTest
+class DietsTest < RecipeSourceTest
   rule "diets_carry_a_label_and_a_schema_value" do |recipe|
     skip_without(recipe, "diets")
 

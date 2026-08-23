@@ -5,7 +5,7 @@ require_relative "../test_helper"
 # An image path that points at nothing is invisible on the page — a broken
 # image still reports itself complete to a browser — and unresolvable in the
 # JSON-LD, where `image` is the one field consumers treat as required.
-class ImagesTest < RecipeTest
+class ImagesTest < RecipeSourceTest
   rule "hero_images_are_site_absolute_paths" do |recipe|
     skip_without(recipe, "image")
 

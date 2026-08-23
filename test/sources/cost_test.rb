@@ -4,7 +4,7 @@ require_relative "../test_helper"
 
 # `estimated_cost` becomes a MonetaryAmount, whose currency has to be an ISO
 # 4217 code rather than a symbol or a name.
-class CostTest < RecipeTest
+class CostTest < RecipeSourceTest
   rule "cost_currency_is_an_iso_4217_code" do |recipe|
     skip_without(recipe, "estimated_cost")
 

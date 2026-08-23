@@ -5,7 +5,7 @@ require_relative "../test_helper"
 # Ingredients are flat strings by the time they reach `recipeIngredient` and
 # `supply` — quantity, unit and item on one line. The groups exist for the
 # page's benefit and are flattened on the way into the JSON-LD.
-class IngredientsTest < RecipeTest
+class IngredientsTest < RecipeSourceTest
   rule "ingredients_are_named_groups_of_items" do |recipe|
     skip_without(recipe, "ingredients")
 

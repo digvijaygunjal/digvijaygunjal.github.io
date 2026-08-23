@@ -4,7 +4,7 @@ require_relative "../test_helper"
 
 # Whether the front matter was read at all, and whether it carries the keys the
 # layout and the JSON-LD cannot do without.
-class FrontMatterTest < RecipeTest
+class FrontMatterTest < RecipeSourceTest
   rule "is_readable_front_matter" do |recipe|
     assert recipe.front_matter?,
            "#{recipe.name} has no front matter Jekyll will read. The usual cause is a " \

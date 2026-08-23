@@ -4,13 +4,13 @@ require_relative "site"
 require_relative "contract"
 require_relative "vocabulary"
 
-# Base class for a rule that has to hold for every recipe.
+# Base class for a rule that has to hold for every recipe source file.
 #
 # `rule` generates one test method per recipe, so a failure names the file and
 # the rule before any message is read — `test_gajar_halwa__durations_add_up`
 # rather than a single "front matter invalid" covering the whole collection.
 # Two recipes breaking two different rules are two failures, not one.
-class RecipeTest < Minitest::Test
+class RecipeSourceTest < Minitest::Test
   def self.rule(name, &block)
     Site.recipes.each do |recipe|
       define_method(:"test_#{recipe.slug.tr("-", "_")}__#{name}") do
