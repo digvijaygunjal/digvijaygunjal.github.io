@@ -2,8 +2,8 @@
 
 require_relative "../test_helper"
 
-# The sources every other tier-1 rule is derived from. These run once, not once
-# per recipe: they are about the collection and the data behind it.
+# The files every other rule here is derived from. These run once, not once per
+# recipe: they are about the collection and the data behind it.
 class SourcesTest < Minitest::Test
   def test_there_is_at_least_one_recipe_to_check
     refute_empty Site.recipes,

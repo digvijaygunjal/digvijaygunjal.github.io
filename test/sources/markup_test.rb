@@ -6,7 +6,7 @@ require_relative "../test_helper"
 # so every recipe gains it — markup written into one recipe is markup the next
 # recipe does not get, and it lands unescaped in the JSON-LD as well as on the
 # page.
-class MarkupTest < RecipeTest
+class MarkupTest < RecipeSourceTest
   rule "front_matter_carries_no_raw_html" do |recipe|
     skip_without_front_matter(recipe)
 

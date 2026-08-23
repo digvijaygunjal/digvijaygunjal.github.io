@@ -6,7 +6,7 @@ require_relative "../test_helper"
 # isolation from its neighbours. That is why a step that continues an appliance
 # session has to restate it, and why the layout prepends that context — which
 # in turn is why the text of such a step starts mid-sentence.
-class StepsTest < RecipeTest
+class StepsTest < RecipeSourceTest
   rule "steps_are_a_non_empty_list_of_mappings" do |recipe|
     skip_without(recipe, "steps")
 

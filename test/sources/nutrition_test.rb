@@ -6,7 +6,7 @@ require_relative "../test_helper"
 # schema.org's NutritionInformation. A key spelled differently is not an error
 # anywhere — the layout reads the name it expects, finds nothing, and prints
 # nothing, leaving a panel that looks complete and is not.
-class NutritionTest < RecipeTest
+class NutritionTest < RecipeSourceTest
   rule "nutrition_carries_all_twelve_properties" do |recipe|
     skip_without(recipe, "nutrition")
 

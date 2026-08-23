@@ -6,7 +6,7 @@ require_relative "../test_helper"
 # derives the "free from" list by subtracting what a recipe declares from the
 # fourteen, so an id that does not resolve does not merely fail to appear under
 # "Contains" — it moves that allergen into "Free from".
-class AllergensTest < RecipeTest
+class AllergensTest < RecipeSourceTest
   LISTS = %w[present may_contain].freeze
 
   rule "declares_allergens_in_the_expected_shape" do |recipe|
