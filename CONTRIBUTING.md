@@ -55,13 +55,18 @@ requires understanding what `recipeInstructions` is for, it is not one.
 
 ## Adding a recipe
 
-Copy an existing file in `_recipes/`, rename it, and edit the front matter:
+Start from the template, rename it, and fill in the front matter:
 
 ```
-cp _recipes/masala-rice.md _recipes/dal-tadka.md
+cp _recipes/_TEMPLATE.md.example _recipes/dal-tadka.md
 ```
 
 The filename becomes the URL: `_recipes/dal-tadka.md` → `/recipes/dal-tadka/`.
+
+The template carries every field with a comment saying what it is for, and
+marks the four you must work out rather than copy. Starting from an existing
+recipe also works, but then those four arrive pre-filled with another dish's
+numbers — which is the one mistake nothing can catch for you.
 
 Every key you can set is tabulated in
 [README → Front matter reference](README.md#front-matter-reference), and the

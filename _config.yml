@@ -84,6 +84,11 @@ sass:
 # top-level directory it does not recognise straight into _site, so without
 # this the tests would be published alongside the recipes.
 exclude:
+  # The recipe template. The underscore prefix already keeps Jekyll out of it
+  # and the .example suffix keeps it out of the collection's *.md glob, but the
+  # cost of it ever being published is a page of empty fields with someone
+  # else's comments in it, so it is excluded explicitly as well.
+  - _recipes/_TEMPLATE.md.example
   - README.md
   - CLAUDE.md
   - CONTRIBUTING.md
