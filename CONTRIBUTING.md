@@ -204,3 +204,10 @@ Three files, deliberately aimed at three readers:
 
 They overlap on purpose, and they must agree. If you change a rule in one,
 change it in the others in the same pull request.
+
+## Code of conduct
+
+Everyone taking part here — issues, pull requests, review — is covered by the
+[Code of Conduct](CODE_OF_CONDUCT.md), which is Contributor Covenant 2.1.
+Reports go to the private form linked in its *Enforcement* section, not to a
+public issue.
