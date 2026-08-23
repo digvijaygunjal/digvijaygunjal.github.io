@@ -206,9 +206,12 @@ If you could not verify something, say so in the last section rather than
 ticking it: an admitted gap costs one review comment, an unfounded tick costs a
 broken import. The list is kept short so that it actually gets read.
 
-Changes to `_layouts/`, `_includes/`, `_config.yml` and `.github/` are reviewed
-by a code owner, because they affect every page at once. A recipe is additive
-and self-contained, so it is not gated on anybody being available.
+Changes to `_layouts/`, `_includes/`, `_data/`, `_config.yml` and `.github/`
+automatically request a review from a code owner, because a change to any of
+them affects every page at once — see [.github/CODEOWNERS](.github/CODEOWNERS).
+`_recipes/` and `assets/images/` are deliberately left unowned: a recipe is
+additive and self-contained, so adding one is not gated on anybody being
+available.
 
 ## Where the documentation lives
 
