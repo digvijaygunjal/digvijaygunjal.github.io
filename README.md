@@ -2,8 +2,10 @@
 
 Recipe site built with Jekyll and served by GitHub Pages. Recipes are tuned
 for the Instant Pot Pro Max. Every recipe page ships server-rendered
-`schema.org/Recipe` JSON-LD, so recipe importers (Instant Connect / Fresco,
-Paprika, Mela, etc.) can read a recipe straight from its URL.
+`schema.org/Recipe` JSON-LD — every property of `Recipe` itself, and everything
+`HowTo`, `CreativeWork` and `Thing` contribute that a recipe can honestly fill
+in — so recipe importers (Instant Connect / Fresco, Paprika, Mela, etc.) can
+read a recipe straight from its URL.
 
 ## Layout
 
@@ -39,6 +41,121 @@ These conventions are the site's voice. Match them when adding a recipe:
 - **Failure modes up front.** Where a step commonly goes wrong — a Burn warning
   from an unscraped base, spices scorching on a high setting — say what happens
   and why, at the point where it matters.
+
+### Front matter reference
+
+Everything on a recipe page comes from these keys. The layout builds the
+visible page and the `schema.org/Recipe` JSON-LD from them in the same pass, so
+filling a field in fills it in for both.
+
+**Identity**
+
+| key | example | becomes |
+|---|---|---|
+| `title` | `Masala Rice` | `name` |
+| `description` | one or two sentences | `description` |
+| `alternate_names` | `[Tehri, Vegetable tehri]` | `alternateName` |
+| `disambiguating_description` | what it is *not* | `disambiguatingDescription` |
+| `identifier` | defaults to the filename slug | `identifier` |
+| `author` | a name or a list; defaults to both maintainers | `author`, `creator`, `copyrightHolder` |
+| `date` | `2026-08-22` | `datePublished`, `dateCreated`, `copyrightYear` |
+| `updated` | `2026-08-23` | `dateModified` |
+| `in_language` | defaults to `site.lang` | `inLanguage` |
+
+**Classification**
+
+| key | example | becomes |
+|---|---|---|
+| `category` | `Main course` | `recipeCategory` |
+| `cuisine` | `Indian` | `recipeCuisine` |
+| `cooking_method` | `Pressure cooking` | `cookingMethod` |
+| `keywords` | a list | `keywords`, joined with `, ` |
+| `diets` | `- label: Vegan` / `schema: VeganDiet` | `suitableForDiet` |
+| `eyebrow` | the small line above the title | page only |
+
+`diets` carries both halves on purpose: `label` is what the page shows,
+`schema` is a member of schema.org's `RestrictedDiet` enumeration
+(`VeganDiet`, `VegetarianDiet`, `GlutenFreeDiet`, `LowLactoseDiet`,
+`LowSaltDiet`, `LowFatDiet`, `LowCalorieDiet`, `DiabeticDiet`, `HalalDiet`,
+`HinduDiet`, `KosherDiet`). Keeping them in one entry stops the badge and the
+structured data from claiming different things.
+
+**Times, yield and cost**
+
+| key | example | becomes |
+|---|---|---|
+| `prep_time` | `PT15M` | `prepTime` |
+| `cook_time` | `PT45M` | `cookTime`, and `performTime` |
+| `total_time` | `PT60M` | `totalTime`, and `timeRequired` |
+| `prep_time_display` | `15 min` | page only |
+| `cook_time_display` | `45 min` | page only |
+| `total_time_display` | `1 hr` | page only |
+| `yield` | `4 servings` | `recipeYield` and `yield` |
+| `estimated_cost` | `currency: EUR`, `value: "3.50"` | `estimatedCost` |
+
+The ISO 8601 durations and the display strings are separate because
+`PT45M` is unreadable and `45 min` is unparseable. **Keep them in agreement**,
+and keep `prep_time + cook_time == total_time` — some importers reject a recipe
+whose durations disagree.
+
+`estimated_cost` is what the ingredients cost for the whole pot. `currency` is
+an ISO 4217 code; the page turns the common ones into a symbol.
+
+**Contents**
+
+| key | becomes |
+|---|---|
+| `tools` | `tool`, and the *Equipment* list |
+| `ingredients` | `recipeIngredient` and `supply`, and the *Ingredients* list |
+| `steps` | `recipeInstructions`, and the numbered method |
+| `nutrition` | `nutrition`, and the *Nutrition* panel |
+| `notes` | page only |
+
+`ingredients` is a list of groups, each with a `name` and `items`. The group
+names are for the reader; the structured data gets the flattened list, so a
+heading can never end up inside an ingredient.
+
+**Nutrition**
+
+Twelve keys, one per schema.org `NutritionInformation` property, plus a `note`
+that is shown to the reader and left out of the structured data:
+
+```yaml
+nutrition:
+  serving_size: About 310 g, a quarter of the pot
+  calories: 520 kcal
+  protein_content: 13 g
+  fat_content: 17 g
+  saturated_fat_content: 2 g
+  unsaturated_fat_content: 15 g
+  trans_fat_content: 0 g
+  cholesterol_content: 0 mg
+  carbohydrate_content: 83 g
+  sugar_content: 4 g
+  fiber_content: 7 g
+  sodium_content: 1180 mg
+  note: >-
+    Estimated from the ingredient weights, not laboratory-measured.
+```
+
+Figures are **per serving**. Work them out from the ingredient weights and the
+yield; do not copy them from another recipe. Say in `note` that they are an
+estimate and name whatever dominates them — usually the salt or the added fat.
+
+**Optional, and empty unless you have the data**
+
+| key | becomes |
+|---|---|
+| `video` | `video` as a `VideoObject` |
+| `license` | `license` |
+| `is_based_on` | `isBasedOn`, for an adapted recipe |
+| `same_as` | `sameAs`, if published elsewhere too |
+| `rating` | `aggregateRating` |
+| `reviews` | `review` |
+
+`rating` and `reviews` must come from real feedback. A rating a site awards its
+own recipe is dishonest, and search engines discard the entire structured-data
+block when they spot a self-serving review.
 
 ### Images
 
@@ -101,13 +218,31 @@ So write `text` for a continuing step in lowercase, starting mid-sentence.
 Importability is the point of this site, so treat the following as fixed. If you
 change the layout, keep all of it true.
 
-Every recipe page emits one `schema.org/Recipe` block as JSON-LD, containing:
+Every recipe page emits one `schema.org/Recipe` block as JSON-LD. `Recipe`
+inherits from `HowTo`, `CreativeWork` and `Thing`, which between them define
+148 valid properties — most of which a recipe page has no honest answer for.
+What a page carries today:
 
-| | fields |
+| from | fields |
 |---|---|
-| Required | `name`, `image` |
-| Recommended | `author`, `datePublished`, `description`, `prepTime`, `cookTime`, `totalTime`, `recipeYield`, `recipeIngredient`, `recipeInstructions`, `recipeCategory`, `recipeCuisine`, `keywords`, `cookingMethod` |
-| Extra | `suitableForDiet`, `tool`, per-step `url` and `image` |
+| `Recipe` | `recipeCategory`, `recipeCuisine`, `cookingMethod`, `recipeYield`, `cookTime`, `recipeIngredient`, `recipeInstructions`, `suitableForDiet`, `nutrition` — **all nine** |
+| `HowTo` | `prepTime`, `totalTime`, `performTime`, `yield`, `tool`, `supply`, `estimatedCost` |
+| `CreativeWork` | `author`, `creator`, `publisher`, `datePublished`, `dateCreated`, `dateModified`, `copyrightYear`, `copyrightHolder`, `copyrightNotice`, `keywords`, `inLanguage`, `thumbnailUrl`, `timeRequired`, `isAccessibleForFree`, `isFamilyFriendly` |
+| `Thing` | `name`, `image`, `description`, `alternateName`, `disambiguatingDescription`, `identifier`, `url`, `mainEntityOfPage` |
+
+`name` and `image` are the two a consumer will refuse to import without.
+
+Two properties are left out on purpose. `step` means the same thing as
+`recipeInstructions`, and a consumer that read both and concatenated them would
+import every step twice. The superseded spellings — `ingredients`, `steps`,
+`reviews`, `awards`, `isBasedOnUrl` — are left out for the same reason: two
+lists that can disagree are worse than one.
+
+The property list is checked against
+[schemaorg/schemaorg](https://github.com/schemaorg/schemaorg), release 30.0,
+which is the repository <https://schema.org/Recipe> is published from. Read
+`data/releases/<version>/schemaorg-current-https.jsonld` there rather than
+trusting this table.
 
 Rules that are easy to break by accident:
 
@@ -133,6 +268,20 @@ straight read — which is what keeps the appliance settings intact.
 Paste a built page into the [Schema Markup Validator](https://validator.schema.org/)
 or Google's Rich Results Test. Both catch malformed JSON-LD, which is the
 usual reason an import silently fails.
+
+Then check the things a validator will not:
+
+- `prepTime + cookTime == totalTime`
+- `supply` holds the same strings, in the same order, as `recipeIngredient`,
+  and `yield` matches `recipeYield`
+- every step's `url` anchor has a matching `id` on the page
+- every image URL in the JSON-LD is absolute
+- the nutrition figures are this recipe's, not the ones you copied the file from
+
+If schema.org is unreachable — a sandbox or a corporate proxy will sometimes
+block it — clone <https://github.com/schemaorg/schemaorg> and read
+`data/releases/<version>/schemaorg-current-https.jsonld`. That is the source
+the website is published from, so it answers the same questions.
 
 ## Local preview
 
