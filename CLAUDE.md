@@ -196,6 +196,7 @@ copying it, so there is one place for each fact to go stale.
 ## Repository layout
 
 ```
+.github/ISSUE_TEMPLATE/  YAML issue forms; config.yml disables blank issues
 _config.yml              site settings, appliance, social links, collection
 _data/allergens.yml      the EU 14 allergens every recipe declares against
 _layouts/default.html    shell: head, nav, footer, copy-link script

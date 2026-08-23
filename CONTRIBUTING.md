@@ -15,6 +15,18 @@ That single rule is why the structure below is fussier than a folder of notes
 would be. Every field exists because an importer reads it. When a change would
 make a page look better but read worse to a machine, the machine wins.
 
+## Reporting something rather than fixing it
+
+Open an issue and pick the form that fits: **Import failure** when a recipe app
+read a page wrongly, **Recipe correction** when the cooking is wrong, **Recipe
+request** for a dish you would like worked out, **Site bug** for a page that
+does not render. Blank issues are turned off, because every one of those needs
+a detail people reliably forget — which app, which cooker, how wide the window
+was — and asking for it up front saves a round trip.
+
+Security problems and code of conduct concerns do not go in an issue at all.
+Both are linked from the new-issue page, and both go to a private form.
+
 ## Adding a recipe
 
 Copy an existing file in `_recipes/`, rename it, and edit the front matter:

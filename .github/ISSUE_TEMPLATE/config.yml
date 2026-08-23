@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: How to contribute
+    url: https://github.com/digvijaygunjal/digvijaygunjal.github.io/blob/main/CONTRIBUTING.md
+    about: Adding a recipe, the house conventions, and what review expects. Read this before opening a pull request.
+  - name: How a recipe page is structured
+    url: https://github.com/digvijaygunjal/digvijaygunjal.github.io/blob/main/README.md#the-import-contract
+    about: The full front-matter reference and the import contract, if you want to know why a page is built the way it is.
+  - name: Report a security problem privately
+    url: https://github.com/digvijaygunjal/digvijaygunjal.github.io/security/advisories/new
+    about: Do not open a public issue for a security problem. Use the private report form.
+  - name: Report a code of conduct concern
+    url: https://github.com/digvijaygunjal/digvijaygunjal.github.io/security/advisories/new
+    about: The same private form. Put "code of conduct" in the title so it is not read as a vulnerability.

@@ -1,0 +1,71 @@
+name: Recipe request
+description: Ask for a dish to be worked out, tested and published
+title: "Recipe request: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Recipes here are cooked and timed before they are published, so a
+        request is a queue rather than a promise. The more of the below you can
+        answer, the sooner it can be tested.
+
+  - type: input
+    id: dish
+    attributes:
+      label: What is the dish?
+      placeholder: Dal tadka
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe it
+      description: >-
+        What it should taste and look like, and how you would tell it from the
+        dish it is closest to. That distinction is a field on every recipe page
+        here, so it is worth saying now.
+    validations:
+      required: true
+
+  - type: input
+    id: who-cooks-it
+    attributes:
+      label: Who cooks it?
+      description: >-
+        Whose version this should be — a family member, a particular
+        restaurant, a region. It settles a hundred small choices later.
+      placeholder: My aunt's, from Kolhapur
+    validations:
+      required: true
+
+  - type: textarea
+    id: source
+    attributes:
+      label: Anything to work from
+      description: >-
+        A written recipe, a link, a video, a voice note, or quantities scribbled
+        on paper. A rough list of ingredients with no quantities is still a
+        useful start.
+
+  - type: dropdown
+    id: photo
+    attributes:
+      label: Is there a photo?
+      description: Every recipe page needs one, so this is often what decides the order.
+      options:
+        - "Yes, and I can share it"
+        - "Yes, but it belongs to someone else"
+        - "No, but the dish gets cooked often so one can be taken"
+        - "No"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: cooker
+    attributes:
+      label: Pressure cooker
+      options:
+        - label: I understand this will be written for a pressure cooker, and may not match how the dish is usually made
+          required: false

@@ -1,0 +1,74 @@
+name: Site bug
+description: A page is broken, unreadable or does not render properly
+title: "Site bug: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For something wrong with the *site* — layout, images, links, styling.
+        If a recipe imported badly into an app, use **Import failure** instead;
+        if the cooking is wrong, use **Recipe correction**.
+
+  - type: input
+    id: page
+    attributes:
+      label: Which page?
+      placeholder: https://digvijaygunjal.github.io/recipes/gajar-halwa/
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-broke
+    attributes:
+      label: What broke
+      description: What you see, and what you expected to see. A screenshot helps a great deal.
+      placeholder: |
+        The hero photo does not load — just alt text and a grey box.
+        The nutrition table runs off the right edge and the page scrolls sideways.
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: Safari 18.5, iOS 18.5
+    validations:
+      required: true
+
+  - type: dropdown
+    id: width
+    attributes:
+      label: How wide is the window?
+      description: >-
+        The layout is checked at desktop width and at about 380 px, so knowing
+        which side of that you are on usually narrows it down immediately.
+      options:
+        - Phone, portrait — roughly 320 to 430 px
+        - Phone, landscape, or a small tablet
+        - Tablet — roughly 768 to 1024 px
+        - Desktop — 1200 px or wider
+        - A narrow window on a desktop
+        - Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: exact-width
+    attributes:
+      label: Exact width in pixels, if you know it
+      description: On a desktop browser, the developer tools report it while resizing.
+      placeholder: "412"
+
+  - type: dropdown
+    id: reproducible
+    attributes:
+      label: Does it happen every time?
+      options:
+        - Every time, on that page
+        - Every time, on every recipe page
+        - Only sometimes
+        - It happened once
+    validations:
+      required: true
