@@ -341,6 +341,11 @@ The full workflow, including the multi-image and per-step forms, is in
 - The hero crops to 4:3 and index thumbnails to 1:1, so keep food away from the
   extreme edges.
 
+The first two are checked by `test/sources/assets_test.rb` — size, width, EXIF,
+and images no recipe points at — because they are the rules that cannot be
+fixed after the fact. Everything before the commit is still yours to get right:
+the checks can tell you a photo is 3 MB, not that it is the wrong photo.
+
 ## Building and verifying
 
 ```

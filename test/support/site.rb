@@ -11,6 +11,7 @@ module Site
   ROOT = File.expand_path("../..", __dir__)
 
   RECIPES_DIR = File.join(ROOT, "_recipes")
+  IMAGES_DIR  = File.join(ROOT, "assets", "images")
   DATA_DIR    = File.join(ROOT, "_data")
   CONFIG_FILE = File.join(ROOT, "_config.yml")
 
@@ -61,6 +62,19 @@ module Site
 
     def recipes
       @recipes ||= recipe_paths.map { |path| read_recipe(path) }
+    end
+
+    # Every committed image, whatever it is for. Git keeps each version of a
+    # binary forever, so these are checked before they land rather than after.
+    def image_files
+      Dir[File.join(IMAGES_DIR, "**", "*")].select { |path| File.file?(path) }.sort
+    end
+
+    # Every image path the recipes point at, hero and per-step, as written.
+    def referenced_images
+      recipes.flat_map do |recipe|
+        Array(recipe["image"]) + Array(recipe["steps"]).grep(Hash).filter_map { |step| step["image"] }
+      end.uniq
     end
 
     def allergens
