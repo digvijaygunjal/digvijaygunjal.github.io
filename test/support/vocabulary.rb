@@ -8,6 +8,11 @@
 # is worse than a missing one: a consumer silently ignores a term it does not
 # know, so the recipe simply claims less than the page says it does.
 module Vocabulary
+  # The release every constant below was copied from. `rake schema:drift` reads
+  # the vocabulary itself and fails when this number is behind, which is what
+  # keeps the comments below from becoming a claim nobody re-checks.
+  CHECKED_RELEASE = "30.0"
+
   # The eleven members of schema.org's RestrictedDiet enumeration, checked
   # against release 30.0 of the vocabulary
   # (data/releases/30.0/schemaorg-current-https.jsonld in schemaorg/schemaorg).

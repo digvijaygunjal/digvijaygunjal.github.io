@@ -69,3 +69,48 @@ def install_browser_toolchain
   sh "npm ci --prefix #{BROWSER_DIR}"
   sh "npm run setup --prefix #{BROWSER_DIR}"
 end
+
+# Not part of the default task: this reads a clone of the schema.org vocabulary,
+# which a contributor has no reason to have, and which is the point — the
+# website is not always reachable from a sandbox or from behind a proxy, and an
+# unreachable specification is what tempts someone into guessing at a property
+# name. Run on a schedule by .github/workflows/schema-drift.yml.
+namespace :schema do
+  desc "Whether schema.org still says what this site assumes it says (needs SCHEMAORG_CLONE)"
+  Rake::TestTask.new(:drift) do |t|
+    t.libs << "test"
+    t.test_files = FileList["test/schema_drift/**/*_test.rb"]
+    t.warning = false
+  end
+
+  # Guarding here rather than inside the checks: a missing clone means the run
+  # verified nothing, and a set of checks that skip themselves when their input
+  # is absent reports green for exactly the reason it should report red.
+  task :drift => :verify_schemaorg_clone
+
+  task :verify_schemaorg_clone do
+    require_relative "test/support/schema_release"
+
+    next if SchemaRelease.available?
+
+    abort <<~NO_CLONE
+      No schema.org clone found at #{SchemaRelease.clone_path}.
+
+      Clone it, or point SCHEMAORG_CLONE at an existing clone:
+
+        git clone --depth 1 --filter=blob:none --no-checkout \\
+          https://github.com/schemaorg/schemaorg schemaorg
+        git -C schemaorg sparse-checkout init --no-cone
+        git -C schemaorg sparse-checkout set \\
+          '/data/releases/*/schemaorg-current-https.jsonld'
+        git -C schemaorg checkout
+
+      The narrow pattern matters: checking out all of data/releases is 2 GB of
+      history this check never opens, against 43 MB for the release files alone.
+
+      Read the vocabulary from the clone rather than from schema.org: the
+      website is not always reachable from a sandbox or from behind a proxy,
+      and the release file is the source the website is published from.
+    NO_CLONE
+  end
+end
