@@ -1,0 +1,46 @@
+# Normalise line endings on the way into the repository, so a contributor on
+# Windows does not turn every line of a file into a diff. Files are stored with
+# LF and checked out with LF everywhere; .editorconfig asks editors for the
+# same thing, and this enforces it regardless of the editor.
+* text=auto eol=lf
+
+# Explicit for the file types this repository actually holds, so the guess is
+# never wrong.
+*.md        text eol=lf
+*.markdown  text eol=lf
+*.html      text eol=lf
+*.css       text eol=lf
+*.scss      text eol=lf
+*.js        text eol=lf
+*.json      text eol=lf
+*.yml       text eol=lf
+*.yaml      text eol=lf
+*.rb        text eol=lf
+Gemfile     text eol=lf
+Gemfile.lock text eol=lf
+LICENSE     text eol=lf
+.ruby-version text eol=lf
+
+# Photographs. Marking them binary stops git trying to diff or merge one — a
+# textual merge of two JPEGs produces a corrupt file that still has a .jpg
+# name, and the conflict is not visible in review.
+*.jpg   binary
+*.jpeg  binary
+*.png   binary
+*.gif   binary
+*.webp  binary
+*.ico   binary
+*.avif  binary
+
+# Fonts and other opaque assets, in case any are ever added. There are none
+# today: the site loads no webfonts and makes no external requests.
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.otf   binary
+*.eot   binary
+*.pdf   binary
+
+# The vendored upstream skill is kept verbatim, so keep it out of GitHub's
+# language statistics too — it is not this repository's own work.
+.claude/skills/** linguist-vendored
