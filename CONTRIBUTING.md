@@ -176,32 +176,40 @@ the page silently loses a field.
 
 ## Running the checks
 
-There is no CI yet, and GitHub Pages builds Jekyll natively, so nothing stops a
-broken page from deploying. Build locally before you open a PR:
-
 ```
 bundle config set path 'vendor/bundle'
 bundle install
-bundle exec jekyll build
+bundle exec rake
 ```
 
-The build must finish with **no Liquid syntax warnings** — they do not fail the
-build, but the markup they name renders as nothing.
+That is the whole story. It builds the site and runs every check, cheapest
+first, and stops at the first set that fails — so a front-matter typo fails in
+under a second rather than after a browser has started. What each set covers is
+tabulated in [README → Testing before you push](README.md#testing-before-you-push).
 
-Then check the things the build will not, listed in
-[README → Testing before you push](README.md#testing-before-you-push). The one
-worth doing first: open the built page under `_site/recipes/<your-recipe>/` and
-confirm the Recipe JSON-LD carries a `datePublished`. It is the cheapest proof
-that your front matter was read at all — a file missing its closing `---` still
-builds a page that looks right, titled from its own filename, having quietly
-lost every field.
+The browser set needs Node and installs its own toolchain the first time it
+runs. Without Node, run the two Ruby sets on their own:
+
+```
+bundle exec rake test:sources test:import_contract
+```
+
+### When something fails
+
+A failure names the file and the rule before you read a word of it —
+`StepsTest#test_dal_tadka__continuing_steps_read_as_a_continuation` — and the
+message says why the rule exists. Fix the recipe, not the check: a rule that
+looks wrong is worth arguing about in an issue, and every one of them was added
+because something broke silently.
+
+Two things the checks cannot do for you, both listed in full in the README:
+whether the nutrition figures are *this* recipe's rather than the file you
+copied, and whether the photograph was genuinely processed. A wrong number is
+believed; an absent one is not.
 
 Note that `jekyll serve` rewrites `site.url` to localhost, which makes a broken
-absolute URL resolve anyway. Verify anything URL-sensitive with `jekyll build`.
-
-A single command that runs every check is planned — see
-[#36](https://github.com/digvijaygunjal/digvijaygunjal.github.io/issues/36).
-This section becomes that one line when it lands.
+absolute URL resolve anyway. Preview with it if you like, but verify with
+`bundle exec rake`, which builds.
 
 ## Branches, pull requests and review
 
