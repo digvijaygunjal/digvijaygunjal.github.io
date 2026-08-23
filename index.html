@@ -11,10 +11,36 @@ title: null
   No heading here on purpose: the h1 above already reads "Recipes", and the
   masthead makes three.
 {%- endcomment -%}
+{%- comment -%}
+  Each card repeats, as data attributes, the fields the recipe page already
+  renders — so the filter below is a second *reading* of the front matter, not a
+  second copy of it. Nothing here is authored by hand, which is why a new recipe
+  gains its filters without this file being touched.
+
+  `data-free-from` comes from the same include the recipe layout uses, and is
+  written only where a recipe actually declares its allergens: with nothing
+  declared the complement is all fourteen, which is true of the subtraction and
+  false about the dish. Such a recipe therefore carries no attribute and can
+  never match a "free from" filter — the safe direction for it to fail in.
+{%- endcomment -%}
 <ul class="recipe-list">
   {% assign items = site.recipes | sort: "date" | reverse %}
   {% for r in items %}
-  <li>
+  {%- capture ingredient_blob -%}
+    {%- for g in r.ingredients -%}{{ g.items | join: " " }} {% endfor -%}
+  {%- endcapture -%}
+  {%- capture search_blob -%}
+    {{ r.title }} {{ r.alternate_names | join: " " }} {{ r.description }}
+    {{ r.cuisine }} {{ r.category }} {{ r.cooking_method }} {{ r.yield }}
+    {{ r.diets | map: "label" | join: " " }} {{ r.keywords | join: " " }}
+    {{ r.tools | join: " " }} {{ ingredient_blob }}
+  {%- endcapture -%}
+  {%- capture free_from_csv -%}{%- include allergens-free-from.html recipe=r -%}{%- endcapture -%}
+  <li data-cuisine="{{ r.cuisine | escape }}"
+      data-category="{{ r.category | escape }}"
+      data-diets="{{ r.diets | map: 'label' | join: '|' | escape }}"
+      {% if r.allergens %}data-free-from="{{ free_from_csv | strip | remove_first: '|' | escape }}"
+      {% endif %}data-text="{{ search_blob | strip_newlines | normalize_whitespace | downcase | escape }}">
     {%- assign thumb = r.image -%}
     {%- if r.image.first -%}{%- assign thumb = r.image[0] -%}{%- endif -%}
     <a href="{{ r.url | relative_url }}">
@@ -126,3 +152,274 @@ title: null
     corrections and additions are welcome.
   </p>
 </section>
+
+{%- comment -%}
+  The allergen wording is handed to the script as JSON rather than retyped into
+  it, for the same reason recipes reference allergens by id: one spelling of
+  "Sulphur dioxide and sulphites", in _data/allergens.yml, and everything else
+  reads it. Only id and label are emitted — the script has no use for the rest.
+{%- endcomment -%}
+<script type="application/json" id="allergen-labels">
+[{% for a in site.data.allergens %}{"id":{{ a.id | jsonify }},"label":{{ a.label | jsonify }}}{% unless forloop.last %},{% endunless %}{% endfor %}]
+</script>
+
+<script>
+  // Search and filtering for the recipe index.
+  //
+  // Progressive enhancement, like the copy-link button in the layout: the list
+  // above is complete and correct on its own, and the controls are built here
+  // only if this script runs. Nothing is rendered that could sit on the page
+  // doing nothing.
+  //
+  // The work happens in the browser because there is no server to ask — this is
+  // a static site. At this scale that is not a compromise: matching a substring
+  // against a few dozen data-text attributes is faster than a network round
+  // trip would be. Somewhere north of a few hundred recipes a real index
+  // (Lunr, vendored — no CDN) would start to earn its 30 KB. Not yet.
+  (function () {
+    var list = document.querySelector('.recipe-list');
+    if (!list) return;
+
+    var cards = Array.prototype.slice.call(list.querySelectorAll('li'));
+    if (cards.length < 2) return;  // Nothing to narrow down.
+
+    function slug(s) {
+      return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    }
+
+    function values(card, attr) {
+      var v = card.getAttribute(attr);
+      return v ? v.split('|') : [];
+    }
+
+    var allergens = [];
+    try {
+      var node = document.getElementById('allergen-labels');
+      if (node) allergens = JSON.parse(node.textContent);
+    } catch (e) {
+      allergens = [];  // Filter loses its allergen chips; the list still works.
+    }
+
+    // How many cards carry a value. A value on every card, or on none, is a
+    // control that cannot change what you see — so it is never drawn. That
+    // rule is what keeps the bar honest as the site grows: today both recipes
+    // are Indian and there is no cuisine row, and the day a Thai one lands the
+    // row appears without this file being edited.
+    function countWith(attr, value) {
+      return cards.filter(function (c) { return values(c, attr).indexOf(value) !== -1; }).length;
+    }
+
+    function discriminating(attr, candidates) {
+      return candidates.filter(function (o) {
+        var n = countWith(attr, o.value);
+        return n > 0 && n < cards.length;
+      });
+    }
+
+    // `mode` is how chips inside one group combine. "any" for the ways a dish
+    // is classified — Dessert or Main course, never both. "all" for the ways it
+    // is constrained: someone picking Vegan and Gluten-free wants the recipes
+    // that are both, and someone excluding peanuts and milk wants neither in
+    // the pot. Groups always combine with each other by "all".
+    var groups = [];
+
+    function defineGroup(key, label, attr, mode, candidates) {
+      var options = discriminating(attr, candidates);
+      if (!options.length) return;
+      groups.push({ key: key, label: label, attr: attr, mode: mode, options: options, selected: [] });
+    }
+
+    function seenValues(attr) {
+      var out = [], seen = {};
+      cards.forEach(function (c) {
+        values(c, attr).forEach(function (v) {
+          if (v && !seen[v]) { seen[v] = true; out.push({ value: v, label: v }); }
+        });
+      });
+      return out;
+    }
+
+    defineGroup('course', 'Course', 'data-category', 'any', seenValues('data-category'));
+    defineGroup('cuisine', 'Cuisine', 'data-cuisine', 'any', seenValues('data-cuisine'));
+    defineGroup('diet', 'Diet', 'data-diets', 'all', seenValues('data-diets'));
+    // Allergens keep the order of the published list rather than the order the
+    // recipes happen to be in.
+    defineGroup('free', 'Free from', 'data-free-from', 'all', allergens.map(function (a) {
+      return { value: a.id, label: a.label };
+    }));
+
+    var query = '';
+
+    function matches(card) {
+      if (query) {
+        var text = card.getAttribute('data-text') || '';
+        var terms = query.split(/\s+/);
+        for (var i = 0; i < terms.length; i++) {
+          if (terms[i] && text.indexOf(terms[i]) === -1) return false;
+        }
+      }
+      for (var g = 0; g < groups.length; g++) {
+        var group = groups[g];
+        if (!group.selected.length) continue;
+        var have = values(card, group.attr);
+        var hits = group.selected.filter(function (v) { return have.indexOf(v) !== -1; }).length;
+        if (group.mode === 'all' ? hits !== group.selected.length : hits === 0) return false;
+      }
+      return true;
+    }
+
+    function active() {
+      return query !== '' || groups.some(function (g) { return g.selected.length > 0; });
+    }
+
+    // Filters go into the URL so a narrowed list can be linked and shared, and
+    // survives a reload. replaceState rather than pushState: typing a letter
+    // should not cost a press of the back button.
+    function syncUrl() {
+      var params = [];
+      if (query) params.push('q=' + encodeURIComponent(query));
+      groups.forEach(function (g) {
+        if (g.selected.length) {
+          params.push(g.key + '=' + g.selected.map(function (v) { return encodeURIComponent(slug(v)); }).join(','));
+        }
+      });
+      var url = location.pathname + (params.length ? '?' + params.join('&') : '') + location.hash;
+      try { history.replaceState(null, '', url); } catch (e) { /* file:// and the like */ }
+    }
+
+    function readUrl() {
+      var search = location.search.replace(/^\?/, '');
+      if (!search) return;
+      search.split('&').forEach(function (pair) {
+        var bits = pair.split('=');
+        var key = decodeURIComponent(bits[0] || '');
+        var raw = decodeURIComponent((bits[1] || '').replace(/\+/g, ' '));
+        if (key === 'q') { query = raw.toLowerCase(); return; }
+        var group = groups.filter(function (g) { return g.key === key; })[0];
+        if (!group) return;
+        raw.split(',').forEach(function (wanted) {
+          group.options.forEach(function (o) {
+            if (slug(o.value) === wanted && group.selected.indexOf(o.value) === -1) {
+              group.selected.push(o.value);
+            }
+          });
+        });
+      });
+    }
+
+    readUrl();
+
+    // Build the controls.
+    var form = document.createElement('form');
+    form.className = 'filter';
+    form.setAttribute('role', 'search');
+    form.addEventListener('submit', function (e) { e.preventDefault(); });
+
+    var searchLabel = document.createElement('label');
+    searchLabel.className = 'visually-hidden';
+    searchLabel.setAttribute('for', 'recipe-search');
+    searchLabel.textContent = 'Search recipes';
+
+    var input = document.createElement('input');
+    input.type = 'search';
+    input.id = 'recipe-search';
+    input.className = 'filter-search';
+    input.autocomplete = 'off';
+    input.placeholder = 'Search recipes, ingredients, spices';
+    input.value = query;
+
+    form.appendChild(searchLabel);
+    form.appendChild(input);
+
+    groups.forEach(function (group) {
+      var row = document.createElement('fieldset');
+      row.className = 'filter-group';
+
+      var legend = document.createElement('legend');
+      legend.className = 'filter-legend';
+      legend.textContent = group.label;
+      row.appendChild(legend);
+
+      var chips = document.createElement('div');
+      chips.className = 'chips';
+
+      group.options.forEach(function (option) {
+        var chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'chip';
+        chip.textContent = option.label;
+        chip.setAttribute('aria-pressed', group.selected.indexOf(option.value) !== -1 ? 'true' : 'false');
+        chip.addEventListener('click', function () {
+          var at = group.selected.indexOf(option.value);
+          if (at === -1) { group.selected.push(option.value); } else { group.selected.splice(at, 1); }
+          chip.setAttribute('aria-pressed', at === -1 ? 'true' : 'false');
+          apply();
+        });
+        chips.appendChild(chip);
+      });
+
+      row.appendChild(chips);
+      form.appendChild(row);
+    });
+
+    var status = document.createElement('p');
+    status.className = 'filter-status';
+
+    var count = document.createElement('span');
+    count.className = 'filter-count';
+    count.setAttribute('role', 'status');
+    count.setAttribute('aria-live', 'polite');
+
+    var clear = document.createElement('button');
+    clear.type = 'button';
+    clear.className = 'filter-clear';
+    clear.textContent = 'Clear';
+    clear.addEventListener('click', function () {
+      query = '';
+      input.value = '';
+      groups.forEach(function (g) { g.selected = []; });
+      form.querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-pressed', 'false'); });
+      apply();
+      input.focus();
+    });
+
+    status.appendChild(count);
+    status.appendChild(clear);
+    form.appendChild(status);
+
+    var empty = document.createElement('p');
+    empty.className = 'filter-empty';
+    empty.hidden = true;
+    empty.textContent = 'No recipe matches all of those. Try dropping one.';
+
+    list.parentNode.insertBefore(form, list);
+    list.parentNode.insertBefore(empty, list.nextSibling);
+
+    function apply() {
+      var shown = 0;
+      cards.forEach(function (card) {
+        var ok = matches(card);
+        card.hidden = !ok;
+        if (ok) shown++;
+      });
+
+      count.textContent = active()
+        ? shown + ' of ' + cards.length + ' recipes'
+        : cards.length + ' recipes';
+      clear.hidden = !active();
+      empty.hidden = shown !== 0;
+      syncUrl();
+    }
+
+    var typing;
+    input.addEventListener('input', function () {
+      clearTimeout(typing);
+      typing = setTimeout(function () {
+        query = input.value.trim().toLowerCase();
+        apply();
+      }, 120);
+    });
+
+    apply();
+  })();
+</script>

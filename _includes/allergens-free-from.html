@@ -1,0 +1,31 @@
+{%- comment -%}
+  Emits the ids of the allergens `include.recipe` declares nothing about, as a
+  |-delimited string: "|eggs|fish|celery". The caller captures it and splits.
+
+  This is the one derivation on the site that must not be written twice. The
+  free-from list is the complement of what a recipe declares, so it is computed
+  rather than authored: adding an entry to _data/allergens.yml then makes every
+  recipe claim *less*, never more, which is the safe direction for the edit to
+  fail in. A second copy of this subtraction — in the layout, in the index, in
+  JavaScript — is a copy that can drift, and a filter that disagrees with the
+  page it links to would tell someone a dish is free of an allergen it contains.
+
+  Jekyll renders an include inside `context.stack`, so an `assign` here does not
+  survive back to the caller. The result is therefore emitted, not assigned.
+
+  Callers must treat a recipe with no `allergens` front matter as unknown rather
+  than free of all fourteen: with nothing declared the complement is the whole
+  list, which is true of the subtraction and false about the dish.
+{%- endcomment -%}
+{%- assign declared_ids = "" | split: "" -%}
+{%- if include.recipe.allergens -%}
+  {%- capture declared_csv -%}
+    {%- for a in include.recipe.allergens.present -%}{{ a.id }},{%- endfor -%}
+    {%- for a in include.recipe.allergens.may_contain -%}{{ a.id }},{%- endfor -%}
+  {%- endcapture -%}
+  {%- assign declared_ids = declared_csv | strip | split: "," -%}
+{%- endif -%}
+{%- comment -%}Liquid has no push filter, so the complement is built as a delimited string.{%- endcomment -%}
+{%- for a in site.data.allergens -%}
+  {%- unless declared_ids contains a.id -%}|{{ a.id }}{%- endunless -%}
+{%- endfor -%}
