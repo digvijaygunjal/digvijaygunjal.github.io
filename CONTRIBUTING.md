@@ -162,6 +162,18 @@ The full workflow, including the multi-image and per-step forms, is in
 - The hero crops to 4:3 and index thumbnails to 1:1, so keep the food away from
   the extreme edges.
 
+## Editor and line endings
+
+`.editorconfig` and `.gitattributes` are committed, and between them they mean
+you should never see a whole-file diff you did not cause. Most editors read
+`.editorconfig` directly; a few need a plugin, and it is worth installing.
+
+UTF-8, LF line endings, a final newline, no trailing whitespace, two-space
+indent. YAML is where this matters most: recipe front matter and
+`_data/allergens.yml` are both YAML, and an indentation slip there is a change
+of meaning rather than of appearance — a key moves into or out of a mapping and
+the page silently loses a field.
+
 ## Running the checks
 
 There is no CI yet, and GitHub Pages builds Jekyll natively, so nothing stops a

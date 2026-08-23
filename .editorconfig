@@ -1,0 +1,43 @@
+# https://editorconfig.org
+#
+# Read automatically by most editors, some with a plugin. It exists so that a
+# contributor on another machine does not produce a whole-file diff before
+# changing anything.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# YAML is where this matters most rather than least. Recipe front matter and
+# _data/allergens.yml are YAML, and there an indentation slip is a change of
+# meaning, not of appearance: a key moves into or out of a mapping and the
+# page silently loses a field.
+[*.{yml,yaml}]
+indent_size = 2
+
+[*.{html,css,scss,js,json}]
+indent_size = 2
+
+[*.rb]
+indent_size = 2
+
+# Markdown uses two trailing spaces as a hard line break. Nothing here relies
+# on that today, and trimming is the safer default, but a trimmed line break
+# is invisible in review — so keep the exception in mind if it ever changes.
+[*.md]
+trim_trailing_whitespace = true
+
+# Not ours to reformat.
+[Gemfile.lock]
+trim_trailing_whitespace = false
+insert_final_newline = false
+
+[.claude/skills/**]
+trim_trailing_whitespace = false
+insert_final_newline = false
