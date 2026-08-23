@@ -331,12 +331,44 @@ title: null
     form.appendChild(searchLabel);
     form.appendChild(input);
 
-    groups.forEach(function (group) {
-      var row = document.createElement('fieldset');
-      row.className = 'filter-group';
+    // The chips fold away behind a disclosure. On a phone four rows of them
+    // pushed the first recipe off the bottom of the screen, which is the wrong
+    // thing to spend a small viewport on: most visits want the search box or
+    // the list itself. The summary carries a count of what is switched on, so
+    // a collapsed panel still reports the state of the thing it is hiding.
+    var panel = document.createElement('details');
+    panel.className = 'filter-details';
 
-      var legend = document.createElement('legend');
+    var summary = document.createElement('summary');
+    summary.className = 'filter-summary';
+
+    var summaryLabel = document.createElement('span');
+    summaryLabel.textContent = 'Filters';
+
+    var summaryCount = document.createElement('span');
+    summaryCount.className = 'filter-summary-count';
+    summaryCount.hidden = true;
+
+    summary.appendChild(summaryLabel);
+    summary.appendChild(summaryCount);
+    panel.appendChild(summary);
+
+    var panelBody = document.createElement('div');
+    panelBody.className = 'filter-panel';
+
+    groups.forEach(function (group) {
+      // A div with role=group rather than fieldset/legend: a legend is not a
+      // normal flex item, and browsers disagree about what it does inside a
+      // flex container. This lays out the same everywhere and reads the same
+      // to a screen reader.
+      var row = document.createElement('div');
+      row.className = 'filter-group';
+      row.setAttribute('role', 'group');
+      row.setAttribute('aria-labelledby', 'filter-label-' + group.key);
+
+      var legend = document.createElement('span');
       legend.className = 'filter-legend';
+      legend.id = 'filter-label-' + group.key;
       legend.textContent = group.label;
       row.appendChild(legend);
 
@@ -359,8 +391,22 @@ title: null
       });
 
       row.appendChild(chips);
-      form.appendChild(row);
+      panelBody.appendChild(row);
     });
+
+    panel.appendChild(panelBody);
+
+    // Open where there is room for it. Folding the chips away is a fix for a
+    // narrow screen, not an improvement in itself: on a desktop the rows cost
+    // nothing and hiding them only makes the filters harder to find. Evaluated
+    // once, at load — the panel should not open and shut under a resize.
+    var roomy = true;
+    try { roomy = window.matchMedia('(min-width: 48rem)').matches; } catch (e) { roomy = true; }
+    // A link that arrives with filters already applied opens the panel whatever
+    // the width: the chips doing the filtering should be visible, not hidden
+    // behind a number.
+    panel.open = roomy || groups.some(function (g) { return g.selected.length > 0; });
+    if (groups.length) form.appendChild(panel);
 
     var status = document.createElement('p');
     status.className = 'filter-status';
@@ -406,6 +452,11 @@ title: null
       count.textContent = active()
         ? shown + ' of ' + cards.length + ' recipes'
         : cards.length + ' recipes';
+
+      var chosen = groups.reduce(function (n, g) { return n + g.selected.length; }, 0);
+      summaryCount.textContent = String(chosen);
+      summaryCount.hidden = chosen === 0;
+
       clear.hidden = !active();
       empty.hidden = shown !== 0;
       syncUrl();
