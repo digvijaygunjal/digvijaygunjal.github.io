@@ -194,6 +194,10 @@ runs. Without Node, run the two Ruby sets on their own:
 bundle exec rake test:sources test:import_contract
 ```
 
+CI runs the same tasks on every pull request, in two jobs — the Ruby sets
+first, the browser set only if those passed. So there is nothing to reproduce
+from a red check: whatever CI ran, the command above runs.
+
 ### When something fails
 
 A failure names the file and the rule before you read a word of it —
