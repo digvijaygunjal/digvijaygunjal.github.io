@@ -1,0 +1,39 @@
+# Two ecosystems, monthly, grouped.
+#
+# Grouped because this is a two-person repository: five separate pull requests
+# for five patch bumps is how a dependency update becomes something nobody
+# reads. One pull request a month, with everything in it, is one review.
+version: 2
+
+updates:
+  # The Jekyll toolchain. This is only worth having because Gemfile.lock is
+  # committed (#23) — without a lockfile there is no pinned state to bump, and
+  # a fresh resolve would float on every build regardless.
+  #
+  # `github-pages` deliberately carries no version constraint in the Gemfile:
+  # it pins the rest of the tree itself, and it is what GitHub Pages runs. A
+  # bump to it is a real change to how the site builds, so it is worth seeing
+  # in a pull request that CI has run against.
+  - package-ecosystem: bundler
+    directory: "/"
+    schedule:
+      interval: monthly
+    groups:
+      bundler:
+        patterns: ["*"]
+    labels: ["infra"]
+    open-pull-requests-limit: 3
+
+  # The actions pinned to commit SHAs in .github/workflows. Without this, that
+  # pinning would mean never receiving a security fix for any of them — which
+  # turns a good practice into a liability. Dependabot rewrites both the SHA and
+  # the `# v1.2.3` comment beside it, so the pin stays readable.
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]
+    labels: ["infra"]
+    open-pull-requests-limit: 3

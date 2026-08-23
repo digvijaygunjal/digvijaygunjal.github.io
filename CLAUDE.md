@@ -207,6 +207,7 @@ failure names.
 ```
 .github/CODEOWNERS       review owners for the structural files only
 .github/ISSUE_TEMPLATE/  YAML issue forms; config.yml disables blank issues
+.github/dependabot.yml  monthly, grouped; what keeps the workflow SHA pins patched
 .github/workflows/      CI: the same rake tasks, split so the cheap ones fail fast
 _config.yml              site settings, appliance, social links, collection
 _data/allergens.yml      the EU 14 allergens every recipe declares against
@@ -383,7 +384,9 @@ without the lock a fresh resolve floats and a bad upstream release breaks a
 build on a commit that changed nothing. Note this is deliberately the opposite
 of GitHub's own Jekyll setup instructions, which tell you to ignore it; the
 reasoning is recorded on issue #23. When a gem changes, commit the regenerated
-lock in the same pull request as the `Gemfile` change. `test/browser/package-lock.json`
+lock in the same pull request as the `Gemfile` change. Dependabot proposes
+those bumps monthly and grouped, which is only useful *because* the lock is
+committed — see `.github/dependabot.yml`. `test/browser/package-lock.json`
 is committed for the same reason.
 
 `.ruby-version` pins 3.3.4 because that is what GitHub Pages runs, per

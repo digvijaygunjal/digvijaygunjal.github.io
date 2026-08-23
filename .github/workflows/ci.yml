@@ -38,8 +38,8 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       # Third-party actions are pinned to a commit SHA rather than a tag: a tag
-      # can be moved to point at anything, a SHA cannot. Dependabot keeps these
-      # current (#41) — without it, pinning would just mean never patching.
+      # can be moved to point at anything, a SHA cannot. .github/dependabot.yml
+      # keeps them current — without it, pinning would just mean never patching.
       - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
         with:
           # .ruby-version pins what GitHub Pages itself runs. It is the only
