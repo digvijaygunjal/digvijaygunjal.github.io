@@ -25,7 +25,10 @@ class OutputTest < Minitest::Test
       )
       begin
         runner.run
-      rescue StandardError # nothing to report here; the failures are on the runner
+      # SystemExit, not just StandardError: html-proofer reports a failure by
+      # calling exit(1), which is not a StandardError and would otherwise take
+      # the whole run down before minitest could say which link was broken.
+      rescue SystemExit, StandardError # the failures are on the runner
         nil
       end
       runner

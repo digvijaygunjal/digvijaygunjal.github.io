@@ -321,6 +321,22 @@ block it — clone <https://github.com/schemaorg/schemaorg> and read
 `data/releases/<version>/schemaorg-current-https.jsonld`. That is the source
 the website is published from, so it answers the same questions.
 
+### The two checks that are not in that command
+
+Neither runs on a pull request, and neither can be broken by one.
+
+`rake schema:drift` compares what the site emits against the published
+schema.org vocabulary, quarterly. `rake links:external` checks that the links
+pointing away from this site still resolve, weekly — the appliance product URL,
+the Amazon link and the maintainers' profiles are exactly what rots unnoticed,
+because nobody clicks their own footer.
+
+Outbound links are kept out of `bundle exec rake` deliberately. Rate limits,
+transient 503s and hosts that block CI ranges produce failures that have nothing
+to do with the change under review, and a red check a contributor cannot fix
+teaches everyone to ignore red checks. Both tasks open an issue when they fail,
+because a red scheduled run on a quiet repository goes unnoticed for months.
+
 ## Local preview
 
 ```

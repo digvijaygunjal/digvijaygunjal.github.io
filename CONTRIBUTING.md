@@ -198,11 +198,12 @@ CI runs the same tasks on every pull request, in two jobs — the Ruby sets
 first, the browser set only if those passed. So there is nothing to reproduce
 from a red check: whatever CI ran, the command above runs.
 
-One check is not in that command and not on your pull request: `rake
-schema:drift` compares what the site emits against the published schema.org
-vocabulary, quarterly, and opens an issue when the two have parted company. It
-needs a clone of the vocabulary, which you have no reason to have — the task
-prints the command if you ever want to run it.
+Two checks are not in that command and not on your pull request, so nothing you
+push can turn them red. `rake schema:drift` compares what the site emits against
+the published schema.org vocabulary, quarterly. `rake links:external` checks that
+outbound links still resolve, weekly. Both open an issue rather than failing a
+build — see [README → The two checks that are not in that
+command](README.md#the-two-checks-that-are-not-in-that-command).
 
 ### When something fails
 

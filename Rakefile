@@ -114,3 +114,19 @@ namespace :schema do
     NO_CLONE
   end
 end
+
+# Not part of the default task either, and for a different reason from
+# schema:drift: this one reads the internet. Rate limits, transient 503s and
+# hosts that block CI ranges all produce failures that have nothing to do with
+# the change under review, and a red check a contributor cannot fix teaches
+# everyone to ignore red checks. Internal links stay in test:import_contract,
+# where they are fast and deterministic. Run weekly by
+# .github/workflows/external-links.yml.
+namespace :links do
+  desc "Whether the links pointing away from this site still resolve (reads the internet)"
+  Rake::TestTask.new(:external) do |t|
+    t.libs << "test"
+    t.test_files = FileList["test/external_links/**/*_test.rb"]
+    t.warning = false
+  end
+end
