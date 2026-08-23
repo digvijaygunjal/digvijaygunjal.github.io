@@ -293,6 +293,23 @@ bundle exec jekyll serve
 Needs Ruby. You can skip it and just push — GitHub Pages builds Jekyll
 natively on every commit, no Actions workflow needed.
 
+### Which Ruby
+
+`.ruby-version` pins **3.3.4**, which is the version GitHub Pages itself runs.
+Any version manager that reads that file — rbenv, rvm, chruby, mise, asdf —
+picks it up with no further configuration.
+
+The number is not arbitrary and should not be bumped on taste. It comes from
+<https://pages.github.com/versions.json>, which is what Pages publishes about
+its own build environment, alongside `github-pages` 232 and Jekyll 3.10.0. The
+`github-pages` gem pins the rest of the dependency tree; matching the
+interpreter too is what makes a local build and the deployed one the same
+build. Update it when that file changes, not before.
+
+The macOS system Ruby will not do — it is 2.6, and `github-pages` 232 pulls in
+gems that need 3.1 or newer, so `bundle install` fails outright rather than
+degrading gracefully.
+
 ## Licence
 
 [MIT](LICENSE), for everything in this repository.
