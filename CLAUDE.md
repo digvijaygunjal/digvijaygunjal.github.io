@@ -126,7 +126,7 @@ today. Add the data rather than adding markup.
 | JSON-LD key | Front matter | Why it is empty |
 |---|---|---|
 | `video` | `video` | No recipe has one filmed yet |
-| `license` | `license` | The repository declares no licence; do not invent one |
+| `license` | `license` | The repository is MIT; recipe content declares no licence of its own yet |
 | `isBasedOn` | `is_based_on` | Set it when a recipe is adapted from a named source |
 | `sameAs` | `same_as` | Set it when a recipe is also published elsewhere |
 | `aggregateRating` | `rating` | **Only from real, recorded ratings** |
