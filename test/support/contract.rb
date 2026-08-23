@@ -69,6 +69,16 @@ module Contract
   # recipe gains it, rather than written into one recipe as markup.
   HTML_TAG = %r{<\s*/?\s*[a-zA-Z][a-zA-Z0-9]*(?:\s|/?>)}
 
+  # Properties the layout emits only when a recipe provides them, and no recipe
+  # does today. They are listed because `rake schema:drift` cannot find them in
+  # the built output: nothing emits them, so nothing would notice one being
+  # superseded until the first recipe finally used it — by which point the
+  # breakage is in a pull request about something else entirely.
+  #
+  # `aggregateRating` and `review` stay here rather than being dropped: they are
+  # supported, and only ever emitted from real recorded ratings and reviews.
+  SUPPORTED_WHEN_SET = %w[video license isBasedOn sameAs aggregateRating review].freeze
+
   # An ingredient line is one string carrying quantity, unit and item, because
   # that is what `recipeIngredient` and `supply` are: flat strings. A line
   # broken in two arrives at an importer as two ingredients.

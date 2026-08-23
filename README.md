@@ -244,6 +244,14 @@ which is the repository <https://schema.org/Recipe> is published from. Read
 `data/releases/<version>/schemaorg-current-https.jsonld` there rather than
 trusting this table.
 
+That check runs quarterly rather than from memory: `rake schema:drift` reads a
+clone of the vocabulary and fails if a property this site emits has gained a
+`supersededBy`, if `NutritionInformation` has grown or lost a key, if
+`RestrictedDiet` has changed, or if a newer release has been published than the
+one recorded. It opens an issue rather than reddening a build, because a red
+scheduled run on a quiet repository goes unnoticed for months. It is not part of
+`bundle exec rake` — it needs a clone you have no other reason to have.
+
 Rules that are easy to break by accident:
 
 1. **Images are absolute URLs.** An importer fetches the JSON-LD away from the

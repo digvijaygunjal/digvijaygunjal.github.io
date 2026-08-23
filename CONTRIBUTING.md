@@ -198,6 +198,12 @@ CI runs the same tasks on every pull request, in two jobs — the Ruby sets
 first, the browser set only if those passed. So there is nothing to reproduce
 from a red check: whatever CI ran, the command above runs.
 
+One check is not in that command and not on your pull request: `rake
+schema:drift` compares what the site emits against the published schema.org
+vocabulary, quarterly, and opens an issue when the two have parted company. It
+needs a clone of the vocabulary, which you have no reason to have — the task
+prints the command if you ever want to run it.
+
 ### When something fails
 
 A failure names the file and the rule before you read a word of it —

@@ -1,0 +1,137 @@
+# Whether schema.org still says what this site assumes it says.
+#
+# The field list in CLAUDE.md was verified against a release, once, by a person.
+# Vocabularies move: a property gains a `supersededBy`, a value leaves an
+# enumeration. Nothing else here would notice — the JSON-LD would keep
+# validating structurally while quietly emitting a property consumers have
+# stopped reading.
+#
+# Quarterly, because that is roughly how often schema.org publishes, and because
+# a check that runs more often than its subject changes is a check people learn
+# to ignore.
+name: Schema drift
+
+on:
+  schedule:
+    # 06:00 UTC on the first of January, April, July and October.
+    - cron: "0 6 1 1,4,7,10 *"
+  # So the check can be run against a deliberately broken field list without
+  # waiting a quarter to find out whether it works.
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  # Only so a failure can be reported. A red scheduled run on a quiet repository
+  # goes unnoticed for months; an issue does not.
+  issues: write
+
+jobs:
+  drift:
+    name: Compare against the published vocabulary
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      # Read from the clone, never from schema.org. A sandbox or a corporate
+      # proxy can block the website, and an unreachable specification is exactly
+      # what tempts someone into guessing at a property name. GitHub is usually
+      # reachable when the website is not, and this file is the source the
+      # website is published from.
+      #
+      # The narrow sparse pattern is not premature tidiness: checking out all of
+      # data/releases is 2 GB of history this check never opens, against 43 MB
+      # for the release files alone.
+      - name: Clone the vocabulary
+        run: |
+          git clone --depth 1 --filter=blob:none --no-checkout \
+            https://github.com/schemaorg/schemaorg schemaorg
+          git -C schemaorg sparse-checkout init --no-cone
+          git -C schemaorg sparse-checkout set \
+            '/data/releases/*/schemaorg-current-https.jsonld'
+          git -C schemaorg checkout
+
+      # tee, so the failure text can go into the issue. Without pipefail the
+      # pipe would swallow rake's exit status and the check would always pass.
+      - name: Check for drift
+        id: drift
+        run: |
+          set -o pipefail
+          bundle exec rake schema:drift 2>&1 | tee drift.log
+
+      # Guarded on the drift step specifically: a failed checkout or a failed
+      # bundle should not open an issue claiming the vocabulary moved.
+      - name: Report the drift
+        if: failure() && steps.drift.outcome == 'failure'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const fs = require('fs');
+
+            // A hidden marker rather than a title match: the title should be
+            // free to change without the workflow opening a second issue
+            // alongside the first every quarter.
+            const marker = '<!-- schema-drift -->';
+            const log = fs.readFileSync('drift.log', 'utf8').trim().slice(-30000);
+            const run = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+
+            const body = [
+              marker,
+              '`rake schema:drift` failed. schema.org no longer says what this site assumes it says.',
+              '',
+              'Nothing is broken on the site right now, and nothing will look broken: a superseded',
+              'property still parses and still renders, so the page keeps looking finished while',
+              'consumers quietly stop reading it. That is why this arrives as an issue rather than',
+              'as a red build.',
+              '',
+              'Each failure below names what to change. Anything touching the emitted field list',
+              'also needs the tables in `CLAUDE.md` updated in the same pull request.',
+              '',
+              '<details><summary>Output</summary>',
+              '',
+              '```',
+              log,
+              '```',
+              '',
+              '</details>',
+              '',
+              `[Run](${run})`
+            ].join('\n');
+
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 100
+            });
+            const existing = issues.find((issue) => (issue.body || '').includes(marker));
+
+            if (existing) {
+              // Commenting rather than opening another: the drift is the same
+              // drift until somebody fixes it, and four identical issues a year
+              // is how a signal becomes noise.
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                body
+              });
+              core.notice(`Commented on #${existing.number}`);
+            } else {
+              const created = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: 'schema.org drift: the vocabulary no longer matches what this site emits',
+                labels: ['testing', 'infra'],
+                body
+              });
+              core.notice(`Opened #${created.data.number}`);
+            }
