@@ -4,32 +4,24 @@
 
 ## Checklist
 
-Every item below fails **silently** — nothing errors, and the page still looks
-right. That is why they are here and not left to the build.
+- [ ] `bundle exec rake` passes
 
-Tick what applies; strike out what does not.
+Everything that can be checked by a machine is checked by that command — the
+build and its Liquid warnings, the JSON-LD shape, absolute image URLs, step
+anchors, the time arithmetic, the allergen subtraction, image size and EXIF.
+What is left is what nobody but you can confirm:
 
-- [ ] `bundle exec jekyll build` passes, with no Liquid syntax warnings
-- [ ] Images are absolute URLs in the JSON-LD, relative in `<img>` tags
-- [ ] Every step is a `HowToStep` carrying both `name` and `text`
-- [ ] `continues: true` steps restate their appliance session
-- [ ] `prepTime + cookTime == totalTime`
-- [ ] Every step anchor resolves to an `id` on the page
-- [ ] Ingredients are flat strings — quantity, unit and item on one line
-- [ ] `nutrition`, `estimated_cost` and `diets` were worked out for this dish, not copied
-- [ ] Images resized and recompressed, EXIF stripped, `image_alt` written
+- [ ] `nutrition`, `estimated_cost` and `diets` were worked out for *this* dish, not copied from the file you started from
+- [ ] The photograph is the right one — well cropped, genuinely resized and recompressed — and `image_alt` describes what is actually in it
 - [ ] `updated` bumped, if the method or the quantities changed
 
 <!--
-Two of these are worth a word on why.
+Why only these three.
 
-The build prints Liquid syntax warnings without failing, and the markup a
-warning names renders as nothing at all — so a clean build is not the same as
-a build with no warnings.
-
-The derived fields are the ones that cannot be checked by anyone but you. A
-wrong nutrition figure is believed precisely because it is present; an absent
-one is not.
+They are the ones that fail silently *and* cannot be automated. A wrong
+nutrition figure is believed precisely because it is present; an absent one is
+not. A checklist that duplicates the checks stops being read, and a checklist
+that is not read is worse than none.
 -->
 
 ## Anything a reviewer should know
@@ -40,13 +32,4 @@ stacked on. "Nothing" is a fine answer.
 
 If you could not verify something, say so rather than ticking it — an
 admitted gap costs one comment, an unfounded tick costs a broken import.
--->
-
-<!--
-Maintainers: when the test tiers land (#32, #33, #34) and one command runs them
-all (#36), delete the items CI now proves — the build, the anchors, the time
-arithmetic, the JSON-LD shape — and keep only what a machine cannot check: the
-derived fields, and whether the photo was really processed. A checklist that
-duplicates CI stops being read, and a checklist that is not read is worse than
-none.
 -->

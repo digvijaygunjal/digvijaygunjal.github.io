@@ -265,18 +265,46 @@ straight read — which is what keeps the appliance settings intact.
 
 ## Testing before you push
 
-Paste a built page into the [Schema Markup Validator](https://validator.schema.org/)
-or Google's Rich Results Test. Both catch malformed JSON-LD, which is the
-usual reason an import silently fails.
+```
+bundle exec rake
+```
 
-Then check the things a validator will not:
+One command. It takes about four seconds and stops at the first set that fails.
+CI will invoke this same command rather than keeping a list of its own — that is
+the whole point of there being one ([#18](https://github.com/digvijaygunjal/digvijaygunjal.github.io/issues/18)).
 
-- `prepTime + cookTime == totalTime`
-- `supply` holds the same strings, in the same order, as `recipeIngredient`,
-  and `yield` matches `recipeYield`
-- every step's `url` anchor has a matching `id` on the page
-- every image URL in the JSON-LD is absolute
-- the nutrition figures are this recipe's, not the ones you copied the file from
+| What it reads | What it checks |
+|---|---|
+| `_recipes/`, `_data/`, `_config.yml` | required front matter, ISO 8601 durations that add up, allergen ids that resolve, `RestrictedDiet` values, all twelve nutrition properties, ISO 4217 currency, single-line ingredients, steps that name their appliance, images that exist, no raw HTML |
+| `assets/images/` | nothing over 500 KB, nothing wider than 2000 px, no EXIF, no orphaned photos |
+| the built `_site` | exactly one Recipe object, `datePublished`, absolute image URLs in the JSON-LD and relative ones in the markup, step anchors resolving both ways, `supply` matching `recipeIngredient`, no duplicated or superseded properties, allergen arithmetic, no Liquid warnings, no broken links |
+| the site in Chromium | no sideways scrolling at 1280 px or 380 px, images that really loaded, the index filters, the copy-link button, and that the page fetches nothing from anyone else |
+
+The browser set needs Node; it installs its own toolchain the first time and
+lives entirely under `test/browser`. To run only the Ruby sets:
+
+```
+bundle exec rake test:sources test:import_contract
+```
+
+### What no check can do for you
+
+These are the ones that need a person, and they are the ones a reviewer will
+ask about:
+
+- **The nutrition figures are this recipe's**, not the ones from the file you
+  copied. Nothing can tell a plausible number from a right one.
+- **The cost, the diets and the allergen notes are honest.** A check confirms
+  `VeganDiet` is a real value; only you can confirm the dish is vegan.
+- **The photo is the right photo, and was actually processed.** The checks catch
+  a 3 MB file. They cannot see a crop that cuts the food in half.
+- **The prose reads like the rest of the site** — see
+  [How these recipes are written](#how-these-recipes-are-written).
+
+Worth doing when you change `_layouts/recipe.html` rather than a recipe: paste a
+built page into the [Schema Markup Validator](https://validator.schema.org/) or
+Google's Rich Results Test. The checks assert the shape this site emits; the
+validators know the whole vocabulary.
 
 If schema.org is unreachable — a sandbox or a corporate proxy will sometimes
 block it — clone <https://github.com/schemaorg/schemaorg> and read

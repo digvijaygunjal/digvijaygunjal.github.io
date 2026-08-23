@@ -351,10 +351,21 @@ the checks can tell you a photo is 3 MB, not that it is the wrong photo.
 ```
 bundle config set path 'vendor/bundle'
 bundle install
-bundle exec jekyll build
+bundle exec rake
 ```
 
-`vendor/`, `.bundle/` and `_site/` are gitignored — do not commit them.
+`bundle exec rake` is the whole verification story: it builds the site and runs
+every check, cheapest first, stopping at the first set that fails. Run it before
+proposing a change, and quote what it printed rather than saying it passed.
+
+- `rake test:sources` — the recipe files as written; no build, milliseconds
+- `rake test:import_contract` — one `jekyll build`, then the JSON-LD, the step
+  anchors, the allergen arithmetic and html-proofer over the output
+- `rake test:browser` — Chromium over the built site; needs Node, which it
+  installs on demand into `test/browser`
+
+`vendor/`, `.bundle/`, `_site/` and `test/browser/node_modules/` are gitignored
+— do not commit them.
 
 `Gemfile.lock` **is** committed, so every machine and every CI run installs the
 same tree. The `Gemfile` puts no version constraint on `github-pages`, so
@@ -362,7 +373,8 @@ without the lock a fresh resolve floats and a bad upstream release breaks a
 build on a commit that changed nothing. Note this is deliberately the opposite
 of GitHub's own Jekyll setup instructions, which tell you to ignore it; the
 reasoning is recorded on issue #23. When a gem changes, commit the regenerated
-lock in the same pull request as the `Gemfile` change.
+lock in the same pull request as the `Gemfile` change. `test/browser/package-lock.json`
+is committed for the same reason.
 
 `.ruby-version` pins 3.3.4 because that is what GitHub Pages runs, per
 <https://pages.github.com/versions.json>, alongside `github-pages` 232 and
@@ -370,32 +382,30 @@ Jekyll 3.10.0. Re-read that file before changing the pin; it is the only
 authority for the number. The macOS system Ruby is 2.6 and cannot install this
 dependency tree at all.
 
-Verify before pushing rather than assuming:
+### What the checks do not cover
 
-- `bundle exec jekyll build` completes without error, and prints no Liquid
-  syntax warnings — those do not fail the build but do render nothing
-- Each recipe's built JSON-LD carries a `datePublished`. It is the cheapest
-  proof that the front matter was read at all; a file missing its closing
-  `---` builds a plausible-looking page out of no data whatsoever
-- The Recipe JSON-LD parses, and still carries absolute image URLs and
-  per-step anchors that resolve
-- Allergen ids in a recipe all resolve against `_data/allergens.yml`, and
-  contains + may-contain + free-from add up to the full fourteen
-- `prepTime + cookTime == totalTime` still holds
-- `supply` is the same list of strings, in the same order, as
-  `recipeIngredient`, and `yield` equals `recipeYield`
-- Every property emitted is still live in the current schema.org release, and
-  every `suitableForDiet` value is still a `RestrictedDiet` member
-- The page renders at desktop width and at ~380 px
+Everything in the old manual list is now asserted — Liquid warnings,
+`datePublished`, absolute image URLs, per-step anchors, the allergen
+subtraction, `prepTime + cookTime == totalTime`, `supply` against
+`recipeIngredient`, the two widths, images that actually loaded. What is left
+needs judgement rather than a browser:
 
-Chromium is available for screenshots. When checking that an image loaded,
-assert `naturalWidth > 0` — a broken image still reports `complete: true`, so a
-screenshot alone can mislead.
+- **Whether a number is right rather than merely well-formed.** The nutrition
+  figures, the cost, and whether a diet claim matches what is actually in the
+  pot.
+- **Whether every property emitted is still live in the current schema.org
+  release**, and every `suitableForDiet` value still a `RestrictedDiet` member.
+  The list of eleven is asserted against a constant, and that constant is a
+  copy of release 30.0. Re-read the vocabulary when a release lands.
+- **Whether a photograph is the right photograph**, well cropped and genuinely
+  processed. The checks catch a 3 MB file, not a bad one.
 
 A built page can also be pasted into the
 [Schema Markup Validator](https://validator.schema.org/) or Google's
 [Rich Results Test](https://search.google.com/test/rich-results), which catch
-malformed JSON-LD — the usual reason an import fails without saying why.
+malformed JSON-LD — the usual reason an import fails without saying why. Worth
+doing when `_layouts/recipe.html` changes: the checks assert the shape this site
+emits, the validators know the whole vocabulary.
 
 ## Traps this repo has already hit
 
