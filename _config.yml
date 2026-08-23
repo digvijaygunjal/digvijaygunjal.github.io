@@ -80,6 +80,9 @@ plugins:
 sass:
   style: compressed
 
+# Kept out of the built site. The test suite in particular: Jekyll copies any
+# top-level directory it does not recognise straight into _site, so without
+# this the tests would be published alongside the recipes.
 exclude:
   - README.md
   - CLAUDE.md
@@ -88,4 +91,6 @@ exclude:
   - SECURITY.md
   - Gemfile
   - Gemfile.lock
+  - Rakefile
+  - test
   - vendor
