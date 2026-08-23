@@ -184,6 +184,18 @@ Each of these cost real debugging time and none is discoverable from the source.
 - **Liquid has no `push` filter.** To build a list, capture a delimited string
   and `split` it.
 
+## Vendored skills
+
+`.claude/skills/jekyll-github-pages/` holds a general-purpose Jekyll and GitHub
+Pages skill, vendored from upstream under MIT and kept verbatim. It is useful
+for Liquid syntax and for diagnosing build failures.
+
+It describes how to start a *new* Jekyll site, so parts of it contradict this
+one — most importantly it advises setting a theme, which breaks this build. This
+file and `README.md` take precedence over it. The collisions are tabulated in
+`.claude/skills/jekyll-github-pages/PROJECT-NOTES.md`; read that before acting
+on the skill's advice.
+
 ## Front-end conventions
 
 - **No external requests.** Icons are inlined SVG; there are no CDN scripts,
