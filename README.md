@@ -25,6 +25,21 @@ becomes the URL: `_recipes/dal-tadka.md` → `/recipes/dal-tadka/`.
 You never write HTML. The layout builds both outputs (visible page and
 JSON-LD) from the same fields, so they can't drift apart.
 
+### How these recipes are written
+
+These conventions are the site's voice. Match them when adding a recipe:
+
+- **Calibrated for one cooker.** Timings assume the cooker recorded under
+  `appliance` in `_config.yml`. Where another pressure cooker would differ, say
+  so and give the adjustment rather than staying silent.
+- **Every step names its function, level and duration**, so the reader is never
+  guessing which button to press or how long to hold it there.
+- **Weights, not cups.** Grams and millilitres. In a sealed pot the ratio of
+  grain to water decides the result, and a cup is not a reliable measure.
+- **Failure modes up front.** Where a step commonly goes wrong — a Burn warning
+  from an unscraped base, spices scorching on a high setting — say what happens
+  and why, at the point where it matters.
+
 ### Images
 
 Put the file in `assets/images/recipes/`, then reference it from front matter:
