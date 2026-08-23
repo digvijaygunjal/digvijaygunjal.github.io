@@ -8,6 +8,13 @@
 # asserted one of its values, would pass for the wrong reason the moment that
 # recipe changed.
 
+# Read everything as UTF-8. A Ruby process started without LANG set — the
+# normal state of affairs in CI — defaults to a US-ASCII external encoding, and
+# the first em dash in a recipe then raises. html-proofer swallows that raise
+# inside its async workers and reports no failures, so the check passes without
+# having read a single file.
+Encoding.default_external = Encoding::UTF_8
+
 require "minitest/autorun"
 
 require_relative "support/vocabulary"
