@@ -324,6 +324,12 @@ bundle exec jekyll build
 `vendor/`, `.bundle/`, `_site/` and `Gemfile.lock` are gitignored — do not
 commit them.
 
+`.ruby-version` pins 3.3.4 because that is what GitHub Pages runs, per
+<https://pages.github.com/versions.json>, alongside `github-pages` 232 and
+Jekyll 3.10.0. Re-read that file before changing the pin; it is the only
+authority for the number. The macOS system Ruby is 2.6 and cannot install this
+dependency tree at all.
+
 Verify before pushing rather than assuming:
 
 - `bundle exec jekyll build` completes without error, and prints no Liquid
