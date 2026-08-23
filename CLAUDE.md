@@ -193,6 +193,12 @@ rule changed in one is changed in all three in the same pull request.
 detail that is already tabulated, it links to the README section rather than
 copying it, so there is one place for each fact to go stale.
 
+Those links are checked: `test/sources/documentation_test.rb` resolves every
+relative anchor across the markdown files against the headings that actually
+exist. Renaming a heading therefore fails the checks rather than quietly
+sending readers to the top of the file — so rename freely, and fix what the
+failure names.
+
 ## Repository layout
 
 ```

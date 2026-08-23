@@ -246,6 +246,13 @@ Three files, deliberately aimed at three readers:
 They overlap on purpose, and they must agree. If you change a rule in one,
 change it in the others in the same pull request.
 
+They also link into each other by anchor, and `bundle exec rake` checks that
+every one of those anchors still points at a heading that exists. A markdown
+anchor does not error when it breaks — the reader lands at the top of the file
+and never learns they missed the paragraph the link was for — so renaming a
+heading is safe here in a way it is not in most repositories: the checks will
+name every link that has to follow it.
+
 ## Code of conduct
 
 Everyone taking part here — issues, pull requests, review — is covered by the
