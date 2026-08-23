@@ -1,11 +1,23 @@
 # digvijaygunjal.github.io
 
+[![CI](https://github.com/digvijaygunjal/digvijaygunjal.github.io/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/digvijaygunjal/digvijaygunjal.github.io/actions/workflows/ci.yml)
+[![Licence: MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
+
 Recipe site built with Jekyll and served by GitHub Pages. Recipes are tuned
 for the Instant Pot Pro Max. Every recipe page ships server-rendered
 `schema.org/Recipe` JSON-LD — every property of `Recipe` itself, and everything
 `HowTo`, `CreativeWork` and `Thing` contribute that a recipe can honestly fill
 in — so recipe importers (Instant Connect / Fresco, Paprika, Mela, etc.) can
 read a recipe straight from its URL.
+
+## Contributing
+
+Recipes, corrections and photographs are all welcome, and a recipe is one
+markdown file of front matter — the page builds itself from it, so there is no
+markup to write. [CONTRIBUTING.md](CONTRIBUTING.md) is the whole of it.
+
+Somewhere to start:
+[good first issues](https://github.com/digvijaygunjal/digvijaygunjal.github.io/labels/good%20first%20issue).
 
 ## Layout
 
