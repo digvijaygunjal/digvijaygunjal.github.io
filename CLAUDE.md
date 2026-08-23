@@ -218,6 +218,8 @@ failure names.
 ## Repository layout
 
 ```
+.claude/hooks/           SessionStart: installs the gems on a fresh web container
+.claude/settings.json    registers that hook, and nothing else
 .github/CODEOWNERS       review owners for the structural files only
 .github/ISSUE_TEMPLATE/  YAML issue forms; config.yml disables blank issues
 .github/dependabot.yml  monthly, grouped; what keeps the workflow SHA pins patched
@@ -492,6 +494,25 @@ Each of these cost real debugging time and none is discoverable from the source.
   `---` in a checker does not catch this either: what follows is still valid
   YAML. Assert on the *built* page instead — that a field only front matter can
   supply, such as `datePublished`, is actually present in the JSON-LD.
+
+## The SessionStart hook
+
+`.claude/hooks/session-start.sh` runs `bundle config set path 'vendor/bundle'`
+and `bundle install`, so a session's first command can be `bundle exec rake`
+rather than three minutes of setup.
+
+It exits immediately unless `CLAUDE_CODE_REMOTE` is `true`. A local contributor
+already has a working tree, and running bundler on every session start would be
+latency for nothing; the remote container is the one that starts from a fresh
+clone with no gems.
+
+It installs gems only. The browser checks need Node and a Chromium download,
+which is by far the slowest thing here — the Rakefile installs that toolchain on
+demand the first time `rake test:browser` asks for it, and paying for it at the
+start of every session that never opens a browser would cost more than it saves.
+
+It runs the same two commands `README.md` and `CONTRIBUTING.md` give a human, in
+the same order. If those change, change this too.
 
 ## Vendored skills
 
