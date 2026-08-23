@@ -83,6 +83,7 @@ sass:
 exclude:
   - README.md
   - CLAUDE.md
+  - CONTRIBUTING.md
   - Gemfile
   - Gemfile.lock
   - vendor

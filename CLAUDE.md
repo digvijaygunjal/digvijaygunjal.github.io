@@ -178,6 +178,21 @@ Some importers are AI-assisted and can read a page with no structured data at
 all. Clean JSON-LD is not what unlocks the import — it turns a guess into a
 straight read, which is what keeps the appliance settings intact.
 
+## The three documents
+
+Each is written for a different reader, and they must stay in agreement — a
+rule changed in one is changed in all three in the same pull request.
+
+| File | Written for |
+|---|---|
+| `README.md` | someone looking at the repository: what it is, plus the full front-matter reference |
+| `CONTRIBUTING.md` | someone about to change something: how to add a recipe, and what review expects |
+| `CLAUDE.md` | this file — Claude Code working in the repository |
+
+`CONTRIBUTING.md` deliberately does not restate this file. Where it needs a
+detail that is already tabulated, it links to the README section rather than
+copying it, so there is one place for each fact to go stale.
+
 ## Repository layout
 
 ```
@@ -234,8 +249,9 @@ change, not when a typo is fixed.
 ## How recipes are written
 
 These conventions are the site's voice. They are also documented for
-contributors in [README.md → How these recipes are written](README.md#how-these-recipes-are-written);
-match them, and update both places together if they change.
+contributors in [README.md → How these recipes are written](README.md#how-these-recipes-are-written)
+and [CONTRIBUTING.md → The house voice](CONTRIBUTING.md#the-house-voice);
+match them, and update all three places together if they change.
 
 - **Calibrated for one cooker.** Timings assume the cooker named in
   `site.appliance`. Where another pressure cooker would differ, say so and give
