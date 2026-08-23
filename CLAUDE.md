@@ -321,8 +321,15 @@ bundle install
 bundle exec jekyll build
 ```
 
-`vendor/`, `.bundle/`, `_site/` and `Gemfile.lock` are gitignored — do not
-commit them.
+`vendor/`, `.bundle/` and `_site/` are gitignored — do not commit them.
+
+`Gemfile.lock` **is** committed, so every machine and every CI run installs the
+same tree. The `Gemfile` puts no version constraint on `github-pages`, so
+without the lock a fresh resolve floats and a bad upstream release breaks a
+build on a commit that changed nothing. Note this is deliberately the opposite
+of GitHub's own Jekyll setup instructions, which tell you to ignore it; the
+reasoning is recorded on issue #23. When a gem changes, commit the regenerated
+lock in the same pull request as the `Gemfile` change.
 
 `.ruby-version` pins 3.3.4 because that is what GitHub Pages runs, per
 <https://pages.github.com/versions.json>, alongside `github-pages` 232 and
