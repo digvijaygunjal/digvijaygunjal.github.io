@@ -4,3 +4,8 @@ _site/
 .DS_Store
 vendor/
 .bundle/
+
+# Browser checks: installed by the job that runs them, not committed.
+test/browser/node_modules/
+test/browser/test-results/
+test/browser/playwright-report/
