@@ -292,3 +292,34 @@ bundle exec jekyll serve
 
 Needs Ruby. You can skip it and just push — GitHub Pages builds Jekyll
 natively on every commit, no Actions workflow needed.
+
+## Licence
+
+[MIT](LICENSE), for everything in this repository.
+
+| What | Covered by |
+|---|---|
+| Code — `_layouts/`, `_includes/`, `assets/css/` | MIT |
+| Recipe prose — the method, notes and headnotes in `_recipes/` | MIT |
+| Photographs — `assets/images/` | MIT |
+
+One licence rather than the usual code/content split, because the recipes and
+photographs may move to a home of their own later. Choosing content terms now
+would mean licensing material that will not stay here, and a Creative Commons
+grant is irrevocable once published — so the content licence is a decision for
+wherever that material lands.
+
+Note the consequence while it does live here: MIT is a software licence, and it
+covers the prose and the photographs too. It is permissive and unambiguous, so
+nothing about your rights is unclear — it is simply drafted for a different kind
+of work than a photograph.
+
+A bare list of ingredients and quantities is not copyrightable in the US
+(37 CFR § 202.1(a)), and is treated similarly in the EU. What the licence
+governs is the expression — the written method, the notes, the failure-mode
+warnings — and the photographs, not the underlying facts.
+
+Recipe pages do not emit a `license` field in their JSON-LD. Declaring MIT there
+would tell an importer the recipe is under a software licence, which is a claim
+about code rather than about a recipe. The field stays absent until the content
+has terms of its own.
