@@ -27,6 +27,32 @@ was — and asking for it up front saves a round trip.
 Security problems and code of conduct concerns do not go in an issue at all.
 Both are linked from the new-issue page, and both go to a private form.
 
+### Labels
+
+Eight, and no more. A label set large enough to need thinking about is one
+nobody applies consistently, and an inconsistent label is worse than none —
+it makes a filter look complete when it is not.
+
+| label | colour | what it means |
+|---|---|---|
+| `recipe` | `#0e8a16` | the cooking: a method, a quantity, a time, a dish that should exist |
+| `site` | `#1d76db` | the pages themselves — layout, styles, the index and its filters |
+| `docs` | `#5319e7` | README, CONTRIBUTING, CLAUDE.md, and the comments that carry the reasoning |
+| `infra` | `#b60205` | CI, Dependabot, repository settings, the scheduled checks |
+| `testing` | `#fbca04` | the checks, at any tier |
+| `import-bug` | `#d93f0b` | a recipe app read a page wrongly — the one failure this site exists to prevent |
+| `good first issue` | `#7057ff` | small, self-contained, and needs nothing from the JSON-LD contract |
+| `help wanted` | `#008672` | worth doing, and nobody is doing it |
+
+`import-bug` is deliberately not folded into `site`. The one rule this
+repository has is that every recipe page stays importable by URL, and a failure
+of it should be findable in one filter rather than mixed in with a styling
+report.
+
+`good first issue` means the task teaches the *workflow* — fork, branch,
+`bundle exec rake`, pull request — and not the hard part. If finishing it
+requires understanding what `recipeInstructions` is for, it is not one.
+
 ## Adding a recipe
 
 Copy an existing file in `_recipes/`, rename it, and edit the front matter:
