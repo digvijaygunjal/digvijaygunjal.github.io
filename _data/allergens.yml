@@ -1,0 +1,74 @@
+# The canonical allergen list this site declares against.
+#
+# These are the fourteen substances of Annex II to Regulation (EU) No 1169/2011
+# (the Food Information to Consumers regulation), which is the list a European
+# label has to emphasise in an ingredient list. It is used here because it is a
+# strict superset of the United States "Big 9" — the eight allergens of the
+# Food Allergen Labeling and Consumer Protection Act of 2004, plus sesame,
+# added by the FASTER Act of 2021 and in force since 1 January 2023. Declaring
+# against the longer list therefore answers both without maintaining two.
+#
+# `us` names the same substance as US labelling law words it, and is set only
+# where the two lists disagree on wording or scope. An entry with no `us` key is
+# not one of the Big 9 — celery, mustard, sulphites, lupin and molluscs are
+# declarable in the EU, the UK, Canada and Australia/New Zealand but not by the
+# FDA — which is exactly why an American reader needs the difference spelled out
+# rather than smoothed over.
+#
+# Recipes reference these by `id` and never by name, so a recipe cannot invent a
+# fifteenth allergen or word one of the fourteen differently from another page.
+# The layout derives each recipe's "free from" list by subtracting what it
+# declares from this list, which means adding an entry here makes every recipe
+# claim less, never more. That is the safe direction for the edit to fail in.
+
+- id: gluten
+  label: Cereals containing gluten
+  us: Wheat
+  detail: Wheat, rye, barley, oats, spelt and kamut.
+
+- id: crustaceans
+  label: Crustaceans
+  us: Crustacean shellfish
+  detail: Prawns, crab, lobster, crayfish.
+
+- id: eggs
+  label: Eggs
+
+- id: fish
+  label: Fish
+
+- id: peanuts
+  label: Peanuts
+  detail: A legume, not a tree nut — the two are separate allergens.
+
+- id: soybeans
+  label: Soybeans
+
+- id: milk
+  label: Milk
+  detail: Including lactose. Butter, ghee, cream, yoghurt and paneer all count.
+
+- id: nuts
+  label: Tree nuts
+  detail: Almonds, hazelnuts, walnuts, cashews, pecans, Brazil nuts, pistachios, macadamias.
+
+- id: celery
+  label: Celery
+
+- id: mustard
+  label: Mustard
+  detail: Seeds, powder and prepared mustard alike.
+
+- id: sesame
+  label: Sesame
+
+- id: sulphites
+  label: Sulphur dioxide and sulphites
+  detail: Declarable above 10 mg/kg. Common on dried fruit, which is often sulphited to keep its colour.
+
+- id: lupin
+  label: Lupin
+
+- id: molluscs
+  label: Molluscs
+  detail: Mussels, clams, squid, oysters.

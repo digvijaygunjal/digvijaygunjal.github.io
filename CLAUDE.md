@@ -182,6 +182,7 @@ straight read, which is what keeps the appliance settings intact.
 
 ```
 _config.yml              site settings, appliance, social links, collection
+_data/allergens.yml      the EU 14 allergens every recipe declares against
 _layouts/default.html    shell: head, nav, footer, copy-link script
 _layouts/recipe.html     builds JSON-LD *and* the page from front matter
 _recipes/*.md            one file per recipe — data only, no markup
@@ -247,6 +248,57 @@ match them, and update both places together if they change.
   from an unscraped base, spices scorching on a high setting — say what happens
   and why, at the point where it matters.
 
+## Allergens and diets
+
+Every recipe declares both, because "can I eat this" is asked before the
+ingredient list is read, not after.
+
+**Diets** are `diets:` entries carrying a visible `label` and the schema.org
+`RestrictedDiet` value emitted as `suitableForDiet`. There are exactly eleven
+valid values — `LowFatDiet`, `VegetarianDiet`, `VeganDiet`, `HinduDiet`,
+`GlutenFreeDiet`, `KosherDiet`, `LowLactoseDiet`, `LowSaltDiet`,
+`DiabeticDiet`, `HalalDiet`, `LowCalorieDiet`. Anything else is silently
+meaningless to a consumer. `HinduDiet` is claimed where a recipe is beef-free,
+which is a fact about composition. `HalalDiet` and `KosherDiet` are *not*
+claimed, because they depend on how ingredients were sourced and prepared, which
+a recipe cannot know.
+
+**Allergens** reference `_data/allergens.yml` by `id` and never by name:
+
+```yaml
+allergens:
+  present:
+    - id: peanuts
+      note: Cooked into the rice, so they cannot be picked out.
+  may_contain:
+    - id: gluten
+      note: Only through the asafoetida, which is usually cut with wheat flour.
+  note: An optional caveat for the whole recipe.
+```
+
+The layout derives the "free from" list by subtracting what a recipe declares
+from the fourteen, so the three lists always add up and adding an entry to the
+data file makes every recipe claim *less*, never more — the safe direction for
+the edit to fail in.
+
+The list is Annex II of Regulation (EU) No 1169/2011 because it is a strict
+superset of the US "Big 9" (FALCPA 2004, plus sesame via the FASTER Act, in
+force since 1 January 2023). Celery, mustard, sulphites, lupin and molluscs are
+declarable in the EU, UK, Canada and Australia/NZ but not by the FDA, which is
+why `us:` names the US wording only where the two differ.
+
+**schema.org has no allergen property.** This was checked against the
+vocabulary dump, not assumed: the only term matching `allerg` is
+`AllergiesHealthAspect`, which classifies the subject matter of a health
+article. Google's recipe rich result does not consume one either. So allergens
+go into the two places that can carry them honestly — visible prose, which is
+what Fresco's AI-assisted import actually reads, and plain-text `keywords`
+("contains milk", "may contain sulphites"), which is a real `Recipe` property
+of type `Text`. Do not invent `hasAllergen`, and do not borrow
+`additionalProperty`: its domain is `Product`, `Offer`, `Place` and the value
+types, not `CreativeWork`, so not `Recipe`. A made-up property is dropped by a
+strict JSON-LD processor and believed by a lenient one.
+
 ## Images
 
 The full workflow, including the multi-image and per-step forms, is in
@@ -274,9 +326,15 @@ commit them.
 
 Verify before pushing rather than assuming:
 
-- `bundle exec jekyll build` completes without error
+- `bundle exec jekyll build` completes without error, and prints no Liquid
+  syntax warnings — those do not fail the build but do render nothing
+- Each recipe's built JSON-LD carries a `datePublished`. It is the cheapest
+  proof that the front matter was read at all; a file missing its closing
+  `---` builds a plausible-looking page out of no data whatsoever
 - The Recipe JSON-LD parses, and still carries absolute image URLs and
   per-step anchors that resolve
+- Allergen ids in a recipe all resolve against `_data/allergens.yml`, and
+  contains + may-contain + free-from add up to the full fourteen
 - `prepTime + cookTime == totalTime` still holds
 - `supply` is the same list of strings, in the same order, as
   `recipeIngredient`, and `yield` equals `recipeYield`
@@ -318,6 +376,19 @@ Each of these cost real debugging time and none is discoverable from the source.
   index accordingly when validating.
 - **Liquid has no `push` filter.** To build a list, capture a delimited string
   and `split` it.
+- **`contains` is a Liquid operator, so it cannot be a front-matter key you
+  read.** `page.allergens.contains` parses as a comparison; the build prints a
+  syntax warning and renders nothing where you expected a list. The key is
+  therefore `present:`, while the visible heading still reads "Contains".
+- **A recipe missing its closing `---` still builds, silently and wrongly.**
+  Jekyll's front-matter regexp needs a terminator; without one the whole file is
+  content, `page.data` is empty, and — the part that makes it hard to spot —
+  Jekyll auto-titles the document from its filename, so `gajar-halwa.md` still
+  renders `<h1>Gajar Halwa</h1>` and an index card. The page just quietly loses
+  its description, dates, diets, allergens and every time. Splitting the file on
+  `---` in a checker does not catch this either: what follows is still valid
+  YAML. Assert on the *built* page instead — that a field only front matter can
+  supply, such as `datePublished`, is actually present in the JSON-LD.
 
 ## Vendored skills
 
