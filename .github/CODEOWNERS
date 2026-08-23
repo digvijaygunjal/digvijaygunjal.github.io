@@ -1,0 +1,41 @@
+# Who is asked to review what.
+#
+# The list is deliberately short. Only the *structural* files have an owner —
+# the ones where a single change affects every page on the site at once. A
+# recipe is additive and self-contained, so `_recipes/` and the recipe
+# photographs are left unowned on purpose: a recipe contribution should not
+# wait on one person being available.
+#
+# Note what this file does and does not do. On its own, CODEOWNERS only
+# *requests* a review. It becomes a requirement when "Require review from Code
+# Owners" is switched on in branch protection — see #40.
+#
+# Later patterns win over earlier ones, so order matters: put the general rule
+# first and the exception after it.
+
+# The layouts generate the JSON-LD that every importer reads. A mistake here is
+# not visible on the page — it breaks the import silently, on all of them.
+/_layouts/                @digvijaygunjal
+/_includes/               @digvijaygunjal
+
+# The allergen list. The layout derives each recipe's "free from" list by
+# subtracting what the recipe declares from this file, so editing it changes
+# what every published recipe claims about itself.
+/_data/                   @digvijaygunjal
+
+# Site settings, the appliance every recipe is timed against, and the
+# collection configuration that decides the URLs.
+/_config.yml              @digvijaygunjal
+
+# Issue forms, the pull request template, this file, and any workflow added
+# later.
+/.github/                 @digvijaygunjal
+
+# Deliberately unowned, and this is the point of the file rather than an
+# oversight:
+#
+#   /_recipes/            — a new recipe is additive; nothing else changes
+#   /assets/images/       — likewise
+#
+# When the test suite lands (#32, #33, #34, #36), add it here. A test that can
+# be weakened without review is not a test.
