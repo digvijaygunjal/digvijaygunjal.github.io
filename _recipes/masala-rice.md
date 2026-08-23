@@ -25,6 +25,30 @@ diets:
     schema: VegetarianDiet
   - label: Dairy-free
     schema: LowLactoseDiet
+  - label: Beef-free
+    schema: HinduDiet
+
+# Declared against the fourteen of EU 1169/2011 Annex II, listed in
+# _data/allergens.yml; the layout derives the "free from" list from the rest.
+# Ids only — the wording lives in the data file so no two recipes phrase the
+# same allergen differently.
+allergens:
+  present:
+    - id: peanuts
+      note: 50 g of raw peanuts, cooked into the rice rather than scattered on top, so they cannot be picked out.
+    - id: mustard
+      note: 1 tsp of mustard seeds in the tadka.
+  may_contain:
+    - id: gluten
+      note: >-
+        Only through the asafoetida. Most commercial asafoetida is a compound,
+        cut with wheat flour to keep it pourable; the gluten-free tins say so on
+        the label and are usually cut with rice flour instead. Nothing else here
+        is a gluten grain.
+  note: >-
+    The peanuts are the one that cannot be worked around: they are in the pot
+    from the Sauté stage. Leave them out entirely if you are cooking for a
+    peanut allergy — the rice is fine without them.
 image: /assets/images/recipes/masala-rice.jpg
 image_alt: Masala rice on a steel thali, studded with green peas, diced potato and whole bay leaves.
 yield: 4 servings

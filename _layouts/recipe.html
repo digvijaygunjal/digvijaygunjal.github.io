@@ -90,6 +90,64 @@ layout: default
 {%- assign nutrition_labels = "Serving size,Energy,Protein,Fat,of which saturates,of which unsaturates,Trans fat,Cholesterol,Carbohydrate,of which sugars,Fibre,Sodium" | split: "," -%}
 
 {%- comment -%}
+  Allergens. schema.org has no allergen property: the vocabulary's only mention
+  of the word is AllergiesHealthAspect, which classifies the subject matter of a
+  health article, not the contents of a dish. Google's recipe rich result does
+  not consume one either. So the declaration below is emitted twice in the two
+  places that can carry it honestly — as visible prose, which is what Fresco's
+  AI-assisted import actually reads, and as plain-text `keywords`, whose own
+  definition is "keywords or tags used to describe some item".
+
+  What is deliberately NOT done: inventing `hasAllergen`, or borrowing
+  `additionalProperty`, whose domain is Product, Offer, Place and the value
+  types — not CreativeWork, so not Recipe. A made-up property would be dropped
+  by a strict JSON-LD processor and, worse, believed by a lenient one.
+
+  The front-matter key is `present`, not `contains`: `contains` is a Liquid
+  operator, so `page.allergens.contains` is parsed as a comparison and the
+  build emits a syntax warning while silently rendering nothing. The visible
+  heading still reads "Contains", which is the word EU labelling uses.
+
+  `present` and `may_contain` come from the recipe; `free_from` is the rest of
+  site.data.allergens, derived rather than authored so the three lists always
+  add up to fourteen and a recipe can never claim to be free of something it
+  never considered.
+{%- endcomment -%}
+{%- assign declared_ids = "" | split: "" -%}
+{%- if page.allergens -%}
+  {%- capture declared_csv -%}
+    {%- for a in page.allergens.present -%}{{ a.id }},{%- endfor -%}
+    {%- for a in page.allergens.may_contain -%}{{ a.id }},{%- endfor -%}
+  {%- endcapture -%}
+  {%- assign declared_ids = declared_csv | strip | split: "," -%}
+{%- endif -%}
+{%- comment -%}Liquid has no push filter, so the complement is captured as a delimited string and split.{%- endcomment -%}
+{%- capture free_from_csv -%}
+  {%- for a in site.data.allergens -%}
+    {%- unless declared_ids contains a.id -%}|{{ a.id }}{%- endunless -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- assign free_from_ids = free_from_csv | strip | remove_first: "|" | split: "|" -%}
+
+{%- comment -%}
+  Keywords, with the allergen statements appended. Every element is prefixed
+  with the delimiter and the first one stripped afterwards, so an absent
+  `keywords` list cannot leave a leading comma in the structured data.
+{%- endcomment -%}
+{%- capture keywords_csv -%}
+  {%- for k in page.keywords -%}|{{ k }}{%- endfor -%}
+  {%- for a in page.allergens.present -%}
+    {%- assign ref = site.data.allergens | where: "id", a.id | first -%}
+    {%- if ref -%}|contains {{ ref.label | downcase }}{%- endif -%}
+  {%- endfor -%}
+  {%- for a in page.allergens.may_contain -%}
+    {%- assign ref = site.data.allergens | where: "id", a.id | first -%}
+    {%- if ref -%}|may contain {{ ref.label | downcase }}{%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- assign keywords_list = keywords_csv | strip | remove_first: "|" | split: "|" -%}
+
+{%- comment -%}
   Cost. The JSON-LD carries an ISO 4217 code, because that is what
   MonetaryAmount requires. The page prefers a symbol, and for a currency with no
   symbol listed here it puts the code after the number — "≈ 900 JPY" rather than
@@ -159,7 +217,7 @@ layout: default
   {% if page.category %}"recipeCategory": {{ page.category | jsonify }},{% endif %}
   {% if page.cuisine %}"recipeCuisine": {{ page.cuisine | jsonify }},{% endif %}
   {% if page.cooking_method %}"cookingMethod": {{ page.cooking_method | jsonify }},{% endif %}
-  {% if page.keywords %}"keywords": {{ page.keywords | join: ", " | jsonify }},{% endif %}
+  {% if keywords_list.size > 0 %}"keywords": {{ keywords_list | join: ", " | jsonify }},{% endif %}
   {%- if page.diets %}
   "suitableForDiet": [
     {%- for d in page.diets %}
@@ -303,6 +361,66 @@ layout: default
   <ul class="diets">
     {% for d in page.diets %}<li>{{ d.label }}</li>{% endfor %}
   </ul>
+  {% endif %}
+
+  {%- comment -%}
+    Allergen panel. Placed directly under the diet badges because both answer
+    the same question — can I eat this — and that question is asked before the
+    ingredient list, not after it. "Free from" is inside a details element:
+    native HTML, so it collapses without JavaScript, and its contents stay in
+    the DOM for an importer reading the page.
+  {%- endcomment -%}
+  {% if page.allergens %}
+  <section class="allergens">
+    <h2>Allergens</h2>
+
+    {% if page.allergens.present %}
+    <p class="allergen-head allergen-head-in">Contains</p>
+    <ul class="allergen-list">
+      {%- for a in page.allergens.present -%}
+      {%- assign ref = site.data.allergens | where: "id", a.id | first -%}
+      {%- if ref %}
+      <li><b>{{ ref.label }}</b>{% if a.note %} — {{ a.note }}{% elsif ref.detail %} — {{ ref.detail }}{% endif %}</li>
+      {%- endif -%}
+      {%- endfor %}
+    </ul>
+    {% endif %}
+
+    {% if page.allergens.may_contain %}
+    <p class="allergen-head allergen-head-may">May contain</p>
+    <ul class="allergen-list">
+      {%- for a in page.allergens.may_contain -%}
+      {%- assign ref = site.data.allergens | where: "id", a.id | first -%}
+      {%- if ref %}
+      <li><b>{{ ref.label }}</b>{% if a.note %} — {{ a.note }}{% elsif ref.detail %} — {{ ref.detail }}{% endif %}</li>
+      {%- endif -%}
+      {%- endfor %}
+    </ul>
+    {% endif %}
+
+    {% if free_from_ids.size > 0 %}
+    <details class="allergen-free">
+      <summary>Free from the other {{ free_from_ids.size }} of the {{ site.data.allergens.size }}</summary>
+      <ul class="allergen-list">
+        {%- for id in free_from_ids -%}
+        {%- assign ref = site.data.allergens | where: "id", id | first -%}
+        {%- if ref %}
+        <li>{{ ref.label }}{% if ref.us and ref.us != ref.label %} <span class="allergen-us">(US: {{ ref.us }})</span>{% endif %}</li>
+        {%- endif -%}
+        {%- endfor %}
+      </ul>
+    </details>
+    {% endif %}
+
+    <p class="allergen-note">
+      Checked against the {{ site.data.allergens.size }} allergens of Annex II to
+      Regulation (EU) No 1169/2011, which between them cover all nine of the US
+      FDA&rsquo;s major allergens. This is a home recipe rather than a packaged
+      food: brands differ in what they put in compounded spices, dairy and dried
+      fruit, and cross-contamination from shared equipment is not tracked here,
+      so read the label on what you actually buy.{% if page.allergens.note %} {{ page.allergens.note }}{% endif %}
+    </p>
+  </section>
   {% endif %}
 
   {%- comment -%}
