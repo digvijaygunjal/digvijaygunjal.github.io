@@ -5,8 +5,8 @@ require "date"
 require "jekyll"
 
 # Reads the sources the site is built from — `_recipes/`, `_data/` and
-# `_config.yml` — without running Jekyll. Tier 1 asserts against these; tier 2
-# asserts against what Jekyll makes of them.
+# `_config.yml` — without running Jekyll. The source checks assert against these;
+# the import-contract checks assert against what Jekyll makes of them.
 module Site
   ROOT = File.expand_path("../..", __dir__)
 
