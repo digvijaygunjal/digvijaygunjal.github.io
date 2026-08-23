@@ -200,6 +200,11 @@ rule changed in one is changed in all three in the same pull request.
 | `CONTRIBUTING.md` | someone about to change something: how to add a recipe, and what review expects |
 | `CLAUDE.md` | this file — Claude Code working in the repository |
 
+The label taxonomy lives in
+[CONTRIBUTING.md → Labels](CONTRIBUTING.md#labels) — eight labels, with the
+colour and meaning of each. Use those names when filing an issue rather than
+inventing a ninth.
+
 `CONTRIBUTING.md` deliberately does not restate this file. Where it needs a
 detail that is already tabulated, it links to the README section rather than
 copying it, so there is one place for each fact to go stale.
