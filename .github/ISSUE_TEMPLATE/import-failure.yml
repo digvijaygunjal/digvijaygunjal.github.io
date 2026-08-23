@@ -1,0 +1,93 @@
+name: Import failure
+description: A recipe page did not import correctly into a recipe app
+title: "Import failure: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Every page on this site exists to be imported by URL, so this is the
+        most useful report you can file.
+
+        Please describe **what the app produced**, rather than what you think
+        went wrong in the page. The two are often different, and the raw
+        symptom is what makes the cause findable.
+
+  - type: input
+    id: recipe-url
+    attributes:
+      label: Recipe URL
+      description: The exact link you pasted into the app.
+      placeholder: https://digvijaygunjal.github.io/recipes/masala-rice/
+    validations:
+      required: true
+
+  - type: dropdown
+    id: app
+    attributes:
+      label: Which app did you import into?
+      options:
+        - Instant Brands Connect (Fresco)
+        - Fresco
+        - Paprika
+        - Crouton
+        - Mela
+        - AnyList
+        - Whisk / Samsung Food
+        - Other (say which below)
+    validations:
+      required: true
+
+  - type: input
+    id: app-version
+    attributes:
+      label: App version and platform
+      description: If you can find it. iOS, Android, web, desktop.
+      placeholder: Paprika 3.9.1, iOS
+
+  - type: dropdown
+    id: outcome
+    attributes:
+      label: What happened when you imported?
+      options:
+        - The app refused to import the page at all
+        - It imported, but fields are missing
+        - It imported, but fields hold the wrong values
+        - It imported, but the steps are wrong or out of order
+        - Something else
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-arrived
+    attributes:
+      label: What the app actually produced
+      description: |
+        The heart of the report. Say what each part of the imported recipe
+        looks like in the app — ingredients, steps, times, servings, the photo.
+        A screenshot of the imported recipe is ideal.
+      placeholder: |
+        Title and photo came through fine.
+        Ingredients: all 18 arrived, but each one is a single line with no quantity split out.
+        Steps: arrived as one long paragraph rather than 11 numbered steps.
+        Times: prep 15 min came through, cook time is empty.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected instead
+      description: Only what differs from the above — no need to restate the whole recipe.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you file
+      options:
+        - label: I pasted the URL itself, not text copied from the page
+          required: true
+        - label: I am on the current version of the app, as far as I know
+          required: false

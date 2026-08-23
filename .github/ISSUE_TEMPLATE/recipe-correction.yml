@@ -1,0 +1,82 @@
+name: Recipe correction
+description: A published recipe is wrong, or did not work when you cooked it
+title: "Correction: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for cooking it and telling us. Please fill in the cooker
+        question — every timing on this site is calibrated for one specific
+        machine, and it is the single most common explanation for a recipe
+        behaving differently in your kitchen.
+
+  - type: input
+    id: recipe-url
+    attributes:
+      label: Which recipe?
+      description: The page URL, or just its name.
+      placeholder: https://digvijaygunjal.github.io/recipes/masala-rice/
+    validations:
+      required: true
+
+  - type: dropdown
+    id: cooker
+    attributes:
+      label: Which cooker did you use?
+      description: >-
+        Recipes here are timed against the Instant Pot Pro Max 6 qt. Any other
+        pot heats and comes to pressure differently, so the same number of
+        minutes gives a different result.
+      options:
+        - Instant Pot Pro Max 6 qt — the cooker these recipes are timed for
+        - Instant Pot Pro Max, a different size
+        - Another Instant Pot model (say which below)
+        - A different brand of electric pressure cooker
+        - A stovetop pressure cooker
+        - No pressure cooker — pan, oven or hob
+        - Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: cooker-detail
+    attributes:
+      label: Cooker model, if it was not the first option
+      placeholder: Instant Pot Duo 7-in-1, 5.7 L
+
+  - type: input
+    id: step
+    attributes:
+      label: Which step?
+      description: The step number, or the ingredient line if it is not about a step.
+      placeholder: Step 6 — Pressure cook the rice
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened instead
+      description: What the recipe said would happen, and what actually did.
+      placeholder: |
+        Step 6 says 5 minutes at High then a 10 minute natural release.
+        I got a Burn warning about two minutes into the pressure cycle and it never
+        came up to pressure. Base was brown but not black when I opened it.
+    validations:
+      required: true
+
+  - type: textarea
+    id: changes
+    attributes:
+      label: Anything you changed
+      description: >-
+        Substitutions, halved or doubled quantities, a different rice, more or
+        less water. Say "nothing" if you followed it exactly — that is useful
+        to know too.
+    validations:
+      required: true
+
+  - type: textarea
+    id: fix
+    attributes:
+      label: What worked in the end, if anything
+      description: If you found the adjustment yourself, it may well become the fix.
