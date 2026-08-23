@@ -15,21 +15,21 @@
 
 # The layouts generate the JSON-LD that every importer reads. A mistake here is
 # not visible on the page — it breaks the import silently, on all of them.
-/_layouts/                @digvijaygunjal
-/_includes/               @digvijaygunjal
+/_layouts/                @digvijaygunjal @anaghakauthale
+/_includes/               @digvijaygunjal @anaghakauthale
 
 # The allergen list. The layout derives each recipe's "free from" list by
 # subtracting what the recipe declares from this file, so editing it changes
 # what every published recipe claims about itself.
-/_data/                   @digvijaygunjal
+/_data/                   @digvijaygunjal @anaghakauthale
 
 # Site settings, the appliance every recipe is timed against, and the
 # collection configuration that decides the URLs.
-/_config.yml              @digvijaygunjal
+/_config.yml              @digvijaygunjal @anaghakauthale
 
 # Issue forms, the pull request template, this file, and any workflow added
 # later.
-/.github/                 @digvijaygunjal
+/.github/                 @digvijaygunjal @anaghakauthale
 
 # Deliberately unowned, and this is the point of the file rather than an
 # oversight:
