@@ -2,17 +2,20 @@
 
 require "rake/testtask"
 
-# The test pyramid, tier by tier. Tier 1 needs no build and runs in
-# milliseconds; the slower tiers are added by their own issues and hang off the
-# same `default` task, so one command stays the whole story.
+# The checks, named for what they read rather than for how fast they are.
+#
+# `sources` reads the recipe files as written and needs no build, so it runs in
+# milliseconds and fails a typo before anything slower starts. `import_contract`
+# reads what Jekyll makes of them, which is where the one rule this site has —
+# every recipe page stays importable by URL — is actually defended.
 namespace :test do
-  desc "Tier 1 — data and front matter, straight from the sources, no build"
-  Rake::TestTask.new(:tier1) do |t|
+  desc "The recipe sources as written: front matter, allergens, durations, assets"
+  Rake::TestTask.new(:sources) do |t|
     t.libs << "test"
-    t.test_files = FileList["test/tier1/**/*_test.rb"]
+    t.test_files = FileList["test/sources/**/*_test.rb"]
     t.warning = false
   end
 end
 
-desc "Run every tier, fastest first, stopping at the first that fails"
-task default: %w[test:tier1]
+desc "Run every check, cheapest first, stopping at the first that fails"
+task default: %w[test:sources]
