@@ -1,0 +1,102 @@
+# The gate on merging, not on publishing.
+#
+# GitHub Pages builds and deploys this site natively (decided in #22), so
+# nothing here ships anything. If this workflow goes red on `main` the site
+# still updates — that is intended. What it buys is that a pull request cannot
+# be merged while the checks that defend the import contract are failing.
+#
+# CI runs the same Rake tasks a contributor runs, and nothing else. The moment
+# CI grows a list of steps of its own, "passes locally" and "passes in CI" start
+# to drift, and the drift is only ever discovered on a red pull request.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# A force-push supersedes the run it interrupted. Without this the old run keeps
+# going and bills minutes for an answer about a commit nobody has any more.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# The default token can write to the repository. Nothing here needs to, and a
+# workflow that reads the contents of a pull request from a fork is exactly
+# where that difference matters.
+permissions:
+  contents: read
+
+jobs:
+  # Tiers 1 and 2: the recipe sources as written, then the built _site. Split
+  # from the browser job deliberately — a missing `image_alt` should fail in
+  # well under a minute, not after Chromium has finished downloading.
+  build-and-verify:
+    name: Sources and import contract
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # Third-party actions are pinned to a commit SHA rather than a tag: a tag
+      # can be moved to point at anything, a SHA cannot. Dependabot keeps these
+      # current (#41) — without it, pinning would just mean never patching.
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+        with:
+          # .ruby-version pins what GitHub Pages itself runs. It is the only
+          # authority for that number; do not spell a version here as well.
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      # The two tasks together are the `rake` default task minus the browser
+      # tier, which the next job owns.
+      - name: Run the source and import-contract checks
+        run: bundle exec rake test:sources test:import_contract
+
+      # test:import_contract leaves a real `jekyll build` behind, so a reviewer
+      # can download the pages this pull request would publish and open them.
+      # A hosted preview would need a third party — Pages will not serve a
+      # branch — so this stops deliberately short of one.
+      - name: Upload the built site for review
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: site-${{ github.event.pull_request.number }}
+          path: _site/
+          retention-days: 7
+
+  # Tier 3: the only place a question about what a page *fetches* or what a
+  # script *renders* can be answered. Gated on the cheap job so a typo never
+  # pays for a browser download.
+  browser:
+    name: Browser
+    runs-on: ubuntu-latest
+    needs: build-and-verify
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+
+      # Installed here rather than left to the Rakefile's on-demand path: that
+      # path exists so a clean clone needs one command, and it skips itself once
+      # node_modules is present, which is what lets the next step add
+      # `--with-deps` without the Rakefile knowing anything about CI.
+      - name: Install the browser toolchain
+        working-directory: test/browser
+        run: npm ci
+
+      # --with-deps pulls the system libraries Chromium needs. The runner image
+      # does not carry all of them, and the failure when one is missing names a
+      # shared object rather than the thing that is wrong.
+      - name: Install Chromium
+        working-directory: test/browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Run the browser checks
+        run: bundle exec rake test:browser

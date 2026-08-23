@@ -5,7 +5,10 @@ Guidance for Claude Code working in this repository.
 ## What this site is
 
 A recipe site built with Jekyll and served by GitHub Pages from `main`. GitHub
-builds Jekyll natively — there is no Actions workflow, and none is needed.
+builds Jekyll natively, so nothing in this repository deploys anything. The one
+Actions workflow, `.github/workflows/ci.yml`, is a gate on *merging* rather than
+on publishing: if it goes red on `main` the site still deploys, which is
+intended. Do not add a deploy step to it.
 
 Recipes are timed against one specific pressure cooker. Its model, wattage,
 product link and companion app live in `_config.yml` under `appliance`. Read
@@ -204,6 +207,7 @@ failure names.
 ```
 .github/CODEOWNERS       review owners for the structural files only
 .github/ISSUE_TEMPLATE/  YAML issue forms; config.yml disables blank issues
+.github/workflows/      CI: the same rake tasks, split so the cheap ones fail fast
 _config.yml              site settings, appliance, social links, collection
 _data/allergens.yml      the EU 14 allergens every recipe declares against
 _layouts/default.html    shell: head, nav, footer, copy-link script

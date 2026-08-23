@@ -270,8 +270,10 @@ bundle exec rake
 ```
 
 One command. It takes about four seconds and stops at the first set that fails.
-CI will invoke this same command rather than keeping a list of its own — that is
-the whole point of there being one ([#18](https://github.com/digvijaygunjal/digvijaygunjal.github.io/issues/18)).
+CI invokes these same Rake tasks rather than keeping a list of its own — that is
+the whole point of there being one. It splits them across two jobs, so a
+front-matter typo comes back in well under a minute instead of after Chromium
+has downloaded, but the tasks it runs are the ones here and nothing else.
 
 | What it reads | What it checks |
 |---|---|
@@ -319,7 +321,10 @@ bundle exec jekyll serve
 ```
 
 Needs Ruby. You can skip it and just push — GitHub Pages builds Jekyll
-natively on every commit, no Actions workflow needed.
+natively on every commit, and no workflow in this repository deploys anything.
+`.github/workflows/ci.yml` only gates merging: it runs the checks on every pull
+request and uploads the built `_site`, so a reviewer can download the pages a
+change would publish and open them locally.
 
 ### Which Ruby
 
