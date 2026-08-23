@@ -111,22 +111,11 @@ layout: default
   `present` and `may_contain` come from the recipe; `free_from` is the rest of
   site.data.allergens, derived rather than authored so the three lists always
   add up to fourteen and a recipe can never claim to be free of something it
-  never considered.
+  never considered. The subtraction itself lives in
+  _includes/allergens-free-from.html, because the index page derives the same
+  list to drive its "free from" filter and the two must not be able to disagree.
 {%- endcomment -%}
-{%- assign declared_ids = "" | split: "" -%}
-{%- if page.allergens -%}
-  {%- capture declared_csv -%}
-    {%- for a in page.allergens.present -%}{{ a.id }},{%- endfor -%}
-    {%- for a in page.allergens.may_contain -%}{{ a.id }},{%- endfor -%}
-  {%- endcapture -%}
-  {%- assign declared_ids = declared_csv | strip | split: "," -%}
-{%- endif -%}
-{%- comment -%}Liquid has no push filter, so the complement is captured as a delimited string and split.{%- endcomment -%}
-{%- capture free_from_csv -%}
-  {%- for a in site.data.allergens -%}
-    {%- unless declared_ids contains a.id -%}|{{ a.id }}{%- endunless -%}
-  {%- endfor -%}
-{%- endcapture -%}
+{%- capture free_from_csv -%}{%- include allergens-free-from.html recipe=page -%}{%- endcapture -%}
 {%- assign free_from_ids = free_from_csv | strip | remove_first: "|" | split: "|" -%}
 
 {%- comment -%}
