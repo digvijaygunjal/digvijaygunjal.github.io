@@ -226,6 +226,7 @@ _config.yml              site settings, appliance, social links, collection
 _data/allergens.yml      the EU 14 allergens every recipe declares against
 _layouts/default.html    shell: head, nav, footer, copy-link script
 _layouts/recipe.html     builds JSON-LD *and* the page from front matter
+_recipes/_TEMPLATE.md.example  the commented starting point; builds no page
 _recipes/*.md            one file per recipe — data only, no markup
 assets/css/main.css      styles
 assets/images/recipes/   recipe photos
@@ -246,8 +247,14 @@ the suite.
 
 ## Adding a recipe
 
-Copy any existing file in `_recipes/`, rename it, and edit the front matter. The
-filename becomes the URL: `_recipes/dal-tadka.md` → `/recipes/dal-tadka/`.
+Copy `_recipes/_TEMPLATE.md.example`, rename it, and fill in the front matter.
+The filename becomes the URL: `_recipes/dal-tadka.md` → `/recipes/dal-tadka/`.
+
+The template exists so the derived fields below start *empty*, with a comment
+saying they must be worked out. Copying an existing recipe instead is what
+leaves another dish's nutrition figures in place — and a wrong number is
+believed precisely because it is present. Keep the template in step with the
+front matter the layout reads; it is not generated from anything.
 
 **Never write HTML in a recipe.** If a recipe needs something the layout cannot
 express, extend the layout so every recipe gains it.

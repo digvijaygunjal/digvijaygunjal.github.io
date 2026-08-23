@@ -25,6 +25,7 @@ Somewhere to start:
 _config.yml              site settings, collection + permalinks
 _layouts/default.html    shell: head, nav, footer
 _layouts/recipe.html     generates JSON-LD *and* the visible page from front matter
+_recipes/_TEMPLATE.md.example  commented starting point for a new recipe
 _recipes/*.md            one file per recipe — data only, no markup
 assets/css/main.css      styles
 assets/images/recipes/   recipe photos
@@ -33,8 +34,10 @@ index.html               recipe index
 
 ## Adding a recipe
 
-Copy `_recipes/masala-rice.md`, rename it, edit the front matter. The filename
-becomes the URL: `_recipes/dal-tadka.md` → `/recipes/dal-tadka/`.
+Copy `_recipes/_TEMPLATE.md.example`, rename it, fill in the front matter. The
+filename becomes the URL: `_recipes/dal-tadka.md` → `/recipes/dal-tadka/`. The
+template has every field in it, commented, with the four you must work out for
+yourself marked.
 
 You never write HTML. The layout builds both outputs (visible page and
 JSON-LD) from the same fields, so they can't drift apart.

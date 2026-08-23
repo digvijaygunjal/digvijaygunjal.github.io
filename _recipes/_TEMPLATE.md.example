@@ -1,0 +1,234 @@
+---
+# ─────────────────────────────────────────────────────────────────────────────
+# Recipe template. Copy it, rename it, fill it in, delete these comments.
+#
+#   cp _recipes/_TEMPLATE.md.example _recipes/dal-tadka.md
+#
+# The filename becomes the URL: dal-tadka.md → /recipes/dal-tadka/.
+#
+# Start here rather than from an existing recipe. Copying one works, but it also
+# means the four derived fields arrive pre-filled with another dish's numbers —
+# and a wrong number is believed exactly because it is present, where an absent
+# one is not. Every field marked ⚠ below is one of those.
+#
+# There is no markup anywhere in this file, and there should be none in yours.
+# A recipe is data; the layout builds both the page and the JSON-LD from it in
+# one pass. If you need something the layout cannot express, extend the layout
+# so every recipe gains it.
+#
+# Run `bundle exec rake` when you are done. It takes about four seconds and
+# names anything missing or malformed.
+#
+# The full reference is README.md → "Recipe front matter". This file is the
+# short version, in the order you fill it in.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Identity ─────────────────────────────────────────────────────────────────
+
+title: 
+# One or two sentences. This is what an importer and a search result show.
+description: 
+
+# The small line above the title, on the page only. Something like
+# "Instant Pot · One pot · Vegan".
+eyebrow: 
+
+# ⚠ DERIVE THIS. The names this dish is genuinely known by — not near
+# neighbours, not translations you found. It exists so a reader searching for
+# the name they know finds the page.
+alternate_names:
+  - 
+  - 
+
+# ⚠ DERIVE THIS. What this dish is *not*: the similar dish it gets confused
+# with, and how it differs. A vague answer is no answer. See masala-rice.md for
+# one that does the job.
+disambiguating_description: >-
+  
+
+date: YYYY-MM-DD
+# The modification date. Add it when you change the method or the quantities,
+# not when you fix a typo. Leave it out on a new recipe.
+# updated: YYYY-MM-DD
+
+# Defaults to both maintainers. Set it to a name, or a list of names, if this
+# recipe is someone else's.
+# author: 
+
+# ── Classification ───────────────────────────────────────────────────────────
+
+cuisine: 
+category:            # Main course, Side dish, Dessert…
+cooking_method:      # Pressure cooking, Sauté, Slow cooking…
+
+# Plain text, and the one place allergens reach the structured data — schema.org
+# has no allergen property at all, so "contains milk" and "may contain
+# sulphites" belong here as well as in `allergens:` below.
+keywords:
+  - 
+  - 
+
+# ⚠ DERIVE THESE. Claim only what the ingredient list actually supports, and
+# check the compound ingredients before claiming anything: commercial asafoetida
+# is usually cut with wheat flour, and ghee, paneer, curd and butter each rule
+# out VeganDiet. When a claim depends on which brand the cook buys, leave it off
+# and explain in `notes`.
+#
+# `label` is what the page shows; `schema` must be one of the eleven members of
+# schema.org's RestrictedDiet enumeration — anything else is silently
+# meaningless to an importer:
+#
+#   VeganDiet  VegetarianDiet  GlutenFreeDiet  LowLactoseDiet  LowSaltDiet
+#   LowFatDiet  LowCalorieDiet  DiabeticDiet  HinduDiet  HalalDiet  KosherDiet
+#
+# HinduDiet is claimed where a recipe is beef-free, which is a fact about what
+# is in the pot. HalalDiet and KosherDiet are never claimed here: they depend on
+# how ingredients were sourced and slaughtered, which a recipe cannot know.
+diets:
+  - label: 
+    schema: 
+
+# ── Allergens ────────────────────────────────────────────────────────────────
+#
+# Declared against the fourteen of EU 1169/2011 Annex II. Ids only — the wording
+# lives in _data/allergens.yml so no two recipes phrase the same allergen
+# differently, and the layout derives the "free from" list by subtracting what
+# you declare from the fourteen. That means an id you forget makes the recipe
+# claim it is free of something it is not.
+#
+# The fourteen ids:
+#   gluten  crustaceans  eggs  fish  peanuts  soybeans  milk
+#   nuts  celery  mustard  sesame  sulphites  lupin  molluscs
+#
+# Delete whichever of the three keys you do not need.
+allergens:
+  present:
+    - id: 
+      # Say how much, and whether it can be left out or picked out.
+      note: 
+  may_contain:
+    - id: 
+      # Say what it comes through, and how a cook would check.
+      note: 
+  # An optional caveat about the recipe as a whole.
+  note: 
+
+# ── Image ────────────────────────────────────────────────────────────────────
+#
+# Resize and strip EXIF *before* committing: roughly 1600 px wide, under 500 KB,
+# JPEG. Git keeps every version of a binary forever, so an unprocessed phone
+# photo bloats the clone permanently and deleting it later does not undo that.
+# Phone photos can also carry GPS coordinates, and this repository is public.
+#
+# The hero crops to 4:3 and index thumbnails to 1:1, so keep the food away from
+# the extreme edges. A recipe with no photograph is still welcome.
+image: /assets/images/recipes/
+# What a screen reader announces. Describe what is in the picture.
+image_alt: 
+# Optional, page only: something the picture does not say on its own.
+# image_caption: 
+
+# ── Times, yield and cost ────────────────────────────────────────────────────
+#
+# Two spellings of each time, because PT45M is unreadable and "45 min" is
+# unparseable. Keep them in agreement, and keep
+# prep_time + cook_time == total_time — some importers reject a recipe whose
+# durations disagree, and `rake` will fail before they get the chance.
+yield:               # 4 servings
+prep_time:           # PT15M
+cook_time:           # PT45M
+total_time:          # PT60M
+prep_time_display:   # 15 min
+cook_time_display:   # 45 min
+total_time_display:  # 1 hr
+
+# ⚠ DERIVE THIS. What the ingredients cost for the whole pot, not per serving.
+# Round up. Say in a comment which shops you priced it at — an estimate whose
+# basis is unstated cannot be checked or updated.
+estimated_cost:
+  currency: EUR      # an ISO 4217 code
+  value: ""
+
+# ── Contents ─────────────────────────────────────────────────────────────────
+
+# Everything that is not an ingredient. Rendered as the Equipment list.
+tools:
+  - 
+
+# Grouped for the reader; the structured data gets the flattened list, so a
+# group name can never end up inside an ingredient.
+#
+# One ingredient is one line carrying quantity, unit and item together. A line
+# broken in two arrives at an importer as two ingredients. Weights, not cups:
+# in a sealed pot the ratio of grain to water decides the result.
+ingredients:
+  - name: 
+    items:
+      - 
+      - 
+
+# Every step names its function, level and duration, so the reader is never
+# guessing which button to press.
+#
+# `continues: true` matters more than it looks. An importer reads each step in
+# isolation, so a step that just says "add the onion" arrives with no appliance
+# attached and loses its Sauté indicator. With `continues: true` the layout
+# prepends the session for you — which is why the `text` of such a step is
+# written in lowercase, starting mid-sentence.
+#
+# Say where a step commonly goes wrong, at the step where it matters: a Burn
+# warning from an unscraped base, spices scorching on a setting that is too
+# high. That is the part a reader cannot work out for themselves.
+steps:
+  - name: 
+    appliance:       # Sauté, Pressure Cook, Natural Release — omit if manual
+    setting:         # High / Medium / Low
+    duration:        # 30 sec, 8 min
+    text: >-
+      
+
+  - name: 
+    appliance: 
+    setting: 
+    duration: 
+    continues: true
+    # image: /assets/images/recipes/step-something.jpg
+    text: >-
+      
+
+# ⚠ DERIVE THESE. Per serving: add up the ingredient weights and divide by the
+# yield. All twelve keys are required — the layout emits every one, and a recipe
+# missing one fails the checks. State the serving size as a weight.
+#
+# In `note`, say the figures are an estimate and name whatever dominates them.
+# Almost always that is the salt, the added fat, or both.
+nutrition:
+  serving_size: 
+  calories:                    # 520 kcal
+  protein_content:             # 13 g
+  fat_content:                 # 17 g
+  saturated_fat_content:       # 2 g
+  unsaturated_fat_content:     # 15 g
+  trans_fat_content:           # 0 g
+  cholesterol_content:         # 0 mg
+  carbohydrate_content:        # 83 g
+  sugar_content:               # 4 g
+  fiber_content:               # 7 g
+  sodium_content:              # 1180 mg
+  note: >-
+    
+
+# Page only. The place for what did not fit anywhere else: how another cooker
+# differs and by how much, what to do with leftovers, and why a diet claim you
+# might have expected is absent.
+notes: >-
+  
+
+# ─────────────────────────────────────────────────────────────────────────────
+# The closing --- below is load-bearing, and its absence is the single hardest
+# bug to spot in this repository. Without it Jekyll treats the whole file as
+# content, titles the page from the filename, and still renders an index card —
+# so the page looks finished while having silently lost its description, dates,
+# diets, allergens and every time.
+# ─────────────────────────────────────────────────────────────────────────────
+---
