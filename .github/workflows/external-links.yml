@@ -1,0 +1,117 @@
+# The links that point away from this site.
+#
+# Separate from pull-request CI on purpose. External link checking is too flaky
+# to gate a merge: rate limits, transient 503s and hosts that block CI ranges all
+# produce failures that have nothing to do with the change under review, and a
+# red check a contributor cannot fix teaches everyone to ignore red checks.
+# Internal links stay in tier 2, where they are fast and deterministic.
+#
+# Weekly and advisory, it earns its place: it keeps the appliance product URL,
+# the Amazon link, the maintainers' profiles and the reference URLs in
+# _config.yml honest. Those are exactly the links that rot without anyone
+# noticing, because nobody clicks their own footer.
+name: External links
+
+on:
+  schedule:
+    # 07:00 UTC on Mondays.
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  # Only so a failure can be reported. A red scheduled run on a quiet repository
+  # goes unnoticed for months; an issue does not.
+  issues: write
+
+jobs:
+  links:
+    name: Check outbound links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      # tee, so the failure text can go into the issue. Without pipefail the
+      # pipe would swallow rake's exit status and the check would always pass.
+      - name: Check the outbound links
+        id: links
+        run: |
+          set -o pipefail
+          bundle exec rake links:external 2>&1 | tee links.log
+
+      # Guarded on the check step specifically: a failed checkout or a failed
+      # bundle should not open an issue claiming somebody's link is dead.
+      - name: Report the broken links
+        if: failure() && steps.links.outcome == 'failure'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const fs = require('fs');
+
+            // A hidden marker rather than a title match, so the title stays
+            // free to change without a second issue appearing beside the first.
+            const marker = '<!-- external-links -->';
+            const log = fs.readFileSync('links.log', 'utf8').trim().slice(-30000);
+            const run = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+
+            const body = [
+              marker,
+              '`rake links:external` found outbound links that did not resolve.',
+              '',
+              'This is advisory, not a broken build. Nothing about the site itself is wrong —',
+              'a link that points somewhere that has moved still renders perfectly. Check each',
+              'one by hand before changing anything: a host that was briefly down looks exactly',
+              'like a page that has gone away.',
+              '',
+              'Codes that only mean "a robot asked" — 403, 429, 503, 999 — are already ignored,',
+              'so anything listed here answered 404 or 410, or could not be reached at all.',
+              '',
+              '<details><summary>Output</summary>',
+              '',
+              '```',
+              log,
+              '```',
+              '',
+              '</details>',
+              '',
+              `[Run](${run})`
+            ].join('\n');
+
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 100
+            });
+            const existing = issues.find((issue) => (issue.body || '').includes(marker));
+
+            if (existing) {
+              // Commenting rather than opening another: the same link stays
+              // broken until somebody fixes it, and a weekly issue for it is
+              // how a signal becomes noise.
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                body
+              });
+              core.notice(`Commented on #${existing.number}`);
+            } else {
+              const created = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: 'External links: something this site points at no longer resolves',
+                labels: ['infra'],
+                body
+              });
+              core.notice(`Opened #${created.data.number}`);
+            }
