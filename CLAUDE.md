@@ -40,7 +40,7 @@ do not add a field without checking it against
 | `name` | string | `title` | **Required by consumers** |
 | `image` | string *or* array of strings | `image` | **Required.** Absolute URLs |
 | `description` | string | `description` | |
-| `author` | `Person` object | `site.author` | `{ "@type": "Person", "name": … }` |
+| `author` | `Person` object *or* array of them | `author`, else `site.author` | One name emits an object, several an array |
 | `datePublished` | string | `date` | `YYYY-MM-DD` |
 | `url` | string | page URL | Absolute |
 | `recipeCategory` | string | `category` | |

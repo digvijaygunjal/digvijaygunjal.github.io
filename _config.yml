@@ -1,9 +1,14 @@
 # Site: https://digvijaygunjal.github.io
 # User-site repo, so baseurl stays empty.
-title: Recipes
+title: "Sheetal and Digvijay's recipes"
 description: Pressure-cooker and one-pot recipes calibrated for the Instant Pot Pro Max, written so any recipe app can import them straight from the URL.
-author: Digvijay Gunjal
 lang: en
+
+# Used for schema.org author when a recipe does not name one of its own.
+# A recipe may set `author:` to a single name, or to a list.
+author:
+  - Sheetal Mane
+  - Digvijay Gunjal
 
 # The cooker every recipe here is timed against.
 appliance:
@@ -14,17 +19,41 @@ appliance:
   amazon: https://amzn.eu/d/06RcVqIw
   app: Instant Brands Connect
 
-# Rendered in the footer of every page. Named social_links rather than social,
-# which jekyll-seo-tag reserves for a differently shaped hash.
-social_links:
-  - name: GitHub
-    url: https://github.com/digvijaygunjal
-  - name: Instagram
-    url: https://www.instagram.com/digvijay.gunjal/
-  - name: LinkedIn
-    url: https://www.linkedin.com/in/digvijay-gunjal-6860b68a
-  - name: X
-    url: https://x.com/DigvijayGunjal
+# Rendered in the footer of every page, grouped by person so that two accounts
+# on the same network stay tellable apart. Not named `social`, which
+# jekyll-seo-tag reserves for a differently shaped hash.
+#
+# `icon` selects the inlined SVG in _layouts/default.html; `name` is the
+# accessible label, so two Instagram entries can share an icon and still read
+# differently to a screen reader.
+maintainers:
+  - name: Sheetal Mane
+    short: Sheetal
+    links:
+      - icon: Instagram
+        name: Sheetal on Instagram
+        url: https://www.instagram.com/sheetal_mane3/
+      - icon: Instagram
+        name: Dreams und Destinations on Instagram
+        url: https://www.instagram.com/dreams_und_destinations/
+      - icon: LinkedIn
+        name: Sheetal on LinkedIn
+        url: https://de.linkedin.com/in/sheetal-fattesing-mane
+  - name: Digvijay Gunjal
+    short: Digvijay
+    links:
+      - icon: GitHub
+        name: Digvijay on GitHub
+        url: https://github.com/digvijaygunjal
+      - icon: Instagram
+        name: Digvijay on Instagram
+        url: https://www.instagram.com/digvijay.gunjal/
+      - icon: LinkedIn
+        name: Digvijay on LinkedIn
+        url: https://www.linkedin.com/in/digvijay-gunjal-6860b68a
+      - icon: X
+        name: Digvijay on X
+        url: https://x.com/DigvijayGunjal
 
 url: "https://digvijaygunjal.github.io"
 baseurl: ""
