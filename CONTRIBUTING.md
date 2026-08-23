@@ -200,6 +200,12 @@ This section becomes that one line when it lands.
   second branch on the first, and say so in the description.
 - A merged PR cannot carry new work. Start again from the latest `main`.
 
+The pull request template lists the checks that fail *silently* — the ones
+where nothing errors and the page still looks fine. Please tick them honestly.
+If you could not verify something, say so in the last section rather than
+ticking it: an admitted gap costs one review comment, an unfounded tick costs a
+broken import. The list is kept short so that it actually gets read.
+
 Changes to `_layouts/`, `_includes/`, `_config.yml` and `.github/` are reviewed
 by a code owner, because they affect every page at once. A recipe is additive
 and self-contained, so it is not gated on anybody being available.
