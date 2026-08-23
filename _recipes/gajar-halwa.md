@@ -53,6 +53,15 @@ allergens:
     Nothing here is gluten, but ground cardamom and chopped nuts are both
     commonly packed on shared lines; buy certified if a coeliac is eating.
 
+image: /assets/images/recipes/gajar-halwa.jpg
+image_alt: >-
+  A shallow white bowl of gajar halwa on a pale wooden table, the grated carrot
+  cooked down to a deep orange and glossy with ghee, with dark raisins showing
+  through it.
+image_caption: >-
+  Made with ordinary orange carrots, which is why it is deep orange rather than
+  the red of a halwa made with winter Delhi carrots.
+
 yield: 4 servings
 prep_time: PT20M
 cook_time: PT40M
