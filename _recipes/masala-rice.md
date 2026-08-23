@@ -1,12 +1,30 @@
 ---
 title: Masala Rice
 date: 2026-08-22
+updated: 2026-08-23
 description: A one-pot masala rice. Whole spices bloomed in oil, potatoes, cauliflower and peanuts cooked down on Sauté, then pressure cooked with basmati for 5 minutes.
-eyebrow: Instant Pot · One pot · Vegetarian
+eyebrow: Instant Pot · One pot · Vegan
+alternate_names:
+  - Tehri
+  - Vegetable tehri
+disambiguating_description: >-
+  A pressure-cooked one-pot rice: raw basmati is toasted in the masala and then
+  cooked in the same pot, so it is not a fried-rice style dish built from
+  leftover cooked rice.
 cuisine: Indian
 category: Main course
 cooking_method: Pressure cooking
-diet: VegetarianDiet
+
+# Each entry carries the label shown on the page and the schema.org
+# RestrictedDiet enum emitted as suitableForDiet, so the two cannot disagree.
+# GlutenFreeDiet is deliberately absent — see notes.
+diets:
+  - label: Vegan
+    schema: VeganDiet
+  - label: Vegetarian
+    schema: VegetarianDiet
+  - label: Dairy-free
+    schema: LowLactoseDiet
 image: /assets/images/recipes/masala-rice.jpg
 image_alt: Masala rice on a steel thali, studded with green peas, diced potato and whole bay leaves.
 yield: 4 servings
@@ -15,6 +33,13 @@ cook_time: PT45M
 total_time: PT60M
 prep_time_display: 15 min
 cook_time_display: 45 min
+total_time_display: 1 hr
+
+# Ingredient cost for the whole pot at German supermarket prices, rounded up.
+# An estimate, not a receipt.
+estimated_cost:
+  currency: EUR
+  value: "3.50"
 keywords:
   - instant pot
   - pressure cooker
@@ -23,6 +48,7 @@ keywords:
   - one pot
   - vegetarian
   - basmati rice
+  - vegan
 tools:
   - Instant Pot Pro Max 6 qt WiFi
   - Wooden spoon
@@ -174,10 +200,34 @@ steps:
       garam masala and 2 tbsp chopped fresh coriander, fluff gently with a fork
       and serve hot.
 
+# Estimated from the ingredient weights above and divided by four, not measured
+# in a lab. Keys map one-to-one onto schema.org NutritionInformation; `note` is
+# the only key here that is not a schema property.
+nutrition:
+  serving_size: About 310 g, a quarter of the pot
+  calories: 520 kcal
+  protein_content: 13 g
+  fat_content: 17 g
+  saturated_fat_content: 2 g
+  unsaturated_fat_content: 15 g
+  trans_fat_content: 0 g
+  cholesterol_content: 0 mg
+  carbohydrate_content: 83 g
+  sugar_content: 4 g
+  fiber_content: 7 g
+  sodium_content: 1180 mg
+  note: >-
+    Estimated from the ingredient weights, not laboratory-measured. Nearly all
+    of the sodium is the 2 tsp of salt; use 1 tsp and season at the table if you
+    are watching it. Peanuts and oil account for most of the fat, and all of it
+    is plant fat, which is why cholesterol is nil.
+
 notes: >-
   Timings are calibrated for a 6 qt Instant Pot Pro Max WiFi (1200 W), which
   preheats faster and runs hotter on Sauté than a Duo. If your rice was soaked
   for 20 to 30 minutes rather than just rinsed, drop the pressure cook time to
   4 minutes. Turn Keep Warm off during the natural release so the base layer
-  does not dry out.
+  does not dry out. The recipe is not labelled gluten-free even though nothing
+  in it is a grain other than rice: most commercial asafoetida is cut with wheat
+  flour, so check your tin if that matters.
 ---

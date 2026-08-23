@@ -2,21 +2,32 @@
 layout: default
 ---
 {%- comment -%}
-  Builds a flat ingredient list and appliance-prefixed step text once,
-  then reuses both for the JSON-LD and the visible page.
-  Every step that runs during an appliance session restates that session,
-  because recipe importers read each step in isolation.
+  One pass, two outputs. Everything below is derived from the recipe's front
+  matter and then used twice: once for the schema.org/Recipe JSON-LD an
+  importer reads, once for the page a person reads. Deriving both from the same
+  variables is what stops the two from drifting apart.
+
+  Two behaviours here exist purely because of how importers work:
+    * URLs in the JSON-LD are absolute, because the importer fetches the
+      structured data away from the page it came from;
+    * every step restates its appliance session, because importers read each
+      step in isolation.
 {%- endcomment -%}
 
+{%- comment -%}
+  Ingredients: flatten the display groups into one list. `recipeIngredient` and
+  `supply` are both built from this, so a group heading can never leak into the
+  structured data.
+{%- endcomment -%}
 {%- assign flat_ingredients = "" | split: "" -%}
 {%- for group in page.ingredients -%}
   {%- assign flat_ingredients = flat_ingredients | concat: group.items -%}
 {%- endfor -%}
 
 {%- comment -%}
-  `image` accepts either one path or a list of them. Normalise to a list of
-  absolute URLs — importers reject relative paths, since they fetch the JSON-LD
-  detached from the page it came from.
+  Images: `image` accepts one path or a list. Normalise to a list of absolute
+  URLs — importers drop a relative path, since it resolves against nothing once
+  the JSON-LD has been fetched on its own.
 {%- endcomment -%}
 {%- assign image_input = "" | split: "" -%}
 {%- if page.image -%}
@@ -31,44 +42,211 @@ layout: default
 {%- endcapture -%}
 {%- assign recipe_images = images_csv | strip | split: "," -%}
 
+{%- comment -%}
+  Authors: a recipe may name its own, as a string or a list; otherwise both
+  maintainers are credited. Captured once because `author` and `copyrightHolder`
+  take the same shape. One name emits a single Person — the form importers
+  handle most reliably — several emit an array.
+{%- endcomment -%}
+{%- assign author_src = page.author | default: site.author -%}
+{%- if author_src.first -%}{%- assign author_list = author_src -%}
+{%- else -%}{%- assign author_list = author_src | split: "|" -%}{%- endif -%}
+{%- capture authors_json -%}
+{%- if author_list.size == 1 -%}
+{ "@type": "Person", "name": {{ author_list[0] | jsonify }} }
+{%- else -%}
+[{% for a in author_list %}{ "@type": "Person", "name": {{ a | jsonify }} }{% unless forloop.last %}, {% endunless %}{% endfor %}]
+{%- endif -%}
+{%- endcapture -%}
+
+{%- comment -%}
+  Dates. `date` is a Time and `updated` is a YAML date, so they are never equal
+  as objects — compare the formatted strings instead.
+{%- endcomment -%}
+{%- assign published_on = page.date | date: "%Y-%m-%d" -%}
+{%- assign updated_on = page.updated | default: page.date | date: "%Y-%m-%d" -%}
+
+{%- comment -%}
+  performTime is HowTo's name for the hands-on part of the instructions,
+  explicitly excluding preparation of the supplies. That is exactly cookTime
+  here, so it defaults to it rather than inviting a third number that could
+  disagree with the prepTime + cookTime = totalTime rule.
+{%- endcomment -%}
+{%- assign perform_time = page.perform_time | default: page.cook_time -%}
+{%- assign in_language = page.in_language | default: site.lang | default: "en" -%}
+{%- assign recipe_id = page.url | absolute_url | append: "#recipe" -%}
+{%- assign copyright_year = page.date | date: "%Y" -%}
+{%- capture copyright_notice -%}© {{ copyright_year }} {{ author_list | join: " and " }}{%- endcapture -%}
+
+{%- comment -%}
+  Nutrition. One list of front-matter keys, one of schema.org keys and one of
+  visible labels, walked in step, so a field can never appear in the JSON-LD
+  under the wrong name or be shown with the wrong label. `nutrition.note` is
+  deliberately absent from these lists: it is a caveat for the reader, not a
+  schema.org property.
+{%- endcomment -%}
+{%- assign nutrition_keys = "serving_size,calories,protein_content,fat_content,saturated_fat_content,unsaturated_fat_content,trans_fat_content,cholesterol_content,carbohydrate_content,sugar_content,fiber_content,sodium_content" | split: "," -%}
+{%- assign nutrition_schema_keys = "servingSize,calories,proteinContent,fatContent,saturatedFatContent,unsaturatedFatContent,transFatContent,cholesterolContent,carbohydrateContent,sugarContent,fiberContent,sodiumContent" | split: "," -%}
+{%- assign nutrition_labels = "Serving size,Energy,Protein,Fat,of which saturates,of which unsaturates,Trans fat,Cholesterol,Carbohydrate,of which sugars,Fibre,Sodium" | split: "," -%}
+
+{%- comment -%}
+  Cost. The JSON-LD carries an ISO 4217 code, because that is what
+  MonetaryAmount requires. The page prefers a symbol, and for a currency with no
+  symbol listed here it puts the code after the number — "≈ 900 JPY" rather than
+  the unreadable "≈JPY900".
+{%- endcomment -%}
+{%- if page.estimated_cost -%}
+  {%- assign cost_symbol = "" -%}
+  {%- case page.estimated_cost.currency -%}
+    {%- when "EUR" -%}{%- assign cost_symbol = "€" -%}
+    {%- when "USD" -%}{%- assign cost_symbol = "$" -%}
+    {%- when "GBP" -%}{%- assign cost_symbol = "£" -%}
+    {%- when "INR" -%}{%- assign cost_symbol = "₹" -%}
+  {%- endcase -%}
+  {%- if cost_symbol == "" -%}
+    {%- capture cost_display -%}≈ {{ page.estimated_cost.value }} {{ page.estimated_cost.currency }}{%- endcapture -%}
+  {%- else -%}
+    {%- capture cost_display -%}≈ {{ cost_symbol }}{{ page.estimated_cost.value }}{%- endcapture -%}
+  {%- endif -%}
+{%- endif -%}
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Recipe",
-  "name": {{ page.title | jsonify }},
-  "description": {{ page.description | jsonify }},
-  {%- comment -%}
-    A recipe may name its own author, as a string or a list; otherwise both
-    maintainers are credited. One name emits a single Person, several emit an
-    array — both valid, but a lone Person is what importers handle most
-    reliably, so the common case stays an object.
-  {%- endcomment -%}
-  {%- assign author_src = page.author | default: site.author -%}
-  {%- if author_src.first -%}{%- assign author_list = author_src -%}
-  {%- else -%}{%- assign author_list = author_src | split: "|" -%}{%- endif -%}
-  "author": {% if author_list.size == 1 %}{ "@type": "Person", "name": {{ author_list[0] | jsonify }} }{% else %}[
-    {%- for a in author_list %}
-    { "@type": "Person", "name": {{ a | jsonify }} }{% unless forloop.last %},{% endunless %}
-    {%- endfor %}
-  ]{% endif %},
-  "datePublished": {{ page.date | date: "%Y-%m-%d" | jsonify }},
+  "@id": {{ recipe_id | jsonify }},
   "url": {{ page.url | absolute_url | jsonify }},
+  "mainEntityOfPage": { "@type": "WebPage", "@id": {{ page.url | absolute_url | jsonify }} },
+  {% if page.identifier or page.slug %}"identifier": {{ page.identifier | default: page.slug | jsonify }},{% endif %}
+  "name": {{ page.title | jsonify }},
+  {% if page.alternate_names %}"alternateName": {{ page.alternate_names | jsonify }},{% endif %}
+  {% if page.description %}"description": {{ page.description | jsonify }},{% endif %}
+  {% if page.disambiguating_description %}"disambiguatingDescription": {{ page.disambiguating_description | jsonify }},{% endif %}
+  "inLanguage": {{ in_language | jsonify }},
+  "author": {{ authors_json }},
+  "creator": {{ authors_json }},
+  "publisher": { "@type": "Organization", "name": {{ site.title | jsonify }}, "url": {{ "/" | absolute_url | jsonify }} },
+  {%- comment -%}copyrightYear is a Number in schema.org, so it is emitted unquoted.{%- endcomment %}
+  "copyrightYear": {{ copyright_year }},
+  "copyrightHolder": {{ authors_json }},
+  "copyrightNotice": {{ copyright_notice | jsonify }},
+  {% if page.license %}"license": {{ page.license | jsonify }},{% endif %}
+  {% if page.is_based_on %}"isBasedOn": {{ page.is_based_on | jsonify }},{% endif %}
+  {% if page.same_as %}"sameAs": {{ page.same_as | jsonify }},{% endif %}
+  {%- comment -%}
+    True of every page on this site: nothing is paywalled and nothing needs an
+    age gate. Stated here rather than per recipe so it cannot be forgotten.
+  {%- endcomment -%}
+  "isAccessibleForFree": true,
+  "isFamilyFriendly": true,
+  "datePublished": {{ published_on | jsonify }},
+  "dateCreated": {{ published_on | jsonify }},
+  "dateModified": {{ updated_on | jsonify }},
   {% if recipe_images.size == 1 %}"image": {{ recipe_images[0] | jsonify }},{% elsif recipe_images.size > 1 %}"image": {{ recipe_images | jsonify }},{% endif %}
-  "recipeCategory": {{ page.category | jsonify }},
-  "recipeCuisine": {{ page.cuisine | jsonify }},
-  "keywords": {{ page.keywords | join: ", " | jsonify }},
-  "recipeYield": {{ page.yield | jsonify }},
-  "prepTime": {{ page.prep_time | jsonify }},
-  "cookTime": {{ page.cook_time | jsonify }},
-  "totalTime": {{ page.total_time | jsonify }},
-  "cookingMethod": {{ page.cooking_method | jsonify }},
-  {% if page.diet %}"suitableForDiet": {{ page.diet | prepend: "https://schema.org/" | jsonify }},{% endif %}
+  {% if recipe_images.size > 0 %}"thumbnailUrl": {{ recipe_images[0] | jsonify }},{% endif %}
+  {%- if page.video %}
+  "video": {
+    "@type": "VideoObject",
+    "name": {{ page.video.name | default: page.title | jsonify }},
+    "description": {{ page.video.description | default: page.description | jsonify }},
+    {% if page.video.thumbnail %}"thumbnailUrl": {{ page.video.thumbnail | absolute_url | jsonify }},{% endif %}
+    {% if page.video.content_url %}"contentUrl": {{ page.video.content_url | jsonify }},{% endif %}
+    {% if page.video.embed_url %}"embedUrl": {{ page.video.embed_url | jsonify }},{% endif %}
+    {% if page.video.duration %}"duration": {{ page.video.duration | jsonify }},{% endif %}
+    "uploadDate": {{ page.video.upload_date | default: published_on | jsonify }}
+  },
+  {%- endif %}
+  {% if page.category %}"recipeCategory": {{ page.category | jsonify }},{% endif %}
+  {% if page.cuisine %}"recipeCuisine": {{ page.cuisine | jsonify }},{% endif %}
+  {% if page.cooking_method %}"cookingMethod": {{ page.cooking_method | jsonify }},{% endif %}
+  {% if page.keywords %}"keywords": {{ page.keywords | join: ", " | jsonify }},{% endif %}
+  {%- if page.diets %}
+  "suitableForDiet": [
+    {%- for d in page.diets %}
+    {{ d.schema | prepend: "https://schema.org/" | jsonify }}{% unless forloop.last %},{% endunless %}
+    {%- endfor %}
+  ],
+  {%- endif %}
+  {%- comment -%}
+    recipeYield is the Recipe-specific property; `yield` is HowTo's. Both are
+    emitted from the same field so a parser that only knows HowTo still gets a
+    serving count.
+  {%- endcomment -%}
+  {% if page.yield %}"recipeYield": {{ page.yield | jsonify }},
+  "yield": {{ page.yield | jsonify }},{% endif %}
+  {% if page.prep_time %}"prepTime": {{ page.prep_time | jsonify }},{% endif %}
+  {% if page.cook_time %}"cookTime": {{ page.cook_time | jsonify }},{% endif %}
+  {% if perform_time %}"performTime": {{ perform_time | jsonify }},{% endif %}
+  {% if page.total_time %}"totalTime": {{ page.total_time | jsonify }},
+  {%- comment -%}CreativeWork's generic name for the same span; kept equal to totalTime by construction.{%- endcomment %}
+  "timeRequired": {{ page.total_time | jsonify }},{% endif %}
+  {%- if page.estimated_cost %}
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": {{ page.estimated_cost.currency | jsonify }},
+    "value": {{ page.estimated_cost.value | jsonify }}
+  },
+  {%- endif %}
+  {%- if page.nutrition %}
+  "nutrition": { "@type": "NutritionInformation"
+    {%- for k in nutrition_keys -%}
+      {%- assign nutrition_value = page.nutrition[k] -%}
+      {%- if nutrition_value %},
+    "{{ nutrition_schema_keys[forloop.index0] }}": {{ nutrition_value | jsonify }}
+      {%- endif -%}
+    {%- endfor %}
+  },
+  {%- endif %}
+  {%- comment -%}
+    aggregateRating and review are emitted only from real, recorded feedback.
+    Nothing here invents either: a rating a site awards its own recipe is both
+    dishonest and, for search engines, a self-serving review that gets the whole
+    block ignored.
+  {%- endcomment -%}
+  {%- if page.rating %}
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": {{ page.rating.value | jsonify }},
+    "ratingCount": {{ page.rating.count | jsonify }},
+    "bestRating": {{ page.rating.best | default: 5 | jsonify }},
+    "worstRating": {{ page.rating.worst | default: 1 | jsonify }}
+  },
+  {%- endif %}
+  {%- if page.reviews %}
+  "review": [
+    {%- for r in page.reviews %}
+    {
+      "@type": "Review",
+      "author": { "@type": "Person", "name": {{ r.author | jsonify }} },
+      "datePublished": {{ r.date | date: "%Y-%m-%d" | jsonify }},
+      "reviewBody": {{ r.body | jsonify }}
+      {%- if r.rating %},
+      "reviewRating": { "@type": "Rating", "ratingValue": {{ r.rating | jsonify }}, "bestRating": 5, "worstRating": 1 }
+      {%- endif %}
+    }{% unless forloop.last %},{% endunless %}
+    {%- endfor %}
+  ],
+  {%- endif %}
+  {%- if page.tools %}
   "tool": [
     {%- for t in page.tools %}
     { "@type": "HowToTool", "name": {{ t | jsonify }} }{% unless forloop.last %},{% endunless %}
     {%- endfor %}
   ],
+  {%- endif %}
+  {%- comment -%}
+    HowTo calls a consumed item a supply; Recipe calls it an ingredient. Both
+    are emitted from `flat_ingredients`, so the two lists are the same strings
+    in the same order and cannot disagree.
+  {%- endcomment -%}
+  {%- if flat_ingredients.size > 0 %}
+  "supply": [
+    {%- for i in flat_ingredients %}
+    { "@type": "HowToSupply", "name": {{ i | jsonify }} }{% unless forloop.last %},{% endunless %}
+    {%- endfor %}
+  ],
   "recipeIngredient": {{ flat_ingredients | jsonify }},
+  {%- endif %}
   "recipeInstructions": [
     {%- for step in page.steps %}
     {%- capture step_text -%}
@@ -94,6 +272,9 @@ layout: default
   <p class="eyebrow">{{ page.eyebrow | default: page.cuisine }}</p>
   <h1>{{ page.title }}</h1>
   <p class="lede">{{ page.description }}</p>
+  {% if page.alternate_names %}
+  <p class="alt-names">Also known as {{ page.alternate_names | join: ", " }}.</p>
+  {% endif %}
 
   {%- comment -%}
     Note the two different resolutions of the same path: the JSON-LD above needs
@@ -109,11 +290,20 @@ layout: default
   {% endif %}
 
   <div class="meta">
-    <span>Prep<b>{{ page.prep_time_display }}</b></span>
-    <span>Cook<b>{{ page.cook_time_display }}</b></span>
-    <span>Serves<b>{{ page.yield }}</b></span>
-    <span>Cuisine<b>{{ page.cuisine }}</b></span>
+    {% if page.prep_time_display %}<span>Prep<b>{{ page.prep_time_display }}</b></span>{% endif %}
+    {% if page.cook_time_display %}<span>Cook<b>{{ page.cook_time_display }}</b></span>{% endif %}
+    {% if page.total_time_display %}<span>Total<b>{{ page.total_time_display }}</b></span>{% endif %}
+    {% if page.yield %}<span>Serves<b>{{ page.yield }}</b></span>{% endif %}
+    {% if page.category %}<span>Course<b>{{ page.category }}</b></span>{% endif %}
+    {% if page.cuisine %}<span>Cuisine<b>{{ page.cuisine }}</b></span>{% endif %}
+    {% if page.estimated_cost %}<span>Ingredients<b>{{ cost_display }}</b></span>{% endif %}
   </div>
+
+  {% if page.diets %}
+  <ul class="diets">
+    {% for d in page.diets %}<li>{{ d.label }}</li>{% endfor %}
+  </ul>
+  {% endif %}
 
   {%- comment -%}
     The button is added by script; without JS the link itself stays visible and
@@ -124,6 +314,13 @@ layout: default
     <a class="import-strip-url" href="{{ page.url | absolute_url }}">{{ page.url | absolute_url | remove: "https://" }}</a>
     <a class="import-strip-how" href="{{ '/#import' | relative_url }}">How to import</a>
   </div>
+
+  {% if page.tools %}
+  <h2>Equipment</h2>
+  <ul>
+    {% for t in page.tools %}<li>{{ t }}</li>{% endfor %}
+  </ul>
+  {% endif %}
 
   <h2>Ingredients</h2>
   {% for group in page.ingredients %}
@@ -153,7 +350,29 @@ layout: default
     {% endfor %}
   </ol>
 
+  {% if page.nutrition %}
+  <h2>Nutrition, per serving</h2>
+  <dl class="nutrition">
+    {%- for k in nutrition_keys -%}
+      {%- assign nutrition_value = page.nutrition[k] -%}
+      {%- if nutrition_value %}
+    <div>
+      <dt>{{ nutrition_labels[forloop.index0] }}</dt>
+      <dd>{{ nutrition_value }}</dd>
+    </div>
+      {%- endif -%}
+    {%- endfor %}
+  </dl>
+  {% if page.nutrition.note %}<p class="nutrition-note">{{ page.nutrition.note }}</p>{% endif %}
+  {% endif %}
+
   {% if page.notes %}<p class="note">{{ page.notes }}</p>{% endif %}
 
   {{ content }}
+
+  <p class="pubdate">
+    By {{ author_list | join: " and " }} ·
+    Published <time datetime="{{ published_on }}">{{ page.date | date: "%-d %B %Y" }}</time>
+    {%- if updated_on != published_on %} · Updated <time datetime="{{ updated_on }}">{{ page.updated | date: "%-d %B %Y" }}</time>{% endif %}
+  </p>
 </article>
