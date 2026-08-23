@@ -85,6 +85,7 @@ exclude:
   - CLAUDE.md
   - CONTRIBUTING.md
   - CODE_OF_CONDUCT.md
+  - SECURITY.md
   - Gemfile
   - Gemfile.lock
   - vendor
