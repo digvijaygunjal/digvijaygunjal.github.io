@@ -1,18 +1,18 @@
 ---
 title: Butter Chicken
 date: 2026-08-29
-description: Murgh makhani in a pressure cooker. Yoghurt-marinated thigh seared on Sauté, a cashew-and-tomato makhani gravy pressure cooked for 5 minutes and blended smooth, then the chicken simmered back into it and finished with cream, cold butter and kasoori methi.
+description: Murgh makhani in a pressure cooker. The thigh marinates in yoghurt and sears on Sauté. A cashew and tomato gravy pressure cooks for 5 minutes, then blends smooth. The chicken goes back in, then cream, cold butter and kasoori methi.
 eyebrow: Instant Pot · North Indian · Gluten-free
 alternate_names:
   - Murgh Makhani
   - Murg Makhani
   - Indian Butter Chicken
 disambiguating_description: >-
-  The Punjabi makhani gravy — tomato, cashew, butter and cream, with the
-  fenugreek note that defines it — around tandoori-marinated chicken. Not
-  chicken tikka masala, which is a British dish built on the same marinated
-  chicken but a spicier, less buttery onion-heavy sauce, and not korma, which
-  is nut-and-dairy rich with no tomato at all.
+  The Punjabi makhani gravy of tomato, cashew, butter and cream, with the
+  fenugreek note that defines it, around tandoori-marinated chicken. It is not
+  chicken tikka masala, which is a British dish with a spicier, less buttery
+  onion sauce. It is not korma either, which is rich with nuts and dairy and
+  has no tomato.
 cuisine: Indian
 category: Main course
 cooking_method: Pressure cooking
@@ -44,19 +44,19 @@ allergens:
     - id: milk
       note: >-
         Yoghurt in the marinade, 60 g of butter, and 100 ml of cream. Milk is
-        not an optional extra here — makhani means buttery, and the butter and
+        not an optional extra here. Makhani means buttery, and the butter and
         the cream are the dish. This one cannot be made safe for a milk
         allergy.
     - id: nuts
       note: >-
-        40 g of raw cashews, blended into the gravy rather than scattered on
-        top, so they cannot be picked out. Leave them out and the sauce is
-        thinner and sharper; see notes for what to do instead.
+        40 g of raw cashews, blended into the gravy and not scattered on top,
+        so they cannot be picked out. Leave them out and the sauce is thinner
+        and sharper. See the notes for what to do about that.
   note: >-
-    Nothing in the pot is gluten, fish, egg or soy, but ground spice blends and
-    bagged cashews are both commonly packed on shared lines. Buy certified if a
-    coeliac or a severe nut allergy is eating. Kasoori methi is a leaf, not a
-    seed — it is not related to any of the fourteen.
+    Nothing in the pot is gluten, fish, egg or soy. Ground spice blends and
+    bagged cashews are both commonly packed on shared lines. Buy certified if
+    a coeliac or a severe nut allergy is eating. Kasoori methi is a leaf, not
+    a seed, and is not related to any of the 14.
 
 # PLACEHOLDER, not a photograph. This recipe was published before the dish had
 # been cooked and shot, so the hero is a plain warm panel in the site's own
@@ -68,7 +68,7 @@ image_alt: >-
   A plain warm-beige panel standing in for a photograph of the finished butter
   chicken, which has not been taken yet.
 image_caption: >-
-  Placeholder, not a photograph — the dish has not been shot yet.
+  A placeholder, not a photograph. The dish has not been shot yet.
 
 yield: 4 servings
 prep_time: PT40M
@@ -144,11 +144,11 @@ steps:
     text: >-
       In a mixing bowl, whisk 120 g full-fat plain yoghurt with 1 tbsp
       ginger-garlic paste, 1 tbsp lemon juice, 1.5 tsp Kashmiri red chilli
-      powder, 1 tsp garam masala, 0.5 tsp turmeric powder, 1 tsp salt and 1
-      tbsp neutral oil. Fold in 700 g boneless skinless chicken thighs cut into
-      3 cm pieces until every piece is coated. Cover and refrigerate for at
-      least 30 minutes; 4 to 8 hours is better and overnight is best. Use thigh
-      rather than breast — 3 cm breast cubes go dry in the time the gravy needs.
+      powder, 1 tsp garam masala, 0.5 tsp turmeric powder, 1 tsp salt and
+      1 tbsp neutral oil. Fold in 700 g boneless skinless chicken thighs cut
+      into 3 cm pieces until every piece is coated. Cover and refrigerate for
+      at least 30 minutes. 4 to 8 hours is better and overnight is best. Use
+      thigh, not breast: 3 cm breast cubes go dry in the time the gravy needs.
 
   - name: Preheat the pot
     appliance: Sauté
@@ -166,12 +166,12 @@ steps:
     continues: true
     text: >-
       lift the chicken out of the marinade with tongs, letting the thick
-      marinade drip back into the bowl, and lay half the pieces in the pot in
-      one layer. Do not stir for the first 2 minutes — that is where the char
-      comes from. Turn, give it 2 more minutes, then move that batch to a plate
-      and sear the second. Keep whatever marinade is left in the bowl. Yoghurt
-      sticks hard, so expect a brown crust on the base; that is flavour and it
-      comes up at the deglaze step.
+      marinade drip back into the bowl. Lay half the pieces in the pot in one
+      layer. Do not stir for the first 2 minutes. That is where the char comes
+      from. Turn, give it 2 more minutes, then move that batch to a plate and
+      sear the second. Keep whatever marinade is left in the bowl. Yoghurt
+      sticks hard, so expect a brown crust on the base. That is flavour, and
+      it comes up at the deglaze step.
 
   - name: Bloom the whole spices in butter
     appliance: Sauté
@@ -180,10 +180,10 @@ steps:
     continues: true
     text: >-
       reduce the level to Medium and add 40 g butter, 1 bay leaf, 1 cinnamon
-      stick and 4 green cardamom pods. Count the cardamom pods in — you will
+      stick and 4 green cardamom pods. Count the cardamom pods in. You will
       count them out again before blending, and a pod that goes through the
-      blender turns the whole gravy soapy. Stir until the butter has melted and
-      the cardamom smells sweet.
+      blender turns the whole gravy soapy. Stir until the butter has melted
+      and the cardamom smells sweet.
 
   - name: Soften the onion
     appliance: Sauté
@@ -191,8 +191,8 @@ steps:
     duration: 6 min
     continues: true
     text: >-
-      add 1 large onion, roughly chopped. There is no need to dice it finely —
-      the gravy is blended, so chunks are fine and they release their water
+      add 1 large onion, roughly chopped. There is no need to dice it finely.
+      The gravy is blended, so chunks are fine. They also release their water
       faster, which starts lifting the seared crust off the base. Cook,
       stirring every minute, until translucent and just golden at the edges.
 
@@ -203,8 +203,8 @@ steps:
     continues: true
     text: >-
       add 1 tbsp ginger-garlic paste and 40 g raw cashews. Stir constantly so
-      the paste does not catch, until the raw garlic smell is gone. The cashews
-      only need to warm through — they soften under pressure, not here.
+      the paste does not catch, until the raw garlic smell is gone. The
+      cashews only need to warm through. They soften under pressure, not here.
 
   - name: Roast the ground spices
     appliance: Sauté
@@ -212,11 +212,11 @@ steps:
     duration: 30 sec
     continues: true
     text: >-
-      reduce the level to Low, then add 1 tsp Kashmiri red chilli powder, 1 tsp
-      ground coriander, 0.5 tsp turmeric powder and 1 tsp salt. Stir constantly
-      for 30 seconds. Kashmiri chilli is there for colour more than heat, and it
-      is the ingredient that scorches first — do this on Low or the gravy turns
-      brown and bitter instead of red.
+      reduce the level to Low, then add 1 tsp Kashmiri red chilli powder, 1
+      tsp ground coriander, 0.5 tsp turmeric powder and 1 tsp salt. Stir
+      constantly for 30 seconds. Kashmiri chilli is there for colour more than
+      heat, and it scorches before anything else. Do this on Low, or the gravy
+      turns brown and bitter where it should be red.
 
   - name: Deglaze the base properly
     appliance: Sauté
@@ -224,11 +224,11 @@ steps:
     duration: 2 min
     continues: true
     text: >-
-      pour in 120 ml water and scrape the base of the pot with a wooden spoon
-      for a full two minutes, until nothing is stuck and the water has gone
-      brown. Scrape the leftover marinade out of the bowl into the pot as well.
-      This is the step that decides whether you get a Burn warning: a seared
-      yoghurt crust left on the base will trigger it every time.
+      pour in 120 ml water. Scrape the base of the pot with a wooden spoon for
+      a full two minutes. Stop when nothing is stuck and the water has gone
+      brown. Scrape the leftover marinade out of the bowl into the pot as
+      well. This is the step that decides whether you get a Burn warning: a
+      seared yoghurt crust left on the base will trigger it every time.
 
   - name: Layer the tomatoes on top, then cancel
     appliance: Sauté
@@ -236,39 +236,40 @@ steps:
     duration: 30 sec
     continues: true
     text: >-
-      tip 400 g tinned chopped tomatoes and 2 tbsp tomato purée on top and
-      spread them level, but do not stir them in. Tomato that sinks to the base
-      is thick enough to scorch under pressure; floating on the water it cannot.
-      Press Cancel to turn off Sauté. The chicken stays out of the pot for now.
+      tip 400 g tinned chopped tomatoes and 2 tbsp tomato purée on top. Spread
+      them level, but do not stir them in. Tomato that sinks to the base is
+      thick enough to scorch under pressure. Floating on the water it cannot.
+      Press Cancel to turn off Sauté. The chicken stays out of the pot for
+      now.
 
   - name: Pressure cook the gravy
     appliance: Pressure Cook
     setting: High
     duration: 5 min
     text: >-
-      Lock on the lid and turn the valve to Sealing. Pressure cook on High for 5
-      minutes. It takes about 6 to 9 minutes to come up to pressure first,
-      because the pot is already hot. Five minutes is enough to collapse the
-      onion and soften the cashews to the point where they blend without grit,
-      which is the whole reason the gravy is cooked separately from the chicken.
+      Lock on the lid and turn the valve to Sealing. Pressure cook on High for
+      5 minutes. It takes about 6 to 9 minutes to come up to pressure first,
+      because the pot is already hot. Five minutes collapses the onion and
+      softens the cashews enough to blend without grit. That is why the gravy
+      is cooked separately from the chicken.
 
   - name: Natural release for 5 minutes, then vent
     appliance: Natural Release
     duration: 5 min
     text: >-
-      Leave the pot undisturbed for a 5 minute natural pressure release, then
+      Leave the pot undisturbed for a 5 minute natural pressure release. Then
       turn the valve to Venting and wait for the float valve to drop before
-      opening. Open the lid away from you — the gravy is thick and it spits.
+      opening. Open the lid away from you: the gravy is thick and it spits.
 
   - name: Fish out the whole spices and blend
     text: >-
       Find and remove 1 bay leaf, 1 cinnamon stick and all 4 green cardamom
       pods. The pods float, so look at the surface first. Then blend the gravy
-      smooth with an immersion blender, right in the pot, for about a minute —
-      longer than feels necessary. Restaurant makhani is completely
-      unstructured; if you can still see onion, it is not done. Without an
-      immersion blender, let it cool for 10 minutes, blend in a jug blender in
-      two batches, and return it to the pot.
+      smooth with an immersion blender, right in the pot, for about a minute.
+      That is longer than feels necessary. Restaurant makhani is completely
+      smooth. If you can still see onion, it is not done. With no immersion
+      blender, let it cool for 10 minutes, blend in a jug blender in two
+      batches, and return it to the pot.
 
   - name: Simmer the chicken back in
     appliance: Sauté
@@ -287,21 +288,22 @@ steps:
     duration: 2 min
     continues: true
     text: >-
-      crush 1 tbsp kasoori methi between your palms straight into the pot —
-      crushing is what releases it, and it is the single ingredient that makes
-      this taste like butter chicken rather than tomato-cream chicken. Stir in
-      100 ml double cream, 1 tsp garam masala and 2 tsp honey. Let it come to a
+      crush 1 tbsp kasoori methi between your palms straight into the pot.
+      Crushing is what releases it, and it is the one ingredient that makes
+      this taste like butter chicken and not tomato-cream chicken. Stir in 100
+      ml double cream, 1 tsp garam masala and 2 tsp honey. Let it come to a
       bare simmer, then press Cancel and stir 20 g cold butter through off the
-      heat until it disappears. Adding the cream off pressure and the butter off
-      heat is what keeps the gravy glossy rather than split.
+      heat until it disappears. The cream goes in off pressure and the butter
+      off the heat, which is what keeps the gravy glossy and stops it
+      splitting.
 
   - name: Rest and serve
     text: >-
-      Leave it to stand for 5 minutes with the lid off — the gravy thickens
-      noticeably as it drops below a simmer, and the salt evens out. Taste and
-      adjust: more honey if the tomatoes were sharp, more salt if it tastes
-      flat, a splash of hot water if it has gone past thick. Scatter 2 tbsp
-      chopped fresh coriander over and serve with naan or plain basmati.
+      Leave it to stand for 5 minutes with the lid off. The gravy thickens as
+      it drops below a simmer, and the salt evens out. Taste and adjust. More
+      honey if the tomatoes were sharp, more salt if it tastes flat, a splash
+      of hot water if it has gone too thick. Scatter 2 tbsp chopped fresh
+      coriander over and serve with naan or plain basmati.
 
 # Estimated from the ingredient weights above and divided by four, not measured
 # in a lab. Keys map one-to-one onto schema.org NutritionInformation; `note` is
@@ -320,30 +322,30 @@ nutrition:
   fiber_content: 3 g
   sodium_content: 1210 mg
   note: >-
-    Estimated from the ingredient weights, not laboratory-measured, and for the
-    curry alone — rice or naan is on top of this. Three things dominate the
-    numbers. The 60 g of butter and 100 ml of cream carry most of the fat and
-    nearly all of the saturated fat. The 2 tsp of salt is almost all of the
-    sodium, so halve it and season at the table if you are watching it. The
-    cholesterol is high because 700 g of chicken thigh is high in it before any
-    dairy is added. The trans fat is the small amount that occurs naturally in
-    butter and cream, not from hydrogenated fat.
+    Estimated from the ingredient weights, not measured in a lab, and for the
+    curry on its own. Rice or naan is on top of this. Three things dominate
+    the numbers. The 60 g of butter and 100 ml of cream carry most of the fat
+    and nearly all of the saturated fat. The 2 tsp of salt is almost all of
+    the sodium, so halve it and season at the table if you are watching it.
+    The cholesterol is high because 700 g of chicken thigh is high in it
+    before any dairy is added. The trans fat is the small amount that occurs
+    naturally in butter and cream.
 
 notes: >-
-  Timings are calibrated for a 6 qt Instant Pot Pro Max WiFi (1200 W), which
-  preheats faster and runs hotter on Sauté than a Duo. On a Duo or a Lux, give
-  the sear an extra 2 minutes a batch and expect a slower rise to pressure; the
-  5 minute pressure time is unchanged, because it is timed for the cashews and
-  not for the meat. If you use chicken breast instead of thigh, cut it into 4 cm
-  pieces and drop the final simmer to 5 minutes. For real tandoor char, spread
-  the marinated chicken on a rack and grill it under a hot oven grill for 8
-  minutes before it goes into the gravy — it is a second pan to wash and it is
-  the biggest single upgrade to the dish. Kashmiri chilli powder is for colour;
-  ordinary chilli powder at the same quantity will be considerably hotter, so
-  use half of it and make up the colour with sweet paprika. Without cashews,
-  blend in 2 tbsp of ground almonds at the finish or accept a thinner sauce —
-  do not compensate with more cream, which makes it heavy rather than silky.
-  Kasoori methi has no substitute; it is worth a trip to an Indian grocer. The
-  gravy freezes well on its own for up to 3 months, so a double batch of gravy
-  frozen without the chicken turns this into a 20 minute meal later.
+  Timings are for a 6 qt Instant Pot Pro Max WiFi (1200 W). It heats up faster
+  and runs hotter on Sauté than a Duo. On a Duo or a Lux, give the sear 2
+  extra minutes a batch and expect a slower rise to pressure. The 5 minute
+  pressure time stays the same, because it is timed for the cashews and not
+  the meat. With chicken breast, cut the pieces to 4 cm and drop the final
+  simmer to 5 minutes. For real tandoor char, spread the marinated chicken on
+  a rack. Put it under a hot grill for 8 minutes before it goes into the gravy.
+  That is a second pan to wash, and it is the biggest single upgrade to the
+  dish. Kashmiri chilli powder is there for colour. Ordinary chilli powder at
+  the same quantity is much hotter, so use half of it and make up the colour
+  with sweet paprika. With no cashews, blend in 2 tbsp of ground almonds at
+  the finish, or accept a thinner sauce. Do not make up for it with more
+  cream, which turns the gravy heavy. Kasoori methi has no substitute and is
+  worth a trip to an Indian grocer. The gravy freezes well on its own for up
+  to 3 months. Freeze a double batch without the chicken and this becomes a 20
+  minute meal later.
 ---

@@ -8,8 +8,8 @@ alternate_names:
   - Tehri
   - Vegetable tehri
 disambiguating_description: >-
-  A pressure-cooked one-pot rice: raw basmati is toasted in the masala and then
-  cooked in the same pot, so it is not a fried-rice style dish built from
+  A pressure-cooked one-pot rice. The raw basmati is toasted in the masala and
+  then cooked in the same pot. It is not a fried-rice style dish built from
   leftover cooked rice.
 cuisine: Indian
 category: Main course
@@ -41,14 +41,14 @@ allergens:
   may_contain:
     - id: gluten
       note: >-
-        Only through the asafoetida. Most commercial asafoetida is a compound,
-        cut with wheat flour to keep it pourable; the gluten-free tins say so on
-        the label and are usually cut with rice flour instead. Nothing else here
-        is a gluten grain.
+        Only through the asafoetida. Most asafoetida sold in shops is a blend,
+        cut with wheat flour to keep it pourable. Gluten-free tins say so on
+        the label and are usually cut with rice flour. Nothing else here is a
+        gluten grain.
   note: >-
-    The peanuts are the one that cannot be worked around: they are in the pot
-    from the Sauté stage. Leave them out entirely if you are cooking for a
-    peanut allergy — the rice is fine without them.
+    The peanuts are the one thing that cannot be worked around: they are in
+    the pot from the Sauté stage. Leave them out altogether if you are cooking
+    for a peanut allergy. The rice is fine without them.
 image: /assets/images/recipes/masala-rice.jpg
 image_alt: Masala rice on a steel thali, studded with green peas, diced potato and whole bay leaves.
 yield: 4 servings
@@ -128,11 +128,11 @@ steps:
     continues: true
     # image: /assets/images/recipes/step-tadka.jpg
     text: >-
-      reduce the level to Medium and add 1 tsp cumin seeds, 1 tsp mustard seeds,
-      2 pinches asafoetida, 4 whole cloves, 1 star anise, 1 bay leaf and 8 whole
-      black peppercorns to the hot oil. Stir until the mustard seeds pop and the
-      spices smell fragrant. Do not do this on High — cumin and asafoetida scorch
-      in seconds at that temperature.
+      reduce the level to Medium and add 1 tsp cumin seeds, 1 tsp mustard
+      seeds, 2 pinches asafoetida, 4 whole cloves, 1 star anise, 1 bay leaf
+      and 8 whole black peppercorns to the hot oil. Stir until the mustard
+      seeds pop and the spices smell fragrant. Do not do this on High. Cumin
+      and asafoetida scorch in seconds at that temperature.
 
   - name: Cook the aromatics
     appliance: Sauté
@@ -172,9 +172,9 @@ steps:
     duration: 3 min
     continues: true
     text: >-
-      add 2 small potatoes cut into 2 cm dice, 80 g cauliflower cut into large
-      florets and 50 g raw peanuts. Stir until everything is coated in the spice
-      mixture and the potato edges start to turn translucent.
+      add 2 small potatoes, cut into 2 cm dice, and 80 g cauliflower in large
+      florets. Add 50 g raw peanuts as well. Stir until everything is coated
+      in the spice mixture and the potato edges start to turn translucent.
 
   - name: Toast the rice
     appliance: Sauté
@@ -202,10 +202,10 @@ steps:
     setting: High
     duration: 5 min
     text: >-
-      Lock on the lid and turn the valve to Sealing. Pressure cook on High for 5
-      minutes. Because the pot is already hot, it will take about 6 to 9 minutes
-      to come up to pressure first. Do not use NutriBoost — the agitation breaks
-      basmati grains.
+      Lock on the lid and turn the valve to Sealing. Pressure cook on High for
+      5 minutes. Because the pot is already hot, it will take about 6 to 9
+      minutes to come up to pressure first. Do not use NutriBoost: it stirs
+      the pot, and that breaks basmati grains.
 
   - name: Natural release, then vent
     appliance: Natural Release
@@ -218,11 +218,11 @@ steps:
 
   - name: Add the peas, fluff and serve
     text: >-
-      Open the lid away from you and scatter 80 g green peas over the hot rice.
-      Close the lid loosely for 3 minutes so they warm through without turning
-      grey. Remove the bay leaf and star anise, fold through the remaining 2 tsp
-      garam masala and 2 tbsp chopped fresh coriander, fluff gently with a fork
-      and serve hot.
+      Open the lid away from you and scatter 80 g green peas over the hot
+      rice. Close the lid loosely for 3 minutes so they warm through without
+      turning grey. Remove the bay leaf and the star anise. Fold through the
+      remaining 2 tsp garam masala and 2 tbsp chopped fresh coriander. Fluff
+      gently with a fork and serve hot.
 
 # Estimated from the ingredient weights above and divided by four, not measured
 # in a lab. Keys map one-to-one onto schema.org NutritionInformation; `note` is
@@ -247,11 +247,11 @@ nutrition:
     is plant fat, which is why cholesterol is nil.
 
 notes: >-
-  Timings are calibrated for a 6 qt Instant Pot Pro Max WiFi (1200 W), which
-  preheats faster and runs hotter on Sauté than a Duo. If your rice was soaked
-  for 20 to 30 minutes rather than just rinsed, drop the pressure cook time to
-  4 minutes. Turn Keep Warm off during the natural release so the base layer
-  does not dry out. The recipe is not labelled gluten-free even though nothing
-  in it is a grain other than rice: most commercial asafoetida is cut with wheat
-  flour, so check your tin if that matters.
+  Timings are for a 6 qt Instant Pot Pro Max WiFi (1200 W). It preheats faster
+  and runs hotter on Sauté than a Duo. If your rice soaked for 20 to 30
+  minutes and was not just rinsed, drop the pressure cook time to 4 minutes.
+  Turn Keep Warm off during the natural release so the base layer does not dry
+  out. The recipe is not labelled gluten-free, even though the only grain in
+  it is rice. Most asafoetida sold in shops is cut with wheat flour, so check
+  your tin if that matters.
 ---

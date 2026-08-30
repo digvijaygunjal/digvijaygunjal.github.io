@@ -369,7 +369,7 @@ layout: default
       {%- for a in page.allergens.present -%}
       {%- assign ref = site.data.allergens | where: "id", a.id | first -%}
       {%- if ref %}
-      <li><b>{{ ref.label }}</b>{% if a.note %} — {{ a.note }}{% elsif ref.detail %} — {{ ref.detail }}{% endif %}</li>
+      <li><b>{{ ref.label }}</b>{% if a.note %}: {{ a.note }}{% elsif ref.detail %}: {{ ref.detail }}{% endif %}</li>
       {%- endif -%}
       {%- endfor %}
     </ul>
@@ -381,7 +381,7 @@ layout: default
       {%- for a in page.allergens.may_contain -%}
       {%- assign ref = site.data.allergens | where: "id", a.id | first -%}
       {%- if ref %}
-      <li><b>{{ ref.label }}</b>{% if a.note %} — {{ a.note }}{% elsif ref.detail %} — {{ ref.detail }}{% endif %}</li>
+      <li><b>{{ ref.label }}</b>{% if a.note %}: {{ a.note }}{% elsif ref.detail %}: {{ ref.detail }}{% endif %}</li>
       {%- endif -%}
       {%- endfor %}
     </ul>
@@ -402,12 +402,11 @@ layout: default
     {% endif %}
 
     <p class="allergen-note">
-      Checked against the {{ site.data.allergens.size }} allergens of Annex II to
-      Regulation (EU) No 1169/2011, which between them cover all nine of the US
-      FDA&rsquo;s major allergens. This is a home recipe rather than a packaged
-      food: brands differ in what they put in compounded spices, dairy and dried
-      fruit, and cross-contamination from shared equipment is not tracked here,
-      so read the label on what you actually buy.{% if page.allergens.note %} {{ page.allergens.note }}{% endif %}
+      Checked against the {{ site.data.allergens.size }} allergens that EU food labels
+      have to declare. Those {{ site.data.allergens.size }} cover all nine of the major
+      US allergens as well. This is a home recipe, not a packaged food. Brands differ in
+      what goes into spice blends, dairy and dried fruit. Nothing here tracks what a
+      shared machine or pan has also touched. Read the label on what you buy.{% if page.allergens.note %} {{ page.allergens.note }}{% endif %}
     </p>
   </section>
   {% endif %}
@@ -417,7 +416,7 @@ layout: default
     selectable, so the URL is never hidden behind a control that does nothing.
   {%- endcomment -%}
   <div class="import-strip" data-recipe-url="{{ page.url | absolute_url }}">
-    <span class="import-strip-label">Cook it with guided cooking</span>
+    <span class="import-strip-label">Send this recipe to your cooking app</span>
     <a class="import-strip-url" href="{{ page.url | absolute_url }}">{{ page.url | absolute_url | remove: "https://" }}</a>
     <a class="import-strip-how" href="{{ '/#import' | relative_url }}">How to import</a>
   </div>

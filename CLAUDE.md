@@ -234,9 +234,11 @@ assets/css/main.css      styles
 assets/images/recipes/   recipe photos
 index.html               landing page + recipe index
 Rakefile                 the entry point: `bundle exec rake` runs every check
-test/support/            shared loaders; the vocabularies and the contract
+test/support/            shared loaders; the vocabularies, the contract, the
+                         plain-words rules and where each of them came from
 test/sources/            the recipe files as written — no build, milliseconds
-test/import_contract/    the built _site — JSON-LD, anchors, allergen maths
+test/import_contract/    the built _site — JSON-LD, anchors, allergen maths,
+                         and the plain-words rules over every page's prose
 test/browser/            Chromium over the built site — its own Node toolchain
 test/schema_drift/       the vocabulary vs. what we emit — quarterly, not on push
 test/external_links/     outbound links — weekly, advisory, never gates a merge
@@ -302,14 +304,55 @@ match them, and update all three places together if they change.
 
 - **Calibrated for one cooker.** Timings assume the cooker named in
   `site.appliance`. Where another pressure cooker would differ, say so and give
-  the adjustment rather than staying silent.
+  the adjustment.
 - **Every step names its function, level and duration** so the reader is never
   guessing which button to press.
 - **Weights, not cups.** Grams and millilitres. In a sealed pot the ratio of
   grain to water decides the result, and a cup is not a reliable measure.
-- **Failure modes up front.** Where a step commonly goes wrong — a Burn warning
-  from an unscraped base, spices scorching on a high setting — say what happens
-  and why, at the point where it matters.
+- **Failure modes up front.** Where a step commonly goes wrong, say what
+  happens and why, at the point where it matters. A Burn warning from an
+  unscraped base, or spices scorching on a high setting.
+
+## Plain words on the page
+
+The site is read in a kitchen by someone with one hand free, so its prose is
+held to five rules. They are documented for readers in
+[README.md → Plain words](README.md#plain-words) and for contributors in
+[CONTRIBUTING.md → Plain words](CONTRIBUTING.md#plain-words), and all three
+have to say the same thing.
+
+1. One idea per sentence, **25 words at most**. An ingredient list inside a
+   sentence counts once, because adding eight spices is one instruction.
+2. **No em or en dash mid-sentence.** A full stop, comma, colon or brackets
+   instead. Hyphenated words are untouched.
+3. **Everyday words**, against the list in `PlainLanguage::SLOP_WORDS`.
+4. **No words about how the site is built** — `JSON-LD`, `structured data`,
+   `machine-readable`, `schema.org`, `front matter` — in anything a visitor
+   reads. They belong in these three documents. Cooking and appliance terms are
+   the opposite and stay: Sauté, natural release, float valve, tadka.
+5. **Say what a thing is, not what it is not.** No "not just X, but Y". At most
+   two "rather than" or "instead of" a page.
+
+Rules 2, 3 and 5 are taken from
+[Wikipedia:Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing),
+maintained by WikiProject AI Cleanup; rule 1 is the sentence length the GOV.UK
+style guide and plainlanguage.gov both give. The rules apply to prose a visitor
+reads: recipe front matter, the home page, the layout's own copy. They do not
+apply here, in `README.md`, in `CONTRIBUTING.md`, or in code comments, where a
+reader has signed up for the detail.
+
+This is enforced, not left to review. `test/support/plain_language.rb` holds the
+rules and the word lists; `test/sources/voice_test.rb` applies them to each
+recipe's reader-facing fields, and `test/import_contract/plain_language_test.rb`
+applies them to every sentence on every built page, which is the only place the
+home page and the layout's own paragraphs are covered. That second set also
+counts the `With the pot still on Sauté, ` the layout prepends, so a step that
+is 22 words in the file can still fail at 28 on the page.
+
+A word list can be wrong. If a banned word is the honest word for something in
+a kitchen, change the list and say why in the same pull request, rather than
+writing round it with something vaguer — a vague sentence passes every check
+here and still fails the reader.
 
 ## Allergens and diets
 
@@ -395,7 +438,8 @@ proposing a change, and quote what it printed rather than saying it passed.
 
 - `rake test:sources` — the recipe files as written; no build, milliseconds
 - `rake test:import_contract` — one `jekyll build`, then the JSON-LD, the step
-  anchors, the allergen arithmetic and html-proofer over the output
+  anchors, the allergen arithmetic, the plain-words rules over every page's
+  prose, and html-proofer over the output
 - `rake test:browser` — Chromium over the built site; needs Node, which it
   installs on demand into `test/browser`
 

@@ -120,19 +120,45 @@ The three that get missed:
 - **Weights, not cups.** Grams and millilitres. In a sealed pot the ratio of
   grain to water decides the result, and a cup is not a reliable measure of
   either.
-- **Every step names its function, level and duration** — `Sauté`, `Medium`,
-  `8 min` — so the reader is never guessing which button to press or how long to
-  hold it there. A step that continues a session already running sets
-  `continues: true`, and its `text` starts lowercase, mid-sentence: the layout
-  prepends the appliance context, because an importer reads each step in
-  isolation and a step that does not restate its session loses it.
+- **Every step names its function, level and duration**: `Sauté`, `Medium`,
+  `8 min`. The reader is then never guessing which button to press or how long
+  to hold it there. A step that continues a session already running sets
+  `continues: true`, and its `text` starts lowercase, mid-sentence. The layout
+  puts the appliance context in front of it, because an importer reads each
+  step on its own and a step that does not restate its session loses it.
 - **Failure modes at the point where they happen.** A Burn warning from an
-  unscraped base, spices scorching on a high setting — say what goes wrong and
-  why, in the step where it goes wrong, not in a note at the bottom.
+  unscraped base, or spices scorching on a high setting. Say what goes wrong
+  and why, in the step where it goes wrong, not in a note at the bottom.
 
 All timings assume the cooker recorded under `appliance` in `_config.yml`. Where
 another pressure cooker would need a different time, say so and give the
-adjustment rather than staying silent.
+adjustment.
+
+### Plain words
+
+Someone reads this in a kitchen with one hand free. A sentence they have to
+read twice has failed, however accurate it is. The full rules, and where they
+come from, are in
+[README → Plain words](README.md#plain-words). In short:
+
+1. One idea per sentence, 25 words at most. A list of ingredients inside a
+   sentence counts once.
+2. No dash in the middle of a sentence. Use a full stop, a comma, a colon or
+   brackets. Hyphenated words are fine.
+3. Everyday words. No `crucial`, `seamless`, `robust`, `showcase`, `delve`.
+4. No web words on the page: `JSON-LD`, `structured data`, `schema.org` and
+   the rest belong in these documents, not in front of a cook. Cooking words
+   stay. Sauté, natural release and tadka are the words the job is done with.
+5. Say what a thing is, not what it is not. "Not just X, but Y" says the same
+   thing twice. "Rather than" is allowed twice a page, for the cases where a
+   reader really does expect the other thing.
+
+All five are checked, so a rewrite that breaks one fails
+`bundle exec rake` and the failure quotes the sentence. The word lists live in
+`test/support/plain_language.rb`. If you hit a word the list bans and the plain
+alternative would be wrong, change the list in the same pull request and say
+why: an entry that is wrong for a kitchen is a bug in the list, not in your
+sentence.
 
 ## Allergens and diets
 

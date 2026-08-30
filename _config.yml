@@ -1,7 +1,7 @@
 # Site: https://digvijaygunjal.github.io
 # User-site repo, so baseurl stays empty.
 title: "Sheetal and Digvijay's recipes"
-description: Pressure-cooker and one-pot recipes calibrated for the Instant Pot Pro Max, written so any recipe app can import them straight from the URL.
+description: Pressure cooker recipes, timed for the Instant Pot Pro Max. Paste a recipe link into your cooking app and the whole recipe arrives filled in.
 lang: en
 
 # Used for schema.org author when a recipe does not name one of its own.
