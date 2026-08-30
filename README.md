@@ -48,14 +48,52 @@ These conventions are the site's voice. Match them when adding a recipe:
 
 - **Calibrated for one cooker.** Timings assume the cooker recorded under
   `appliance` in `_config.yml`. Where another pressure cooker would differ, say
-  so and give the adjustment rather than staying silent.
+  so and give the adjustment.
 - **Every step names its function, level and duration**, so the reader is never
   guessing which button to press or how long to hold it there.
 - **Weights, not cups.** Grams and millilitres. In a sealed pot the ratio of
   grain to water decides the result, and a cup is not a reliable measure.
-- **Failure modes up front.** Where a step commonly goes wrong — a Burn warning
-  from an unscraped base, spices scorching on a high setting — say what happens
-  and why, at the point where it matters.
+- **Failure modes up front.** Where a step commonly goes wrong, say what
+  happens and why, at the point where it matters. A Burn warning from an
+  unscraped base, or spices scorching on a high setting.
+
+### Plain words
+
+Someone reads this in a kitchen, with one hand free and a pan already hot. A
+sentence they have to read twice has failed, however accurate it is. So the
+prose on the site follows five rules, and `rake test:sources` and
+`rake test:import_contract` both enforce them.
+
+1. **One idea per sentence, 25 words at most.** That is the ceiling from the
+   [GOV.UK style guide](https://www.gov.uk/guidance/style-guide)
+   and [plainlanguage.gov](https://www.plainlanguage.gov/guidelines/), which
+   both put a normal sentence at 15 to 20 words. A list of ingredients inside a
+   sentence counts once, because adding eight spices is still one instruction.
+   Note that the check counts the `With the pot still on Sauté, ` the layout
+   adds in front of a continuing step, because a reader reads it.
+2. **No dash in the middle of a sentence.** A full stop, a comma, a colon or a
+   pair of brackets does the job better. Hyphenated words are untouched:
+   "one-pot" and "gluten-free" are words.
+3. **Everyday words.** No `delve`, `crucial`, `seamless`, `showcase`,
+   `leverage`, `robust`. The full list, with what to write instead, is in
+   `test/support/plain_language.rb`.
+4. **No web words on the page.** `JSON-LD`, `structured data`,
+   `machine-readable`, `front matter` and `schema.org` describe how this site
+   is built, and they belong in these three documents, where you have signed up
+   for them. A cook has not. Cooking and appliance words are the opposite:
+   Sauté, natural release, float valve and tadka are the words the job is done
+   with, so keep them and explain an unusual one at first use.
+5. **Say what a thing is, not what it is not.** "Not just X, but Y" says the
+   same thing twice and tells nobody what to do. "Rather than" is fine when it
+   corrects an expectation a reader really has, which is why the check allows
+   two a page and not more.
+
+Rules 2, 3 and 5 come from
+[Wikipedia:Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing),
+the field guide WikiProject AI Cleanup built by reviewing thousands of
+machine-written articles. The point is not that a machine helped write
+something. It is that all three habits read as filler, and a recipe cannot
+afford filler.
 
 ### Front matter reference
 
@@ -300,9 +338,9 @@ has downloaded, but the tasks it runs are the ones here and nothing else.
 
 | What it reads | What it checks |
 |---|---|
-| `_recipes/`, `_data/`, `_config.yml` | required front matter, ISO 8601 durations that add up, allergen ids that resolve, `RestrictedDiet` values, all twelve nutrition properties, ISO 4217 currency, single-line ingredients, steps that name their appliance, images that exist, no raw HTML |
+| `_recipes/`, `_data/`, `_config.yml` | required front matter, ISO 8601 durations that add up, allergen ids that resolve, `RestrictedDiet` values, all twelve nutrition properties, ISO 4217 currency, single-line ingredients, steps that name their appliance, images that exist, no raw HTML, and the plain-words rules above |
 | `assets/images/` | nothing over 500 KB, nothing wider than 2000 px, no EXIF, no orphaned photos |
-| the built `_site` | exactly one Recipe object, `datePublished`, absolute image URLs in the JSON-LD and relative ones in the markup, step anchors resolving both ways, `supply` matching `recipeIngredient`, no duplicated or superseded properties, allergen arithmetic, no Liquid warnings, no broken links |
+| the built `_site` | exactly one Recipe object, `datePublished`, absolute image URLs in the JSON-LD and relative ones in the markup, step anchors resolving both ways, `supply` matching `recipeIngredient`, no duplicated or superseded properties, allergen arithmetic, no Liquid warnings, no broken links, and the plain-words rules over every sentence a visitor actually reads, home page included |
 | the site in Chromium | no sideways scrolling at 1280 px or 380 px, images that really loaded, the index filters, the copy-link button, and that the page fetches nothing from anyone else |
 
 The browser set needs Node; it installs its own toolchain the first time and

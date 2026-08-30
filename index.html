@@ -62,82 +62,77 @@ title: null
 <section class="callout" id="import">
   <h2>Cook these in the Instant Pot app</h2>
   <p>
-    Every recipe here can be pulled into
-    <a href="https://www.instantpot.com/">{{ site.appliance.app }}</a> — the app that
-    pairs with the {{ site.appliance.short }} — using its <strong>Recipe Import</strong>
-    feature, which takes recipes from any website. Once imported, the app walks you
-    through the recipe step by step.
+    Every recipe here can be sent to
+    <a href="https://www.instantpot.com/">{{ site.appliance.app }}</a>, the app that pairs
+    with the {{ site.appliance.short }}. Use its <strong>Recipe Import</strong> feature,
+    which takes recipes from any website. The app then talks you through the recipe,
+    one step at a time.
   </p>
   <ol class="import-steps">
-    <li>Open the recipe you want and copy its link — each page has a <strong>Copy recipe link</strong> button near the top.</li>
+    <li>Open a recipe and copy its link. Every page has a <strong>Copy recipe link</strong> button near the top.</li>
     <li>In {{ site.appliance.app }}, find <strong>Recipe Import</strong> and paste the link.</li>
-    <li>Check the imported ingredients and timings against the page before you start cooking.</li>
+    <li>Check the ingredients and the times against the page before you start cooking.</li>
   </ol>
   <p>
     The same link works in <strong>Paprika</strong>, <strong>Mela</strong>,
-    <strong>Crouton</strong> and <strong>AnyList</strong>, because each page carries its
-    recipe a second time in <a href="https://schema.org/Recipe">schema.org/Recipe</a>
-    form — machine-readable data embedded in the page, the same format Google reads to
-    build a recipe card in search results.
+    <strong>Crouton</strong> and <strong>AnyList</strong>. Every page carries a second copy
+    of its recipe that apps can read and you never see. It is written in
+    <a href="https://schema.org/Recipe">a standard recipe format</a>, the same one Google
+    reads to build a recipe card in search results.
   </p>
   <p class="callout-note">
-    Worth knowing: importers reconstruct a recipe from the page and can get a detail
-    wrong, so glance over the ingredients and times after importing. The step wording
-    here is written to survive that trip — each step restates its Sauté or Pressure
-    Cook setting rather than assuming the previous step is still on screen.
+    Apps rebuild a recipe from the page, and they can get a detail wrong. Have a look at
+    the ingredients and the times once a recipe has arrived. Each step here repeats its own
+    Sauté or Pressure Cook setting, so no setting is lost on the way in.
   </p>
 </section>
 
 <section class="how">
   <h2>How these recipes are written</h2>
   <dl class="format">
-    <dt>Calibrated for one cooker</dt>
+    <dt>Timed for one cooker</dt>
     <dd>
-      Timings assume an
+      Every time in these recipes assumes an
       <a href="{{ site.appliance.url }}">{{ site.appliance.name }}</a>
       ({{ site.appliance.watts }}<span class="amazon-link">, also on
-      <a href="{{ site.appliance.amazon }}">Amazon</a></span>), which preheats faster
-      and runs hotter on Sauté than a Duo. They still work on other pressure cookers —
-      where the difference matters, the recipe says so and gives you the adjustment.
+      <a href="{{ site.appliance.amazon }}">Amazon</a></span>). It heats up faster and runs
+      hotter on Sauté than a Duo. The recipes still work on other pressure cookers.
+      Where the time is different, the recipe says so and gives you the new one.
     </dd>
 
     <dt>Every step names its setting</dt>
     <dd>
-      Each instruction is tagged with the function, level and duration —
-      <span class="setting-sample">Sauté · Medium · 8 min</span> — so you are never
-      guessing which button to press or how long to hold it there.
+      Each step is tagged with the function, the level and the time, like
+      <span class="setting-sample">Sauté · Medium · 8 min</span>. You
+      never have to guess which button to press or how long to hold it.
     </dd>
 
-    <dt>Steps that stand alone</dt>
+    <dt>Steps you can read on their own</dt>
     <dd>
-      A step continuing an existing Sauté session repeats that context instead of
-      assuming you remember it. Recipe apps read each step in isolation, so this is
-      what keeps the appliance settings intact after an import.
+      A step that carries on from the one before it says so again. Cooking apps read each
+      step on its own, so this is what keeps your cooker settings right after an import.
     </dd>
 
-    <dt>Allergens against a published list</dt>
+    <dt>Allergens checked against a published list</dt>
     <dd>
-      Every recipe is checked against the fourteen allergens of Annex II to
-      <a href="https://eur-lex.europa.eu/eli/reg/2011/1169/oj">Regulation (EU) No 1169/2011</a>,
-      the list a European food label has to emphasise. That list contains all
-      nine of the US FDA&rsquo;s major allergens, so one declaration answers
-      both. Each page says what the dish <em>contains</em>, what it
-      <em>may</em> contain and which of the fourteen it is free of — and the
-      free-of list is worked out by subtracting the first two from the
-      published fourteen, so it can never quietly skip one.
+      Every recipe is checked against the 14 allergens that
+      <a href="https://eur-lex.europa.eu/eli/reg/2011/1169/oj">EU food labels</a> have to
+      declare. Those 14 cover all nine of the major US allergens as well. Each page says
+      what the dish contains, what it may contain, and which of the 14 it is free of. The
+      free-of list is worked out by taking the first two lists away from the 14, so it can
+      never quietly skip one.
     </dd>
 
     <dt>Weights, not cups</dt>
     <dd>
-      Ingredients are given in grams and millilitres. In a sealed pot the ratio of
-      rice to water decides the result, and a cup of rice is not a reliable amount.
+      Ingredients are given in grams and millilitres. In a sealed pot the ratio of rice to
+      water decides the result, and a cup of rice is not a reliable amount.
     </dd>
 
-    <dt>The failure modes, up front</dt>
+    <dt>Where it usually goes wrong</dt>
     <dd>
-      Where a step commonly goes wrong — a Burn warning from an unscraped base, spices
-      catching on High — the recipe says what happens and why, at the point where it
-      matters.
+      Some steps catch people out. A Burn warning from a base nobody scraped, or spices
+      catching on High. The recipe says what happens and why, in the step where it happens.
     </dd>
   </dl>
 </section>
@@ -145,11 +140,10 @@ title: null
 <section class="colophon">
   <h2>About</h2>
   <p>
-    Recipes we cook and keep notes on, written down properly so they survive
-    being reheated months later. Kept by Sheetal and Digvijay. Built with Jekyll,
-    hosted on GitHub Pages, and
-    <a href="https://github.com/digvijaygunjal/digvijaygunjal.github.io">open source</a> —
-    corrections and additions are welcome.
+    Recipes we cook at home, written down properly so they still work months later. Kept by
+    Sheetal and Digvijay. The site is built with Jekyll and hosted on GitHub Pages, and the
+    <a href="https://github.com/digvijaygunjal/digvijaygunjal.github.io">code is open</a>.
+    Corrections and additions are welcome.
   </p>
 </section>
 

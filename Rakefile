@@ -17,14 +17,14 @@ BROWSER_DIR = File.join(__dir__, "test", "browser")
 # the only place a question about what a page *fetches* or what a script
 # *renders* can be answered.
 namespace :test do
-  desc "The recipe sources as written: front matter, allergens, durations, assets"
+  desc "The recipe sources as written: front matter, allergens, durations, assets, plain words"
   Rake::TestTask.new(:sources) do |t|
     t.libs << "test"
     t.test_files = FileList["test/sources/**/*_test.rb"]
     t.warning = false
   end
 
-  desc "The built _site: JSON-LD shape, step anchors, allergen arithmetic, links"
+  desc "The built _site: JSON-LD shape, step anchors, allergen arithmetic, links, plain words"
   Rake::TestTask.new(:import_contract) do |t|
     t.libs << "test"
     t.test_files = FileList["test/import_contract/**/*_test.rb"]
