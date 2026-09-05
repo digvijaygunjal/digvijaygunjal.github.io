@@ -114,7 +114,6 @@ ingredients:
       - 1/2 tsp cumin seeds
       - 2 pinches asafoetida
       - 50 g raw peanuts
-      - 2 green chillies, slit lengthwise
       - 10 curry leaves
   - name: To finish
     items:
@@ -151,15 +150,14 @@ steps:
       1/2 tsp cumin seeds, 2 pinches asafoetida and 50 g raw peanuts. Stir
       until the mustard seeds pop and the peanuts turn a light gold.
 
-  - name: Add the chillies and curry leaves, then cancel
+  - name: Add the curry leaves, then cancel
     appliance: Sauté
     setting: Medium
     duration: 30 sec
     continues: true
     text: >-
-      add 2 slit green chillies and 10 curry leaves. Stir for 30 seconds until
-      the chillies blister and the curry leaves crisp up, then press Cancel to
-      turn off Sauté.
+      add 10 curry leaves. Stir for 30 seconds until they crisp up, then press
+      Cancel to turn off Sauté.
 
   - name: Fold in the rice and the powder
     text: >-
