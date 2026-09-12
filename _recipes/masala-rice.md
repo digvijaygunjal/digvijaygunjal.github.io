@@ -74,7 +74,7 @@ keywords:
   - basmati rice
   - vegan
 tools:
-  - Instant Pot Pro Max 6 qt WiFi
+  - Instant Pot Pro 10-in-1 5.7 L WiFi
   - Wooden spoon
 
 ingredients:
@@ -247,7 +247,7 @@ nutrition:
     is plant fat, which is why cholesterol is nil.
 
 notes: >-
-  Timings are for a 6 qt Instant Pot Pro Max WiFi (1200 W). It preheats faster
+  Timings are for a 5.7 L Instant Pot Pro 10-in-1 WiFi. It preheats faster
   and runs hotter on Sauté than a Duo. If your rice soaked for 20 to 30
   minutes and was not just rinsed, drop the pressure cook time to 4 minutes.
   Turn Keep Warm off during the natural release so the base layer does not dry

@@ -1,7 +1,7 @@
 # Site: https://digvijaygunjal.github.io
 # User-site repo, so baseurl stays empty.
 title: "Sheetal and Digvijay's recipes"
-description: Pressure cooker recipes, timed for the Instant Pot Pro Max. Paste a recipe link into your cooking app and the whole recipe arrives filled in.
+description: Pressure cooker recipes, timed for the Instant Pot Pro 10-in-1. Paste a recipe link into your cooking app and the whole recipe arrives filled in.
 lang: en
 
 # Used for schema.org author when a recipe does not name one of its own.
@@ -12,10 +12,13 @@ author:
 
 # The cooker every recipe here is timed against.
 appliance:
-  name: Instant Pot Pro Max 6 qt WiFi
-  short: Pro Max
-  watts: 1200 W
-  url: https://instantpot.com/products/instant-pot-pro-max-6qt-multi-cooker
+  name: Instant Pot Pro 10-in-1 5.7 L WiFi
+  short: Pro
+  # The German product page is the only source that states a figure, and it
+  # gives a range rather than a number. Amazon does not state one at all. Do
+  # not narrow this to 1200 W without a source that says so.
+  watts: 1000 to 1200 W
+  url: https://instantpot.de/de/p/instant-pot-pro-wifi-multikocher-5-7l
   amazon: https://amzn.eu/d/06RcVqIw
   app: Instant Brands Connect
 

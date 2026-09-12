@@ -107,7 +107,7 @@ keywords:
   - vegan
   - basmati rice
 tools:
-  - Instant Pot Pro Max 6 qt WiFi
+  - Instant Pot Pro 10-in-1 5.7 L WiFi
   - Wooden spoon
   - Flat spatula
 
@@ -237,7 +237,7 @@ nutrition:
     most of the fat.
 
 notes: >-
-  Timings are for a 6 qt Instant Pot Pro Max WiFi (1200 W). Everything stays
+  Timings are for a 5.7 L Instant Pot Pro 10-in-1 WiFi. Everything stays
   in one pot from the tadka to the table, with no washing in between. The
   powder goes in on Sauté, which is what the MTR packet itself tells you to
   do. Blooming a puliogare masala in oil is the traditional method, and it

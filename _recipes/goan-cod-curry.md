@@ -107,7 +107,7 @@ keywords:
   - dairy-free
   - gluten-free
 tools:
-  - Instant Pot Pro Max 6 qt WiFi
+  - Instant Pot Pro 10-in-1 5.7 L WiFi
   - Blender or food processor
   - Wooden spoon
   - Mixing bowl
@@ -281,7 +281,7 @@ nutrition:
     protein arrives with only about 3 g of fat.
 
 notes: >-
-  Timings are for a 6 qt Instant Pot Pro Max WiFi. On a Duo or a Lux, expect a
+  Timings are for a 5.7 L Instant Pot Pro 10-in-1 WiFi. On a Duo or a Lux, expect a
   slower rise to pressure and give the masala 2 extra minutes on Sauté. The 4
   minute pressure time is for the ground masala and does not change. Cod is the
   reason the fish never goes under pressure. Even one minute sealed turns 4 cm
