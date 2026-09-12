@@ -4,7 +4,7 @@
 [![Licence: MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
 
 Recipe site built with Jekyll and served by GitHub Pages. Recipes are tuned
-for the Instant Pot Pro Max. Every recipe page ships server-rendered
+for the Instant Pot Pro 10-in-1. Every recipe page ships server-rendered
 `schema.org/Recipe` JSON-LD — every property of `Recipe` itself, and everything
 `HowTo`, `CreativeWork` and `Thing` contribute that a recipe can honestly fill
 in — so recipe importers (Instant Connect / Fresco, Paprika, Mela, etc.) can

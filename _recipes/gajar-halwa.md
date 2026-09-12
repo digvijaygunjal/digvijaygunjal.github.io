@@ -86,7 +86,7 @@ keywords:
   - gluten-free
   - diwali
 tools:
-  - Instant Pot Pro Max 6 qt WiFi
+  - Instant Pot Pro 10-in-1 5.7 L WiFi
   - Box grater
   - Wooden spoon
   - Slotted spoon
@@ -259,7 +259,7 @@ nutrition:
     butterfat. Nearly all the saturated fat is the ghee.
 
 notes: >-
-  Timings are for a 6 qt Instant Pot Pro Max WiFi (1200 W). On a stovetop
+  Timings are for a 5.7 L Instant Pot Pro 10-in-1 WiFi. On a stovetop
   pressure cooker, count 2 whistles on high in place of the 3 minute pressure
   cook. Release the pressure under a running tap. The Sauté stages become an
   open pan over medium heat, and they take a few minutes longer because the

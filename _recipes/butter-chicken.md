@@ -93,7 +93,7 @@ keywords:
   - kasoori methi
   - gluten-free
 tools:
-  - Instant Pot Pro Max 6 qt WiFi
+  - Instant Pot Pro 10-in-1 5.7 L WiFi
   - Immersion blender
   - Wooden spoon
   - Mixing bowl
@@ -332,7 +332,7 @@ nutrition:
     naturally in butter and cream.
 
 notes: >-
-  Timings are for a 6 qt Instant Pot Pro Max WiFi (1200 W). It heats up faster
+  Timings are for a 5.7 L Instant Pot Pro 10-in-1 WiFi. It heats up faster
   and runs hotter on Sauté than a Duo. On a Duo or a Lux, give the sear 2
   extra minutes a batch and expect a slower rise to pressure. The 5 minute
   pressure time stays the same, because it is timed for the cashews and not

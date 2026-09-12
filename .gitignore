@@ -13,3 +13,7 @@ test/browser/playwright-report/
 # The schema.org clone that `rake schema:drift` reads. Cloned on demand by
 # .github/workflows/schema-drift.yml; never committed.
 /schemaorg/
+
+# Worktrees the Claude Code desktop app creates beside the repo. Each is a git
+# repository of its own, so `git add -A` commits them as embedded repos.
+.claude/worktrees/
