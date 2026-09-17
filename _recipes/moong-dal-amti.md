@@ -136,7 +136,7 @@ ingredients:
       - 1/2 tsp turmeric powder
   - name: Dal
     items:
-      - 200 g split yellow moong dal, washed and drained
+      - 150 g split yellow moong dal, washed and drained
       - 660 ml water, divided
   - name: To finish
     items:
@@ -234,7 +234,7 @@ steps:
     duration: 1 min
     continues: true
     text: >-
-      add 200 g split yellow moong dal, washed and drained. Pour in the
+      add 150 g split yellow moong dal, washed and drained. Pour in the
       remaining 600 ml water and stir well. Press Cancel to turn off Sauté.
 
   - name: Pressure cook
@@ -263,18 +263,18 @@ steps:
 # measured in a lab. Keys map one-to-one onto schema.org NutritionInformation;
 # `note` is the only key here that is not a schema property.
 nutrition:
-  serving_size: About 270 g, a quarter of the pot
-  calories: 300 kcal
-  protein_content: 13 g
-  fat_content: 11 g
+  serving_size: About 285 g, a quarter of the pot
+  calories: 250 kcal
+  protein_content: 11 g
+  fat_content: 10 g
   saturated_fat_content: 3 g
-  unsaturated_fat_content: 8 g
+  unsaturated_fat_content: 7 g
   trans_fat_content: 0 g
   cholesterol_content: 0 mg
-  carbohydrate_content: 38 g
-  sugar_content: 2 g
-  fiber_content: 10 g
-  sodium_content: 950 mg
+  carbohydrate_content: 31 g
+  sugar_content: 5 g
+  fiber_content: 8 g
+  sodium_content: 940 mg
   note: >-
     Estimated from the ingredient weights and divided by four, not measured in
     a lab. Nearly all the sodium is the 1.5 tsp of salt. Use 1 tsp and season
@@ -283,15 +283,20 @@ nutrition:
 
 notes: >-
   Timings are for a 5.7 L Instant Pot Pro 10-in-1 WiFi. It preheats faster and
-  runs hotter on Sauté than a Duo. Eight minutes is longer than split moong
-  dal needs to be tender. That is on purpose. An amti is meant to be thin and
-  pourable, and the extra minutes are what make the dal collapse on its own.
-  For a thicker dal, drop the pressure cook to 6 minutes. The Burn sensor
-  reads the base of the pot, so the deglazing step matters more than it looks.
-  Tomato and kanda lasun masala both stick, and 60 ml of water with a proper
-  scrape clears them. Swapping the dal changes the timing. Whole green moong
-  needs about 18 to 20 minutes from dry, sprouted moong about 8. Neither has
-  been timed on this cooker, so treat those as a starting point. Leftovers
-  thicken in the fridge overnight. Loosen with hot water on Sauté Low and
-  check the salt again.
+  runs hotter on Sauté than a Duo. The dal to water ratio is what makes this an
+  amti. 150 g of dal to 660 ml of water pours off a spoon. Take the dal to
+  200 g and you get a thick dal closer to varan. Eight minutes is longer than
+  split moong dal needs to be tender, and that is on purpose. Time decides
+  whether the grains hold their shape, and water decides how thick the pot is.
+  For dal that stays whole, drop the pressure cook to 6 minutes and stir
+  gently. Never quick release a pot of dal. It foams under pressure, and the
+  foam can carry through the valve. The 10 minute natural release is not
+  optional. The Burn sensor reads the base of the pot, so the deglazing step
+  matters more than it looks. Tomato and kanda lasun masala both stick, and
+  60 ml of water with a proper scrape clears them. Heat varies a lot between
+  kanda lasun masala brands. Start with 1 tsp if yours is new to you. Swapping
+  the dal changes the timing. Whole green moong needs about 18 to 20 minutes
+  from dry, sprouted moong about 8. Neither has been timed on this cooker, so
+  treat those as a starting point. Leftovers thicken in the fridge overnight.
+  Loosen with hot water on Sauté Low and check the salt again.
 ---
