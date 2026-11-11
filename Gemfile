@@ -15,12 +15,12 @@ gem "webrick", "~> 1.8"
 # minitest is pinned to the 5.x that Ruby 3.3.4 itself ships as a bundled gem;
 # the suite gains nothing from a major-version jump.
 group :test do
-  gem "minitest", "~> 5.20"
+  gem "minitest", "~> 6.0"
   gem "rake", "~> 13.1"
 
   # Tier 2, against the built _site: nokogiri parses the pages, html-proofer
   # walks the whole output for broken internal links, missing images and
   # missing alt text.
   gem "nokogiri"
-  gem "html-proofer", "~> 5.0"
+  gem "html-proofer", "~> 5.2"
 end
