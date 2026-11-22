@@ -33,7 +33,11 @@ jobs:
   # well under a minute, not after Chromium has finished downloading.
   build-and-verify:
     name: Sources and import contract
-    runs-on: ubuntu-latest
+    # Pinned, not ubuntu-latest. When latest moved to 26.04, setup-ruby had no
+    # 3.3.4 build for it and every job failed before a test ran. .ruby-version
+    # follows GitHub Pages, so the runner image has to wait for setup-ruby to
+    # publish that Ruby for a newer image. The other workflows pin the same.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
@@ -72,7 +76,7 @@ jobs:
   # pays for a browser download.
   browser:
     name: Browser
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: build-and-verify
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
